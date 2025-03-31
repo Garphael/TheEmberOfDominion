@@ -58,6 +58,14 @@
 <script>
   setTimeout(() => {
     const block = document.getElementById('revealBlock');
+    if (!allFragmentsCollected()) {
+      block.innerHTML = `
+        <h1>☼ ACCESS DENIED ☼</h1>
+        <p>The ignition sequence requires all fragments.</p>
+        <p>Continue your search.</p>
+      `;
+      return;
+    }
     block.classList.remove('glitch');
     block.innerHTML = `
       <h1>☼ INTERRUPTION ☼</h1>
@@ -91,6 +99,15 @@
 </script>
 
 <script>
+  // Ensure fragment is saved on page load if it was already clicked
+  window.addEventListener('DOMContentLoaded', () => {
+    const frag = document.querySelector('.data-frag');
+    if (localStorage.getItem('fragment_Δ-03A') === 'unlocked') {
+      frag.textContent = 'Fragment Unlocked: VECTOR_TUNNEL_DELTA';
+      frag.style.color = '#ff6666';
+    }
+  });
+
   function allFragmentsCollected() {
     const fragmentKeys = ['fragment_Δ-01F', 'fragment_Δ-02V', 'fragment_Δ-03A', 'fragment_Δ-04H', 'fragment_Δ-05V'];
     return fragmentKeys.every(key => localStorage.getItem(key) === 'unlocked');
