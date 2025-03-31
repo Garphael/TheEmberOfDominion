@@ -140,7 +140,7 @@
         response.style.color = '#0f0';
         response.textContent = 'The Veil parts. The truth awaits.';
         setTimeout(() => {
-          window.location.href = './final-revelation.html';
+          window.location.href = './the-veil-speaks.html';
         }, 3000);
       } else {
         response.style.color = '#f55';
@@ -149,6 +149,29 @@
     }
 
     initDials();
+  </script>
+  <span class="data-frag" data-frag="Δ-05V" title="Fragment detected" style="position: absolute; bottom: 5px; right: 5px; font-size: 0.7rem; color: rgba(153, 102, 255, 0.08); cursor: pointer;">Δ-05V</span>
+
+  <script>
+    const frag = document.querySelector('[data-frag="Δ-05V"]');
+    frag.addEventListener('mouseenter', () => frag.style.color = 'rgba(153, 102, 255, 0.5)');
+    frag.addEventListener('mouseleave', () => frag.style.color = 'rgba(153, 102, 255, 0.08)');
+    frag.addEventListener('click', () => {
+      frag.textContent = 'Fragment Unlocked: MEMORY_SPIKE_V5';
+      frag.style.color = '#9966ff';
+      localStorage.setItem('fragment_Δ-05V', 'unlocked');
+      checkFragmentProgress();
+    });
+
+    function checkFragmentProgress() {
+      const allFragments = ['Δ-01F', 'Δ-02V', 'Δ-03A', 'Δ-04H', 'Δ-05V'];
+      const found = allFragments.filter(id => localStorage.getItem('fragment_' + id) === 'unlocked');
+      if (found.length === allFragments.length) {
+        window.location.href = './temporal-core.html';
+      }
+    }
+
+    checkFragmentProgress();
   </script>
 </body>
 </html>
