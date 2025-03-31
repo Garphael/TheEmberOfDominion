@@ -180,15 +180,9 @@
   function unlockSecrets() {
     const password = prompt("Enter cipher key:");
     if (password && password.toLowerCase().trim() === "revelation initiate") {
-      alert("Cipher accepted. Accessing fragment...");
-      document.body.style.backgroundColor = "#1a0a1f";
-      document.querySelector('.cipher-text').innerHTML += "<br><br>ACCESS GRANTED:<br>✡ Initiate the lattice alignment.<br>✡ Echo returns from solar fringe.<br>✡ 01001111 01001110 01000101.";
-
-      const link = document.getElementById("hiddenChamberLink");
-      if (link) {
-        link.style.display = "inline-block";
-        link.style.animation = "fadeIn 2s ease-out";
-      }
+      alert("Cipher accepted. Redirecting...");
+      window.location.href = "/hidden-chamber.html";
+    }
 
       const audio = document.getElementById("ambientAudio");
       if (audio) {
@@ -227,3 +221,4 @@
 </script>
 </body>
 </html>
+
