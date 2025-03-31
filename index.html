@@ -186,7 +186,8 @@
         audio.volume = 1.0;
         audio.play();
       }
-      window.location.href = "/hidden-chamber.html";
+      document.getElementById("hiddenChamberLink").style.display = "inline-block";
+      document.getElementById("hiddenChamberLink").scrollIntoView({ behavior: 'smooth' });
     } else {
       alert("The flame does not know your name.");
     }
