@@ -88,6 +88,25 @@
     frag.style.color = '#ff6666';
   });
 </script>
+
+<script>
+  function allFragmentsCollected() {
+    const fragmentKeys = ['fragment_Δ-01F', 'fragment_Δ-02V', 'fragment_Δ-03A', 'fragment_Δ-04H', 'fragment_Δ-05V'];
+    return fragmentKeys.every(key => localStorage.getItem(key) === 'unlocked');
+  }
+
+  document.addEventListener('click', function (e) {
+    const clue = document.getElementById('crypticClue');
+    if (e.target === clue) {
+      document.getElementById('nextStory').style.display = 'block';
+      setTimeout(() => {
+        if (allFragmentsCollected()) {
+          window.location.href = './trace-terminal.html';
+        }
+      }, 6000);
+    }
+  });
+</script>
 </body>
 </html>
 
