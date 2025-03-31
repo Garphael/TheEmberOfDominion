@@ -15,7 +15,7 @@
       align-items: center;
       flex-direction: column;
       height: 100vh;
-      background: url('https://upload.wikimedia.org/wikipedia/commons/1/1e/Sun_surface.jpg') no-repeat center center fixed;
+      background-color: #000;
       background-size: cover;
     }
 
@@ -96,6 +96,14 @@
     }
 
     checkFragmentProgress();
-  </script>
+    window.addEventListener('DOMContentLoaded', () => {
+    const frag4 = document.querySelector('[data-frag="Δ-04H"]');
+    if (localStorage.getItem('fragment_Δ-04H') === 'unlocked') {
+      frag4.textContent = 'Fragment Unlocked: STELLAR_ECHO_RELAY';
+      frag4.style.color = '#9966ff';
+    }
+  });
+</script>
 </body>
 </html>
+
