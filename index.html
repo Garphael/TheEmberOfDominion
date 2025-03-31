@@ -181,13 +181,12 @@
     const password = prompt("Enter cipher key:");
     if (password && password.toLowerCase().trim() === "revelation initiate") {
       alert("Cipher accepted. Redirecting...");
-      
-
       const audio = document.getElementById("ambientAudio");
       if (audio) {
         audio.volume = 1.0;
         audio.play();
       }
+      window.location.href = "/hidden-chamber.html";
     } else {
       alert("The flame does not know your name.");
     }
