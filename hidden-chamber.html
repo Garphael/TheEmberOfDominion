@@ -51,21 +51,46 @@
   </div>
 
   <script>
-    function checkKeyword() {
-      const input = document.getElementById("keywordInput").value.trim().toLowerCase();
-      const response = document.getElementById("responseMessage");
-      if (input === "sentinel") {
-        response.style.color = "#0f0";
-        response.textContent = "Access granted. Preparing next sequence...";
-        setTimeout(() => {
-          window.location.href = "/next-stage.html";
-        }, 3000);
-      } else {
-        response.style.color = "#f55";
-        response.textContent = "The solar core does not recognize that name.";
-      }
+  function checkKeyword() {
+    const input = document.getElementById("keywordInput").value.trim().toLowerCase();
+    const response = document.getElementById("responseMessage");
+    if (input === "sentinel") {
+      response.style.color = "#0f0";
+      response.textContent = "Access granted. Preparing next sequence...";
+      setTimeout(() => {
+        window.location.href = "next-stage.html";
+      }, 3000);
+    } else {
+      response.style.color = "#f55";
+      response.textContent = "The solar core does not recognize that name.";
     }
-    frag4.addEventListener('click', () => {
+  }
+</script>
+
+<span class="data-frag" data-frag="Δ-04H" title="Fragment detected" style="position: absolute; top: 5px; right: 5px; font-size: 0.7rem; color: rgba(153, 102, 255, 0.08); cursor: pointer;">Δ-04H</span>
+
+<script>
+  const frag4 = document.querySelector('[data-frag="Δ-04H"]');
+  frag4.addEventListener('mouseenter', () => frag4.style.color = 'rgba(153, 102, 255, 0.5)');
+  frag4.addEventListener('mouseleave', () => frag4.style.color = 'rgba(153, 102, 255, 0.08)');
+  frag4.addEventListener('click', () => {
+    frag4.textContent = 'Fragment Unlocked: STELLAR_ECHO_RELAY';
+    frag4.style.color = '#9966ff';
+    localStorage.setItem('fragment_Δ-04H', 'unlocked');
+    checkFragmentProgress();
+  });
+
+  function checkFragmentProgress() {
+    const allFragments = ['Δ-01F', 'Δ-02V', 'Δ-03A', 'Δ-04H'];
+    const found = allFragments.filter(id => localStorage.getItem('fragment_' + id) === 'unlocked');
+    if (found.length === allFragments.length) {
+      alert('All data fragments recovered. Vel’s trace signature is forming...');
+      // Optional: redirect or trigger something here
+    }
+  }
+
+  checkFragmentProgress();
+</script>'click', () => {
     frag4.textContent = 'Fragment Unlocked: STELLAR_ECHO_RELAY';
     frag4.style.color = '#9966ff';
     localStorage.setItem('fragment_Δ-04H', 'unlocked');
