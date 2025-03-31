@@ -9,7 +9,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Courier New', monospace;
-      background: radial-gradient(ellipse at center, #000 0%, #111 100%);
+      background: #000;
       color: #eaeaea;
       display: flex;
       justify-content: center;
@@ -74,6 +74,7 @@
     <h1>The Veil Speaks</h1>
     <p class="cipher">Wklv lv wkh ilqdo jdwh...</p>
     <p class="hint">(A familiar shift will lead you through)</p>
+<p class="hint" style="font-size: 0.8rem; color: rgba(255,255,255,0.05);">Sometimes the key lies in what is always closed...</p>
     <input type="text" id="finalKey" placeholder="Enter final keyword">
     <br>
     <button onclick="validateKey()">Submit</button>
@@ -84,7 +85,7 @@
     function validateKey() {
       const input = document.getElementById('finalKey').value.trim().toLowerCase();
       const response = document.getElementById('response');
-      if (input === 'awakening') {
+      if (input === 'open the gate') {
         response.style.color = '#0f0';
         response.textContent = 'The Veil parts. The truth awaits.';
         setTimeout(() => {
@@ -105,6 +106,7 @@
   frag2.addEventListener('click', () => {
     frag2.textContent = 'Fragment Unlocked: SOLAR_REFRACTION_STRING';
     frag2.style.color = '#66ffff';
+    localStorage.setItem('fragment_Δ-02V', 'unlocked');
   });
 </script>
 <span class="data-frag" data-frag="Δ-04H" title="Fragment detected" style="position: absolute; top: 5px; right: 5px; font-size: 0.7rem; color: rgba(153, 102, 255, 0.08); cursor: pointer;">Δ-04H</span>
@@ -116,6 +118,7 @@
   frag4.addEventListener('click', () => {
     frag4.textContent = 'Fragment Unlocked: STELLAR_ECHO_RELAY';
     frag4.style.color = '#9966ff';
+    localStorage.setItem('fragment_Δ-04H', 'unlocked');
   });
 </script>
 </body>
