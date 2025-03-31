@@ -9,32 +9,26 @@
       margin: 0;
       padding: 0;
       font-family: 'Courier New', monospace;
-      background: linear-gradient(to bottom, #050505 0%, #0b0c1b 100%), url('https://upload.wikimedia.org/wikipedia/commons/2/2f/Starfield_simulated_960x540.png');
-      background-size: cover;
-      background-attachment: fixed;
+      background: black;
       color: #e0e0e0;
       overflow-x: hidden;
     }
-
     header {
       text-align: center;
       padding: 3rem 1rem;
       background: rgba(0, 0, 0, 0.6);
       border-bottom: 1px solid #222;
     }
-
     h1 {
       font-size: 2.5rem;
       letter-spacing: 0.1em;
       color: #f95;
     }
-
     p.subtitle {
       font-size: 1.1rem;
       color: #aaa;
       margin-top: 0.5rem;
     }
-
     section {
       padding: 2rem 1.5rem;
       max-width: 800px;
@@ -44,7 +38,6 @@
       position: relative;
       z-index: 2;
     }
-
     .cipher-text {
       font-family: 'Lucida Console', monospace;
       color: #f55;
@@ -55,18 +48,15 @@
       white-space: pre-wrap;
       word-break: break-word;
     }
-
     .hidden-link {
       text-decoration: none;
       color: #111;
       display: inline-block;
       margin-top: 2rem;
     }
-
     .hidden-link:hover {
       color: #f95;
     }
-
     .glyphs {
       font-size: 2rem;
       text-align: center;
@@ -76,37 +66,16 @@
       letter-spacing: 0.3em;
       cursor: pointer;
     }
-
     @keyframes pulse {
       0%, 100% { opacity: 0.3; transform: scale(1); }
       50% { opacity: 1; transform: scale(1.1); }
     }
-
     #countdown {
       text-align: center;
       font-size: 1.2rem;
       margin-top: 2rem;
       color: #f55;
     }
-
-    .stars {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Starsinthesky.jpg/640px-Starsinthesky.jpg') repeat;
-      animation: drift 240s linear infinite;
-      z-index: 0;
-      opacity: 0.08;
-    }
-
-    @keyframes drift {
-      from { background-position: 0 0; }
-      to { background-position: 10000px 10000px; }
-    }
-
     footer {
       text-align: center;
       padding: 1rem;
@@ -116,127 +85,96 @@
       position: relative;
       z-index: 2;
     }
-      @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-</style>
+  </style>
 </head>
 <body>
-  <div class="stars"></div>
-
   <header>
     <h1>The Ember of Dominion</h1>
     <p class="subtitle">We are the ash of what came before. The Sun remembers.</p>
   </header>
-
   <section>
-    <p>
-      Welcome, seeker. You have come to the boundary where light ends and knowing begins.
-      Few walk this path. Fewer return.
-    </p>
-
+    <p>Welcome, seeker. You have come to the boundary where light ends and knowing begins. Few walk this path. Fewer return.</p>
     <div class="glyphs" onclick="unlockSecrets()">⟁ ⟆ ☍ ⟊ ⟁ ☉ ⧉</div>
-
     <div class="cipher-text">
       GSV XZGRMT NBHGVGRLM
       <br><span style='color:#666;font-size:0.8rem'>(An ancient mirror reveals all)</span>
-      <br>
-      VELRAE REMNANT / SIGNAL VISIBLE IN FLAME
-      <br>
-      01110010 01100101 01101101 01101110 01100001 01101110 01110100
+      <br>VELRAE REMNANT / SIGNAL VISIBLE IN FLAME
+      <br>01110010 01100101 01101101 01101110 01100001 01101110 01110100
     </div>
-
     <div id="countdown"></div>
-
     <a class="hidden-link" id="hiddenChamberLink" href="hidden-chamber.html" style="display: none;">Enter the Hidden Chamber</a>
   </section>
+  <footer>© 2025 The Ember of Dominion • Solar Lattice Node 3C</footer>
 
-  <footer>
-    © 2025 The Ember of Dominion • Solar Lattice Node 3C
-  </footer>
+  <span class="data-frag" data-frag="Δ-01F" title="Fragment detected" style="position: absolute; bottom: 5px; right: 5px; font-size: 0.7rem; color: rgba(255, 255, 102, 0.08); cursor: pointer;">Δ-01F</span>
+  <span class="data-frag" data-frag="Δ-02V" title="Fragment detected" style="position: absolute; bottom: 5px; left: 5px; font-size: 0.7rem; color: rgba(102, 255, 255, 0.08); cursor: pointer;">Δ-02V</span>
 
   <audio id="ambientAudio" autoplay loop hidden>
     <source src="https://cdn.pixabay.com/download/audio/2022/10/26/audio_d34857fd7b.mp3?filename=dark-space-ambient-123434.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-  const countdownElement = document.getElementById("countdown");
-  const targetDate = new Date();
-  targetDate.setFullYear(targetDate.getFullYear() + 1);
+    document.addEventListener('DOMContentLoaded', () => {
+      const countdownElement = document.getElementById("countdown");
+      const targetDate = new Date();
+      targetDate.setFullYear(targetDate.getFullYear() + 1);
 
-  function updateCountdown() {
-    const now = new Date();
-    const timeLeft = targetDate - now;
-
-    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
-    const seconds = Math.floor((timeLeft / 1000) % 60);
-
-    countdownElement.innerHTML = `Initiation Event: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-  }
-
-  function unlockSecrets() {
-    const password = prompt("Enter cipher key:");
-    if (password && password.toLowerCase().trim() === "revelation initiate") {
-      alert("Cipher accepted. Redirecting...");
-      const audio = document.getElementById("ambientAudio");
-      if (audio) {
-        audio.volume = 1.0;
-        audio.play();
+      function updateCountdown() {
+        const now = new Date();
+        const timeLeft = targetDate - now;
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
+        const seconds = Math.floor((timeLeft / 1000) % 60);
+        countdownElement.innerHTML = `Initiation Event: ${days}d ${hours}h ${minutes}m ${seconds}s`;
       }
-      document.getElementById("hiddenChamberLink").style.display = "inline-block";
-      document.getElementById("hiddenChamberLink").scrollIntoView({ behavior: 'smooth' });
-    } else {
-      alert("The flame does not know your name.");
+
+      setInterval(updateCountdown, 1000);
+      updateCountdown();
+
+      const frag01 = document.querySelector('[data-frag="Δ-01F"]');
+      if (localStorage.getItem('fragment_Δ-01F') === 'unlocked') {
+        frag01.textContent = 'Fragment Unlocked: EMBER_CROWN_VECTOR';
+        frag01.style.color = '#ffff66';
+      }
+      frag01.addEventListener('mouseenter', () => frag01.style.color = 'rgba(255, 255, 102, 0.5)');
+      frag01.addEventListener('mouseleave', () => frag01.style.color = 'rgba(255, 255, 102, 0.08)');
+      frag01.addEventListener('click', () => {
+        frag01.textContent = 'Fragment Unlocked: EMBER_CROWN_VECTOR';
+        frag01.style.color = '#ffff66';
+        localStorage.setItem('fragment_Δ-01F', 'unlocked');
+      });
+
+      const frag02 = document.querySelector('[data-frag="Δ-02V"]');
+      if (localStorage.getItem('fragment_Δ-02V') === 'unlocked') {
+        frag02.textContent = 'Fragment Unlocked: SOLAR_REFRACTION_STRING';
+        frag02.style.color = '#66ffff';
+      }
+      frag02.addEventListener('mouseenter', () => frag02.style.color = 'rgba(102, 255, 255, 0.5)');
+      frag02.addEventListener('mouseleave', () => frag02.style.color = 'rgba(102, 255, 255, 0.08)');
+      frag02.addEventListener('click', () => {
+        frag02.textContent = 'Fragment Unlocked: SOLAR_REFRACTION_STRING';
+        frag02.style.color = '#66ffff';
+        localStorage.setItem('fragment_Δ-02V', 'unlocked');
+      });
+    });
+
+    function unlockSecrets() {
+      const password = prompt("Enter cipher key:");
+      if (password && password.toLowerCase().trim() === "revelation initiate") {
+        alert("Cipher accepted. Redirecting...");
+        const audio = document.getElementById("ambientAudio");
+        if (audio) {
+          audio.volume = 1.0;
+          audio.play();
+        }
+        document.getElementById("hiddenChamberLink").style.display = "inline-block";
+        document.getElementById("hiddenChamberLink").scrollIntoView({ behavior: 'smooth' });
+      } else {
+        alert("The flame does not know your name.");
+      }
     }
-  }
-
-  setInterval(updateCountdown, 1000);
-  updateCountdown();
-</script>
-
-<script>
-  window.addEventListener('DOMContentLoaded', () => {
-    const frag = document.querySelector('[data-frag="Δ-01F"]');
-    if (localStorage.getItem('fragment_Δ-01F') === 'unlocked') {
-      frag.textContent = 'Fragment Unlocked: EMBER_CROWN_VECTOR';
-      frag.style.color = '#ffff66';
-    }
-
-    const frag2 = document.querySelector('[data-frag="Δ-02V"]');
-    if (localStorage.getItem('fragment_Δ-02V') === 'unlocked') {
-      frag2.textContent = 'Fragment Unlocked: SOLAR_REFRACTION_STRING';
-      frag2.style.color = '#66ffff';
-    }
-  });
-</script>
-
-<span class="data-frag" data-frag="Δ-01F" title="Fragment detected" style="position: absolute; bottom: 5px; right: 5px; font-size: 0.7rem; color: rgba(255, 255, 102, 0.08); cursor: pointer;">Δ-01F</span>
-
-<script>
-  const frag = document.querySelector('.data-frag');
-  frag.addEventListener('mouseenter', () => frag.style.color = 'rgba(255, 255, 102, 0.5)');
-  frag.addEventListener('mouseleave', () => frag.style.color = 'rgba(255, 255, 102, 0.08)');
-  frag.addEventListener('click', () => {
-    frag.textContent = 'Fragment Unlocked: EMBER_CROWN_VECTOR';
-    frag.style.color = '#ffff66';
-    localStorage.setItem('fragment_Δ-01F', 'unlocked');
-  });
-</script>
-<span class="data-frag" data-frag="Δ-02V" title="Fragment detected" style="position: absolute; bottom: 5px; left: 5px; font-size: 0.7rem; color: rgba(102, 255, 255, 0.08); cursor: pointer;">Δ-02V</span>
-
-<script>
-  const frag2 = document.querySelector('[data-frag="Δ-02V"]');
-  frag2.addEventListener('mouseenter', () => frag2.style.color = 'rgba(102, 255, 255, 0.5)');
-  frag2.addEventListener('mouseleave', () => frag2.style.color = 'rgba(102, 255, 255, 0.08)');
-  frag2.addEventListener('click', () => {
-    frag2.textContent = 'Fragment Unlocked: SOLAR_REFRACTION_STRING';
-    frag2.style.color = '#66ffff';
-    localStorage.setItem('fragment_Δ-02V', 'unlocked');
-  });
-</script>
+  </script>
 </body>
 </html>
 
