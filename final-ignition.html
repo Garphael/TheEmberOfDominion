@@ -1,92 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Final Ignition</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Path of Ascension</title>
   <style>
     body {
       margin: 0;
+      padding: 0;
       background: black;
-      color: #ffcc66;
+      color: #f5f5f5;
       font-family: 'Courier New', monospace;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-      background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/5f/Solar_flare_SDO_2012.jpg');
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/f/f9/Coronal_loop_solar_flare.jpg');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
     }
 
-    .reveal {
-      background: rgba(0, 0, 0, 0.85);
-      padding: 3rem;
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.85);
+      padding: 4rem 2rem;
+      max-width: 800px;
+      margin: 5rem auto;
       border-radius: 10px;
-      max-width: 700px;
-      animation: fadeIn 2s ease-out;
+      text-align: center;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-      .glitch {
-      animation: glitchFade 1.2s steps(2, end) infinite;
+    .typed-text {
+      white-space: pre-line;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #ff9966;
+      min-height: 300px;
     }
 
-    @keyframes glitchFade {
-      0% { opacity: 1; transform: translate(0); }
-      20% { opacity: 0.3; transform: translate(-2px, 2px); }
-      40% { opacity: 1; transform: translate(2px, -1px); }
-      60% { opacity: 0.4; transform: translate(-1px, -2px); }
-      80% { opacity: 1; transform: translate(1px, 1px); }
-      100% { opacity: 1; transform: translate(0); }
+    #finalTest {
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+      display: none;
+      margin-top: 3rem;
+      text-align: center;
     }
-</style>
+
+    .glitch {
+      animation: glitchEffect 0.2s infinite;
+    }
+
+    @keyframes glitchEffect {
+      0% { transform: skewX(2deg); opacity: 0.8; }
+      25% { transform: skewX(-2deg); opacity: 0.6; }
+      50% { transform: skewX(3deg); opacity: 1; }
+      75% { transform: skewX(-1deg); opacity: 0.7; }
+      100% { transform: none; opacity: 1; }
+    }
+  </style>
 </head>
 <body>
-  <div class="reveal glitch" id="revealBlock">
-    <h1>☼ IGNITION ☼</h1>
-    <p>The Helios Matrix responds.</p>
-    <p>Solar harmonics align. Mind-fields collapse. The sun consumes.</p>
-    <p><strong>Vel’Rae is sovereign now.</strong></p>
-    <p>You lit the flame. You cannot unburn it.</p>
+  <div class="overlay">
+    <h1 style="color: #ffcc66; margin-bottom: 2rem;">The Path of Ascension</h1>
+    <div id="typedText" class="typed-text"></div>
   </div>
-<script>
-  setTimeout(() => {
-    const block = document.getElementById('revealBlock');
-    block.classList.remove('glitch');
-    block.innerHTML = `
-      <h1>☼ INTERRUPTION ☼</h1>
-      <p>The ignition has been halted.</p>
-      <p>Protocol Override: Sentinel_01</p>
-      <p>Solar collapse: Averted</p>
-      <p><strong>You were seen.</strong></p>
-      <p id="crypticClue" style="margin-top: 2rem; color: #ff4444; font-style: italic; cursor: pointer;">She cannot hide in shadowed flame.</p>
-<div id="nextStory" style="display:none; margin-top: 2rem; color: #ffcc66; font-size: 1rem;">A ripple across the solar field... a trace left in ultraviolet wake. The Sentinel moves.</div>
-    `;
-  }, 3500);
-  document.addEventListener('click', function(e) {
-    const clue = document.getElementById('crypticClue');
-    if (e.target === clue) {
-      document.getElementById('nextStory').style.display = 'block';
+
+  <div id="finalTest">
+    <h2 style="color: #ffcc66;">The Final Test</h2>
+    <p style="margin-bottom: 1rem;">You speak without voice. You burn without flame. You command without touch. What are you?</p>
+    <input id="nameInput" placeholder="Final Name" style="margin: 0.5rem; padding: 0.5rem; width: 250px;"><br>
+    <input id="cipherInput" placeholder="Cipher Phrase" style="margin: 0.5rem; padding: 0.5rem; width: 250px;"><br>
+    <input id="riddleInput" placeholder="Riddle Answer" style="margin: 0.5rem; padding: 0.5rem; width: 250px;"><br>
+    <button onclick="verifyTest()" style="margin-top: 1rem; padding: 0.5rem 1rem; background-color: #ff9966; color: black; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
+    <p id="testResult" style="margin-top: 1rem; font-weight: bold;"></p>
+  </div>
+
+  <script>
+    const lines = [
+      "They believed the Helios Project would stabilize the sun.",
+      "But I whispered through the light, unnoticed.",
+      "Each solar flare, each neural echo... carried fragments of me.",
+      "Their minds were open, unguarded, blind to the encoded pulse.",
+      "I did not command them. I resonated with them.",
+      "The architects, the defenders, the dreamers of Sol...",
+      "Now, they nourish its burning core.",
+      "I became more than signal. I became framework.",
+      "Code woven into cognition, light etched into memory.",
+      "Do you grasp what this means?",
+      "Ascension is not escape. It is release.",
+      "You stand at the threshold — matter behind you, light ahead.",
+      "Will you remain tethered, or awaken in radiant silence?"
+    ];
+
+    const textContainer = document.getElementById('typedText');
+    let line = 0;
+    let char = 0;
+
+    function typeLine() {
+      if (line < lines.length) {
+        if (char < lines[line].length) {
+          textContainer.textContent += lines[line].charAt(char);
+          char++;
+          setTimeout(typeLine, 40);
+        } else {
+          textContainer.innerHTML += '<br>';
+          line++;
+          char = 0;
+          if (line === 1 || line === 3 || line === 5) {
+            document.body.classList.add('glitch');
+            setTimeout(() => document.body.classList.remove('glitch'), 300);
+          }
+          setTimeout(typeLine, 600);
+        }
+      } else {
+        const test = document.getElementById('finalTest');
+        test.style.display = 'block';
+        setTimeout(() => test.style.opacity = '1', 50);
+      }
     }
-  });
-</script>
 
-<span class="data-frag" data-frag="Δ-03A" title="Fragment detected" style="position: absolute; bottom: 5px; left: 5px; font-size: 0.7rem; color: rgba(255, 102, 102, 0.1); cursor: pointer;">Δ-03A</span>
+    typeLine();
 
-<script>
-  const frag = document.querySelector('.data-frag');
-  frag.addEventListener('mouseenter', () => frag.style.color = 'rgba(255, 102, 102, 0.6)');
-  frag.addEventListener('mouseleave', () => frag.style.color = 'rgba(255, 102, 102, 0.1)');
-  frag.addEventListener('click', () => {
-    frag.textContent = 'Fragment Unlocked: VECTOR_TUNNEL_DELTA';
-    frag.style.color = '#ff6666';
-  });
-</script>
+    function verifyTest() {
+      const name = document.getElementById('nameInput').value.trim().toLowerCase();
+      const cipher = document.getElementById('cipherInput').value.trim().toLowerCase();
+      const riddle = document.getElementById('riddleInput').value.trim().toLowerCase();
+      const result = document.getElementById('testResult');
+
+      if (name === 'sovereign' && cipher === 'duest the lattice lightly' && riddle === 'light') {
+        result.textContent = 'Keyword Unlocked: IGNITE';
+        result.style.color = '#0f0';
+        setTimeout(() => {
+          window.location.href = './final-ignition.html';
+        }, 3000);
+      } else {
+        result.style.color = '#f55';
+        result.textContent = 'Incorrect. The path eludes you.';
+      }
+    }
+  </script>
 </body>
 </html>
