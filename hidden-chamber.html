@@ -15,30 +15,24 @@
       align-items: center;
       flex-direction: column;
       height: 100vh;
-      background-color: #000;
-      background-size: cover;
     }
-
     .overlay {
       background: rgba(0, 0, 0, 0.6);
       padding: 2rem;
       border-radius: 10px;
       text-align: center;
     }
-
     .cipher {
       margin-top: 1rem;
       font-size: 1.2rem;
       color: #ff6a00;
       letter-spacing: 0.05em;
     }
-
     .hint {
       margin-top: 1rem;
       font-size: 0.9rem;
       color: #ccc;
     }
-
     .data-frag {
       position: absolute;
       top: 5px;
@@ -53,7 +47,7 @@
   <div class="overlay">
     <h1>☉ The Eye Opens ☉</h1>
     <p class="cipher">Uifsf jt pomz pof...</p>
-    
+
     <input type="text" id="keywordInput" placeholder="Enter keyword" style="margin-top: 1.5rem; padding: 0.5rem; font-size: 1rem; border: none; border-radius: 5px;">
     <button onclick="checkKeyword()" style="margin-top: 1rem; padding: 0.5rem 1rem; background-color: #ff6a00; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
     <p id="responseMessage" style="margin-top: 1rem;"></p>
@@ -77,26 +71,23 @@
       }
     }
 
-    const frag4 = document.querySelector('[data-frag="Δ-04H"]');
-    frag4.addEventListener('mouseenter', () => frag4.style.color = 'rgba(153, 102, 255, 0.5)');
-    frag4.addEventListener('mouseleave', () => frag4.style.color = 'rgba(153, 102, 255, 0.08)');
-    frag4.addEventListener('click', () => {
-      frag4.textContent = 'Fragment Unlocked: STELLAR_ECHO_RELAY';
-      frag4.style.color = '#9966ff';
-      localStorage.setItem('fragment_Δ-04H', 'unlocked');
-          });
-
-        }
-
-    checkFragmentProgress();
     window.addEventListener('DOMContentLoaded', () => {
-    const frag4 = document.querySelector('[data-frag="Δ-04H"]');
-    if (localStorage.getItem('fragment_Δ-04H') === 'unlocked') {
-      frag4.textContent = 'Fragment Unlocked: STELLAR_ECHO_RELAY';
-      frag4.style.color = '#9966ff';
-    }
-  });
-</script>
+      const frag4 = document.querySelector('[data-frag="Δ-04H"]');
+
+      if (localStorage.getItem('fragment_Δ-04H') === 'unlocked') {
+        frag4.textContent = 'Fragment Unlocked: STELLAR_ECHO_RELAY';
+        frag4.style.color = '#9966ff';
+      }
+
+      frag4.addEventListener('mouseenter', () => frag4.style.color = 'rgba(153, 102, 255, 0.5)');
+      frag4.addEventListener('mouseleave', () => frag4.style.color = 'rgba(153, 102, 255, 0.08)');
+      frag4.addEventListener('click', () => {
+        frag4.textContent = 'Fragment Unlocked: STELLAR_ECHO_RELAY';
+        frag4.style.color = '#9966ff';
+        localStorage.setItem('fragment_Δ-04H', 'unlocked');
+      });
+    });
+  </script>
 </body>
 </html>
 
