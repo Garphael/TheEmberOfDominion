@@ -9,14 +9,14 @@
       margin: 0;
       padding: 0;
       font-family: 'Courier New', monospace;
-      background: radial-gradient(ellipse at center, #000 0%, #111 100%);
+      background-color: #000;
       color: #eaeaea;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
       height: 100vh;
-      background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/5f/ESO_-_VISTA_views_Carina_Nebula.jpg');
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/7/73/Starsinthesky.jpg');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -30,10 +30,19 @@
       max-width: 700px;
     }
 
-    .chart-image {
-      width: 100%;
+    .glyph-dial {
+      display: inline-block;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      margin: 0.5rem;
       border: 2px solid #f95;
-      margin-top: 1rem;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      user-select: none;
+      background-color: #111;
+      color: #f95;
     }
 
     input[type="text"] {
@@ -60,21 +69,7 @@
       margin-top: 1.5rem;
       font-size: 1rem;
     }
-      .trail {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #f95;
-      border-radius: 50%;
-      opacity: 0.8;
-      pointer-events: none;
-      animation: fadeTrail 1s linear forwards;
-    }
 
-    @keyframes fadeTrail {
-      0% { opacity: 0.8; transform: scale(1); }
-      100% { opacity: 0; transform: scale(2); }
-    }
     .glow-effect {
       animation: glowFlash 1s ease-in-out 2;
       box-shadow: 0 0 20px 5px #f95;
@@ -85,24 +80,13 @@
       50% { box-shadow: 0 0 25px 10px #ffbb66; }
       100% { box-shadow: 0 0 10px 2px #f95; }
     }
-</style>
+  </style>
 </head>
 <body>
   <div class="puzzle-box">
     <h1>The Veil Speaks</h1>
-    <p>Trace the alignment. What name do the stars form?</p>
-    <img class="chart-image" src="https://upload.wikimedia.org/wikipedia/commons/2/2c/IAU_Scorpius_chart.svg" alt="Star Chart" usemap="#starmap">
-    <map name="starmap">
-      <area shape="circle" coords="130,150,20" alt="Star A" title="A" onclick="highlightStar('A')">
-      <area shape="circle" coords="200,120,20" alt="Star W" title="W" onclick="highlightStar('W')">
-      <area shape="circle" coords="270,160,20" alt="Star A2" title="A" onclick="highlightStar('A')">
-      <area shape="circle" coords="340,130,20" alt="Star K" title="K" onclick="highlightStar('K')">
-      <area shape="circle" coords="410,170,20" alt="Star E" title="E" onclick="highlightStar('E')">
-      <area shape="circle" coords="480,140,20" alt="Star N" title="N" onclick="highlightStar('N')">
-      <area shape="circle" coords="550,180,20" alt="Star I" title="I" onclick="highlightStar('I')">
-      <area shape="circle" coords="620,150,20" alt="Star N2" title="N" onclick="highlightStar('N')">
-      <area shape="circle" coords="690,190,20" alt="Star G" title="G" onclick="highlightStar('G')">
-    </map>
+    <p>Align the glyphs to unlock the truth.</p>
+    <div id="dials"></div>
     <div id="keywordInputSection" style="display:none;">
       <input type="text" id="finalKey" placeholder="Enter final keyword">
       <br>
@@ -112,6 +96,43 @@
   </div>
 
   <script>
+    const keyword = "AWAKENING";
+    const options = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    let glyphState = [];
+
+    function shuffleKeyword(word) {
+      return word.split('').sort(() => 0.5 - Math.random());
+    }
+
+    function initDials() {
+      const shuffled = shuffleKeyword(keyword);
+      const dialsContainer = document.getElementById('dials');
+      dialsContainer.innerHTML = '';
+      glyphState = shuffled.map((char, index) => {
+        const initialIndex = options.indexOf(char);
+        const el = document.createElement('div');
+        el.className = 'glyph-dial';
+        el.textContent = char;
+        el.onclick = () => rotateGlyph(el, index);
+        dialsContainer.appendChild(el);
+        return initialIndex;
+      });
+    }
+
+    function rotateGlyph(el, index) {
+      glyphState[index] = (glyphState[index] + 1) % options.length;
+      el.textContent = options[glyphState[index]];
+      checkAlignment();
+    }
+
+    function checkAlignment() {
+      const current = glyphState.map(i => options[i]).join("");
+      if (current === keyword) {
+        document.getElementById('keywordInputSection').style.display = 'block';
+        document.querySelector('.puzzle-box').classList.add('glow-effect');
+      }
+    }
+
     function validateKey() {
       const input = document.getElementById('finalKey').value.trim().toLowerCase();
       const response = document.getElementById('response');
@@ -126,13 +147,8 @@
         response.textContent = 'The silence persists...';
       }
     }
-  const clickedStars = new Set();
 
-    function highlightStar(letter) {
-      const response = document.getElementById('response');
-      response.style.color = '#ff9';
-      response.textContent = `The star "${letter
-    }
+    initDials();
   </script>
 </body>
 </html>
