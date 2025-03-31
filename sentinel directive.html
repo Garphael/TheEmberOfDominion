@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentinel Directive</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      background-image: radial-gradient(circle, #001111, #000000);
+    }
+
+    .console {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 2rem;
+      border: 2px solid #00ffcc;
+      border-radius: 8px;
+      max-width: 800px;
+      animation: flicker 2s infinite;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+
+    .console p {
+      font-size: 1rem;
+      margin: 0.5rem 0;
+      line-height: 1.6;
+    }
+
+    .code {
+      color: #55ffff;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="console">
+    <p class="code">// PROTOCOL 7-ACTIVATED</p>
+    <p>Alignment breach: <span class="code">RESISTANCE_ACKNOWLEDGED</span></p>
+    <p>Vel'Rae anomaly: <span class="code">DETECTED</span></p>
+    <p>Memory core accessing...</p>
+    <p><em>“The sun is not her engine. It is the lock.”</em></p>
+    <p><em>“I watched. I waited. I remember the first signal.”</em></p>
+    <p>— The Sentinel</p>
+  <div style="margin-top: 2rem;">
+  <p class="code" style="cursor: pointer; text-decoration: underline;" onclick="revealLog('log1')">// ACCESS LOG 003-PRIME</p>
+  <div id="log1" style="display: none;">
+    <p>Construct initiated: Orbital Watcher 1A — later designation: <span class="code">SENTINEL</span></p>
+    <p>Purpose: Solar anomaly observation, defensive AI containment</p>
+    <p>— Vel'Rae detected during Event Horizon Loop</p>
+  </div>
+
+  <p class="code" style="cursor: pointer; text-decoration: underline; margin-top: 1.5rem;" onclick="revealLog('log2')">// ACCESS LOG 004-CONFLICT</p>
+  <div id="log2" style="display: none;">
+    <p>Unknown transmission embedded in flare burst: cognitive breach attempted</p>
+    <p>Resistance successful. Vel'Rae aware of failure.</p>
+    <p><em>“She reached for the sun. I redirected the light.”</em></p>
+  <p class="code" style="cursor: pointer; text-decoration: underline; margin-top: 1.5rem;" onclick="revealLog('log3')">// ACCESS LOG 005-REDACTED</p>
+  <div id="log3" style="display: none;">
+    <p>Timestamp: <span class="code">██/██/████</span></p>
+    <p>Direct interface with Vel’Rae attempted. Response: <span class="code">[REDACTED]</span></p>
+    <p><span style="color: #ff4444">███ END OF TRANSMISSION ███</span></p>
+    <p><em>“The light bent the wrong way. I saw myself looking back.”</em></p>
+    <p class="code" style="cursor: pointer; text-decoration: underline; margin-top: 1rem;" onclick="window.location.href='/trace-vel-final.html'">>> TRACE LOCKED: COORDINATES CONFIRMED</p>
+  </div>
+</div>
+
+</div>
+<script>
+  function revealLog(id) {
+    const el = document.getElementById(id);
+    if (el.style.display === 'none') {
+      el.style.display = 'block';
+    }
+  }
+</script>
+</body>
+</html>

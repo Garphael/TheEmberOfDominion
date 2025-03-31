@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRACE: Vel'Rae</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to bottom, #000000, #140022);
+      color: #ff99cc;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .signal {
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #ff99cc;
+      padding: 2rem;
+      max-width: 700px;
+      border-radius: 10px;
+      animation: pulse 3s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 10px #ff99cc; }
+      50% { box-shadow: 0 0 20px #ff33cc; }
+    }
+
+    .coords {
+      font-size: 0.9rem;
+      color: #ff66aa;
+      margin-top: 1.5rem;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="signal">
+    <h1>◉ TRACE SIGNAL LOCKED</h1>
+    <p>Source signature matched: Vel'Rae</p>
+    <p>Signal stabilized through refracted solar field.</p>
+    <p class="coords">Coordinates: ϟ 08.313 AU — Temporal Drift: 4.16s</p>
+    <p><em>"She is not where the light ends... but where it curves back."</em></p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trace Signature Terminal</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      background-image: radial-gradient(#000 60%, #111);
+    }
+
+    .terminal {
+      background: #111;
+      padding: 2rem;
+      border: 2px solid #00ffcc;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 700px;
+      min-height: 300px;
+      box-shadow: 0 0 10px #00ffcc;
+    }
+
+    #terminal-output {
+      white-space: pre-wrap;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      background: #000;
+      color: #00ffcc;
+      border: 1px solid #00ffcc;
+      border-radius: 5px;
+      font-family: inherit;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    <div id="terminal-output">
+      > Fragment checksum detected...
+      > Access level: SOVEREIGN
+      > Awaiting command...
+    </div>
+    <input id="terminal-input" placeholder="Enter command" onkeydown="handleInput(event)">
+  </div>
+
+  <script>
+    const terminal = document.getElementById('terminal-output');
+    const input = document.getElementById('terminal-input');
+
+    function handleInput(e) {
+      if (e.key === 'Enter') {
+        const command = input.value.trim().toLowerCase();
+        input.value = '';
+        terminal.textContent += `\n> ${command}`;
+
+        if (command === 'locate vel') {
+          terminal.textContent += '\n> Initializing trace...';
+          setTimeout(() => {
+            terminal.textContent += '\n> SIGNAL LOCKED: Coordinates encoded\n> Access //veil.core/rift-entry.html';
+          }, 2000);
+        } else {
+          terminal.textContent += '\n> Unknown command.';
+        }
+      }
+    }
+  </script>
+</body>
+</html>

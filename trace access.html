@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Access Trace Lock</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #ffccff;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      background-image: radial-gradient(circle at center, #0b0011 0%, #000000 100%);
+      text-align: center;
+    }
+
+    .cipher-block {
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #ff66cc;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 600px;
+    }
+
+    .cipher {
+      font-size: 1.1rem;
+      color: #ff99cc;
+      margin-bottom: 1.5rem;
+    }
+
+    input[type="text"] {
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 60%;
+      background: #000;
+      border: 1px solid #ff66cc;
+      color: #fff;
+      border-radius: 4px;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #ff66cc;
+      color: #000;
+      border: none;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #feedback {
+      margin-top: 1rem;
+      color: #ff3333;
+    }
+  </style>
+</head>
+<body>
+  <div class="cipher-block">
+    <h2>/// TRACE LOCK SECURED ///</h2>
+    <p class="cipher">Encrypted String: <strong>Nmkl dpex fch'v lxi</strong></p>
+    <p id="hint" style="font-size: 0.9rem; color: #999; display: none;">(Hint: Vigenère Cipher — keyword: sentinel)</p>
+    <input type="text" id="cipherInput" placeholder="Enter decrypted keyword" />
+    <br />
+    <button onclick="checkAccess()">Unlock</button>
+    <p id="feedback"></p>
+  <p id="revealHint" style="font-size: 0.7rem; color: rgba(255, 204, 255, 0.05); cursor: pointer; margin-top: 1rem;">access://sentinel.hint.core</p>
+    <script>
+      document.getElementById('revealHint').addEventListener('click', () => {
+        document.getElementById('hint').style.display = 'block';
+        document.getElementById('revealHint').style.display = 'none';
+      });
+    </script>
+  </div>
+
+  <script>
+    function checkAccess() {
+      const input = document.getElementById('cipherInput').value.trim().toLowerCase();
+      const feedback = document.getElementById('feedback');
+
+      if (input === 'terminate vel\'rae') {
+        feedback.style.color = '#0f0';
+        feedback.textContent = 'Access Granted. Redirecting...';
+        setTimeout(() => {
+          window.location.href = '/trace-vel-final.html';
+        }, 2000);
+      } else {
+        feedback.textContent = 'Access Denied. Try again.';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rift Entry</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #eee;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/12/NGC_1999_in_Orion.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      overflow: hidden;
+    }
+
+    .rift {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 600px;
+      animation: pulse 3s ease-in-out infinite, fadeIn 2s ease-out;
+      z-index: 2;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 10px #aa00ff; }
+      50% { box-shadow: 0 0 30px #ff66ff; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .noise {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif');
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 1;
+      mix-blend-mode: screen;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="rift">
+    <h1>⚠ RIFT ENTRY POINT ⚠</h1>
+    <p>The veil is torn.</p>
+    <p>You stand on the edge of the extradimensional threshold.</p>
+    <p><strong>Vel'Rae is near.</strong></p>
+    <p style="margin-top: 2rem; font-style: italic; color: #ffccff;">She does not speak. But she listens.</p>
+  </div>
+  <div style="margin-top: 3rem; z-index: 2;">
+    <button onclick="choosePath('ascend')" style="margin-right: 1rem; padding: 0.5rem 1rem; background-color: #6600cc; color: white; border: none; border-radius: 5px; cursor: pointer;">Ascend</button>
+    <button onclick="choosePath('resist')" style="padding: 0.5rem 1rem; background-color: #cc0033; color: white; border: none; border-radius: 5px; cursor: pointer;">Resist</button>
+  </div>
+
+  <script>
+    function choosePath(choice) {
+      const body = document.body;
+      const rift = document.querySelector('.rift');
+      const noise = document.querySelector('.noise');
+
+      if (choice === 'ascend') {
+        body.style.transition = 'all 2s ease-in-out';
+        body.style.filter = 'invert(1) hue-rotate(360deg) saturate(5) blur(5px)';
+        body.style.transform = 'scale(1.2) rotate(5deg)';
+        noise.style.opacity = '0.2';
+        rift.innerHTML = '<h1>🔥 TRANSCENDENCE 🔥</h1><p>The void bends to your will.</p><p>You are no longer flesh.</p>';
+        setTimeout(() => {
+          window.location.href = '/ascension-ending.html';
+        }, 2500);
+      } else if (choice === 'resist') {
+        body.style.transition = 'all 2s ease-in-out';
+        body.style.filter = 'contrast(4) brightness(0.2) grayscale(1)';
+        body.style.transform = 'scale(1.05) rotate(-5deg) skewX(10deg)';
+        noise.style.opacity = '0.15';
+        rift.innerHTML = '<h1>⚡ RESISTANCE ⚡</h1><p>You reject the veil.</p><p>But it remembers your name.</p>';
+        setTimeout(() => {
+          window.location.href = '/resistance-ending.html';
+        }, 2500);
+      }
+    }
+  </script>
+</body>
+</html>
