@@ -84,16 +84,9 @@
       frag4.textContent = 'Fragment Unlocked: STELLAR_ECHO_RELAY';
       frag4.style.color = '#9966ff';
       localStorage.setItem('fragment_Δ-04H', 'unlocked');
-      checkFragmentProgress();
-    });
+          });
 
-    function checkFragmentProgress() {
-      const allFragments = ['Δ-01F', 'Δ-02V', 'Δ-03A', 'Δ-04H'];
-      const found = allFragments.filter(id => localStorage.getItem('fragment_' + id) === 'unlocked');
-      if (found.length === allFragments.length) {
-        console.log('All data fragments recovered.');
-      }
-    }
+        }
 
     checkFragmentProgress();
     window.addEventListener('DOMContentLoaded', () => {
