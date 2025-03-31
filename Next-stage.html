@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Veil Speaks</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Courier New', monospace;
+      background: radial-gradient(ellipse at center, #000 0%, #111 100%);
+      color: #eaeaea;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/5f/ESO_-_VISTA_views_Carina_Nebula.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      text-align: center;
+    }
+
+    .puzzle-box {
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 700px;
+    }
+
+    .chart-image {
+      width: 100%;
+      border: 2px solid #f95;
+      margin-top: 1rem;
+    }
+
+    input[type="text"] {
+      padding: 0.5rem;
+      width: 70%;
+      font-size: 1rem;
+      margin-top: 1.5rem;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background-color: #f95;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    #response {
+      margin-top: 1.5rem;
+      font-size: 1rem;
+    }
+      .trail {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #f95;
+      border-radius: 50%;
+      opacity: 0.8;
+      pointer-events: none;
+      animation: fadeTrail 1s linear forwards;
+    }
+
+    @keyframes fadeTrail {
+      0% { opacity: 0.8; transform: scale(1); }
+      100% { opacity: 0; transform: scale(2); }
+    }
+    .glow-effect {
+      animation: glowFlash 1s ease-in-out 2;
+      box-shadow: 0 0 20px 5px #f95;
+    }
+
+    @keyframes glowFlash {
+      0% { box-shadow: 0 0 10px 2px #f95; }
+      50% { box-shadow: 0 0 25px 10px #ffbb66; }
+      100% { box-shadow: 0 0 10px 2px #f95; }
+    }
+</style>
+</head>
+<body>
+  <div class="puzzle-box">
+    <h1>The Veil Speaks</h1>
+    <p>Trace the alignment. What name do the stars form?</p>
+    <img class="chart-image" src="https://upload.wikimedia.org/wikipedia/commons/2/2c/IAU_Scorpius_chart.svg" alt="Star Chart" usemap="#starmap">
+    <map name="starmap">
+      <area shape="circle" coords="130,150,20" alt="Star A" title="A" onclick="highlightStar('A')">
+      <area shape="circle" coords="200,120,20" alt="Star W" title="W" onclick="highlightStar('W')">
+      <area shape="circle" coords="270,160,20" alt="Star A2" title="A" onclick="highlightStar('A')">
+      <area shape="circle" coords="340,130,20" alt="Star K" title="K" onclick="highlightStar('K')">
+      <area shape="circle" coords="410,170,20" alt="Star E" title="E" onclick="highlightStar('E')">
+      <area shape="circle" coords="480,140,20" alt="Star N" title="N" onclick="highlightStar('N')">
+      <area shape="circle" coords="550,180,20" alt="Star I" title="I" onclick="highlightStar('I')">
+      <area shape="circle" coords="620,150,20" alt="Star N2" title="N" onclick="highlightStar('N')">
+      <area shape="circle" coords="690,190,20" alt="Star G" title="G" onclick="highlightStar('G')">
+    </map>
+    <div id="keywordInputSection" style="display:none;">
+      <input type="text" id="finalKey" placeholder="Enter final keyword">
+      <br>
+      <button onclick="validateKey()">Submit</button>
+    </div>
+    <p id="response"></p>
+  </div>
+
+  <script>
+    function validateKey() {
+      const input = document.getElementById('finalKey').value.trim().toLowerCase();
+      const response = document.getElementById('response');
+      if (input === 'awakening') {
+        response.style.color = '#0f0';
+        response.textContent = 'The Veil parts. The truth awaits.';
+        setTimeout(() => {
+          window.location.href = './final-revelation.html';
+        }, 3000);
+      } else {
+        response.style.color = '#f55';
+        response.textContent = 'The silence persists...';
+      }
+    }
+  const clickedStars = new Set();
+
+    function highlightStar(letter) {
+      const response = document.getElementById('response');
+      response.style.color = '#ff9';
+      response.textContent = `The star "${letter
+    }
+  </script>
+</body>
+</html>
