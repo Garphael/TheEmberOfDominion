@@ -33,26 +33,28 @@
     #dials {
       display: flex;
       flex-direction: row;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
       justify-content: center;
-      overflow-x: auto;
       padding: 1rem 0;
+      max-width: 100%;
+      gap: 0.5rem;
     }
 
     .glyph-dial {
       display: inline-block;
-      width: 60px;
-      height: 60px;
-      line-height: 60px;
-      margin: 0.5rem;
+      width: 45px;
+      height: 45px;
+      line-height: 45px;
+      margin: 0.4rem;
       border: 2px solid #f95;
       border-radius: 50%;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       cursor: pointer;
       user-select: none;
       background-color: #111;
       color: #f95;
       flex-shrink: 0;
+      transition: transform 0.3s ease, background-color 0.3s ease;
     }
 
     input[type="text"] {
@@ -130,6 +132,8 @@
     }
 
     function rotateGlyph(el, index) {
+      el.style.transform = 'scale(1.2)';
+      setTimeout(() => el.style.transform = 'scale(1)', 150);
       glyphState[index] = (glyphState[index] + 1) % options.length;
       el.textContent = options[glyphState[index]];
       checkAlignment();
@@ -137,6 +141,16 @@
 
     function checkAlignment() {
       const current = glyphState.map(i => options[i]).join("");
+      const dials = document.querySelectorAll('.glyph-dial');
+      keyword.split('').forEach((char, i) => {
+        const currentChar = options[glyphState[i]];
+        if (currentChar === char) {
+          dials[i].classList.add('glow-effect');
+        } else {
+          dials[i].classList.remove('glow-effect');
+        }
+      });
+
       if (current === keyword) {
         document.getElementById('keywordInputSection').style.display = 'block';
         document.querySelector('.puzzle-box').classList.add('glow-effect');
@@ -182,4 +196,5 @@
   </script>
 </body>
 </html>
+
 
