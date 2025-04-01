@@ -15,9 +15,14 @@
       align-items: center;
       flex-direction: column;
       height: 100vh;
-      background-image: radial-gradient(#000 60%, #111);
+      background-image: repeating-linear-gradient(
+        to bottom,
+        #000000 0px,
+        #000000 1px,
+        #0a0a0a 2px,
+        #000000 3px
+      );
     }
-
     .terminal {
       background: #111;
       padding: 2rem;
@@ -26,16 +31,17 @@
       width: 90%;
       max-width: 700px;
       min-height: 300px;
-      box-shadow: 0 0 10px #00ffcc;
+      box-shadow: 0 0 20px #00ffcc;
+      position: relative;
+      overflow: hidden;
     }
-
     #terminal-output {
       white-space: pre-wrap;
       font-size: 0.95rem;
       line-height: 1.5;
       margin-bottom: 1rem;
+      text-shadow: 0 0 5px #00ffcc;
     }
-
     input {
       width: 100%;
       padding: 0.5rem;
@@ -45,11 +51,29 @@
       border-radius: 5px;
       font-family: inherit;
       font-size: 1rem;
+      box-shadow: 0 0 10px #00ffcc;
+    }
+    .scanlines::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 255, 204, 0.03) 0px,
+        rgba(0, 255, 204, 0.03) 1px,
+        transparent 2px,
+        transparent 3px
+      );
+      pointer-events: none;
+      z-index: 2;
     }
   </style>
 </head>
 <body>
-  <div class="terminal">
+  <div class="terminal scanlines">
     <div id="terminal-output">
       > Fragment checksum detected...
       > Access level: SOVEREIGN
@@ -64,17 +88,33 @@
 
     function handleInput(e) {
       if (e.key === 'Enter') {
-        const command = input.value.trim().toLowerCase();
+        const rawCommand = input.value.trim();
+        const command = rawCommand.toLowerCase();
         input.value = '';
         terminal.textContent += `\n> ${command}`;
 
         if (command === 'locate vel') {
-          terminal.textContent += '\n> Initializing trace...';
+          terminal.textContent += `\n> Initializing trace...`;
           setTimeout(() => {
-            terminal.textContent += '\n> SIGNAL LOCKED: Coordinates encoded\n> Access //veil.core/rift-entry.html';
+            terminal.textContent += `\n> SIGNAL LOCKED: Coordinates encoded\n> Accessing...`;
+            setTimeout(() => {
+              window.location.href = './rift-entry.html';
+            }, 2000);
           }, 2000);
+        } else if (command === 'help') {
+          terminal.textContent += `\n> Available commands:\n> locate vel\n> access archives\n> ping sentinel\n> help`;
+        } else if (command === 'access archives') {
+          terminal.textContent += `\n> Archives unlocked:\n- PROJECT HELIOS\n- VELRAE CONDUIT\n- CORE LATTICE FUSION\n> Use 'view [archive name]' to access.`;
+        } else if (command.includes('view') && command.includes('project helios')) {
+          terminal.textContent += `\n> PROJECT HELIOS DOSSIER:\n> Origin: Pre-Solar Accord\n> Objective: Stabilization of Sol through lattice infusion\n> Status: Compromised\n> Notes: Unidentified signal interference began after Cycle 42. Traces correlate with Vel’Rae emergence.`;
+        } else if (command.includes('view') && command.includes('velrae conduit')) {
+          terminal.textContent += `\n> VELRAE CONDUIT DOSSIER:\n> Signal Source: Extra-solar, anomalous origin\n> Activity: Neural imprint propagation through solar emissions\n> Risk Level: CRITICAL\n> Comments: Entity exhibits non-linear cognition and parasitic signal threading.`;
+        } else if (command.includes('view') && command.includes('core lattice fusion')) {
+          terminal.textContent += `\n> CORE LATTICE FUSION DOSSIER:\n> Engineered Purpose: Harmonize stellar output with planetary thresholds\n> Energy Signature: Inverted spectral lattice\n> Malfunction: Pulse recursion loops accelerating stellar decay\n> Emergency Protocol: Await Sentinel override.`;
+        } else if (command === 'ping sentinel') {
+          terminal.textContent += `\n> Sending pulse...\n> ...\n> Response received: \"I am watching.\"`;
         } else {
-          terminal.textContent += '\n> Unknown command.';
+          terminal.textContent += `\n> Unknown command.`;
         }
       }
     }
