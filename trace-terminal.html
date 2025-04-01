@@ -91,7 +91,7 @@
         const rawCommand = input.value.trim();
         const command = rawCommand.toLowerCase();
         input.value = '';
-        terminal.textContent += `\n> ${command}`;
+        terminal.textContent = `> ${command}`;
 
         if (command === 'locate vel') {
           terminal.textContent += `\n> Initializing trace...`;
