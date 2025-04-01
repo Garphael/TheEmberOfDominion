@@ -30,6 +30,15 @@
       max-width: 700px;
     }
 
+    #dials {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: center;
+      overflow-x: auto;
+      padding: 1rem 0;
+    }
+
     .glyph-dial {
       display: inline-block;
       width: 60px;
@@ -43,6 +52,7 @@
       user-select: none;
       background-color: #111;
       color: #f95;
+      flex-shrink: 0;
     }
 
     input[type="text"] {
@@ -150,6 +160,7 @@
 
     initDials();
   </script>
+
   <span class="data-frag" data-frag="Δ-05V" title="Fragment detected" style="position: absolute; bottom: 5px; right: 5px; font-size: 0.7rem; color: rgba(153, 102, 255, 0.08); cursor: pointer;">Δ-05V</span>
 
   <script>
@@ -164,14 +175,11 @@
     });
 
     function checkFragmentProgress() {
-      const allFragments = ['Δ-01F', 'Δ-02V', 'Δ-03A', 'Δ-04H', 'Δ-05V'];
-      const found = allFragments.filter(id => localStorage.getItem('fragment_' + id) === 'unlocked');
-      if (found.length === allFragments.length) {
-        window.location.href = './temporal-core.html';
-      }
+      // Fragment check disabled — no redirect
     }
 
     checkFragmentProgress();
   </script>
 </body>
 </html>
+
