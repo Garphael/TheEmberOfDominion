@@ -78,6 +78,21 @@
       }
     }
   </script>
+  <span class="data-frag" data-frag="Δ-00I" title="Fragment detected" style="position: absolute; top: 10px; left: 10px; font-size: 0.7rem; color: rgba(255, 255, 204, 0.08); cursor: pointer;">Δ-00I</span>
+
+  <script>
+    const frag = document.querySelector('[data-frag="Δ-00I"]');
+    if (localStorage.getItem('fragment_Δ-00I') === 'unlocked') {
+      frag.textContent = 'Fragment Unlocked: IGNITION_SEED';
+      frag.style.color = '#ffffcc';
+    }
+    frag.addEventListener('mouseenter', () => frag.style.color = 'rgba(255, 255, 204, 0.5)');
+    frag.addEventListener('mouseleave', () => frag.style.color = 'rgba(255, 255, 204, 0.08)');
+    frag.addEventListener('click', () => {
+      frag.textContent = 'Fragment Unlocked: IGNITION_SEED';
+      frag.style.color = '#ffffcc';
+      localStorage.setItem('fragment_Δ-00I', 'unlocked');
+    });
+  </script>
 </body>
 </html>
-
