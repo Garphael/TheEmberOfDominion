@@ -3,129 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Final Ignition</title>
+  <title>Final Revelation</title>
   <style>
     body {
       margin: 0;
       background: black;
-      color: #ffcc66;
+      color: #f5f5f5;
       font-family: 'Courier New', monospace;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      flex-direction: column;
       height: 100vh;
-      text-align: center;
-      background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/5f/Solar_flare_SDO_2012.jpg');
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e1/Solar_flare_on_the_sun.jpg');
       background-size: cover;
       background-position: center;
-      background-attachment: fixed;
+      text-align: center;
     }
 
-    .reveal {
-      background: rgba(0, 0, 0, 0.85);
-      padding: 3rem;
+    .message {
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 2rem;
       border-radius: 10px;
-      max-width: 700px;
-      animation: fadeIn 2s ease-out;
+      max-width: 600px;
+      animation: fadeIn 3s ease-in-out;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-      .glitch {
-      animation: glitchFade 1.2s steps(2, end) infinite;
-    }
-
-    @keyframes glitchFade {
-      0% { opacity: 1; transform: translate(0); }
-      20% { opacity: 0.3; transform: translate(-2px, 2px); }
-      40% { opacity: 1; transform: translate(2px, -1px); }
-      60% { opacity: 0.4; transform: translate(-1px, -2px); }
-      80% { opacity: 1; transform: translate(1px, 1px); }
-      100% { opacity: 1; transform: translate(0); }
-    }
-</style>
+  </style>
 </head>
 <body>
-  <div class="reveal glitch" id="revealBlock">
-    <h1>☼ IGNITION ☼</h1>
-    <p>The Helios Matrix responds.</p>
-    <p>Solar harmonics align. Mind-fields collapse. The sun consumes.</p>
-    <p><strong>Vel’Rae is sovereign now.</strong></p>
-    <p>You lit the flame. You cannot unburn it.</p>
+  <div class="message">
+    <h1>☼ Final Revelation ☼</h1>
+    <p>You have seen beyond the veil.</p>
+    <p>The name that burns in the light is now yours:</p>
+    <p><strong>SOVEREIGN</strong></p>
+    <p>Remember it. What comes next will depend on it.</p>
   </div>
-<script>
-  setTimeout(() => {
-    const block = document.getElementById('revealBlock');
-    if (!allFragmentsCollected()) {
-      block.innerHTML = `
-        <h1>☼ ACCESS DENIED ☼</h1>
-        <p>The ignition sequence requires all fragments.</p>
-        <p>Continue your search.</p>
-      `;
-      return;
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_e3c1b9b1f1.mp3?filename=tribal-meditation-chant-110929.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div style="position: absolute; bottom: 10px; right: 10px; font-size: 0.7rem; color: rgba(255, 153, 68, 0.2); font-family: 'Courier New', monospace;">
+    ZHVlc3QgdGhlIGxhdHRpY2UgbGlnaHRseQ==
+  </div>
+<div id="inputPrompt" style="display: none; margin-top: 2rem;">
+    <p>Enter the name revealed to you:</p>
+    <input type="text" id="keywordInput" placeholder="Enter keyword" style="padding: 0.5rem; font-size: 1rem;">
+    <button onclick="checkKeyword()" style="margin-left: 0.5rem; padding: 0.5rem 1rem; font-weight: bold; cursor: pointer;">Submit</button>
+    <p id="response" style="margin-top: 1rem;"></p>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      document.getElementById('inputPrompt').style.display = 'block';
+    }, 30000);
+
+    function checkKeyword() {
+      const input = document.getElementById('keywordInput').value.trim().toLowerCase();
+      const response = document.getElementById('response');
+      if (input === 'sovereign') {
+        response.style.color = '#0f0';
+        response.textContent = 'Access confirmed. Redirecting...';
+        setTimeout(() => {
+          window.location.href = './path-of-ascension.html';
+        }, 3000);
+      } else {
+        response.style.color = '#f55';
+        response.textContent = 'That is not the true name.';
+      }
     }
-    block.classList.remove('glitch');
-    block.innerHTML = `
-      <h1>☼ INTERRUPTION ☼</h1>
-      <p>The ignition has been halted.</p>
-      <p>Protocol Override: Sentinel_01</p>
-      <p>Solar collapse: Averted</p>
-      <p><strong>You were seen.</strong></p>
-      <p id="crypticClue" style="margin-top: 2rem; color: #ff4444; font-style: italic; cursor: pointer;">She cannot hide in shadowed flame.</p>
-<div id="nextStory" style="display:none; margin-top: 2rem; color: #ffcc66; font-size: 1rem;">A ripple across the solar field... a trace left in ultraviolet wake. The Sentinel moves.</div>
-    `;
-  }, 3500);
-  document.addEventListener('click', function(e) {
-    const clue = document.getElementById('crypticClue');
-    if (e.target === clue) {
-      document.getElementById('nextStory').style.display = 'block';
+  </script>
+  <span class="data-frag" data-frag="Δ-00I" title="Fragment detected" style="position: absolute; top: 10px; left: 10px; font-size: 0.7rem; color: rgba(255, 255, 204, 0.08); cursor: pointer;">Δ-00I</span>
+
+  <script>
+    const frag = document.querySelector('[data-frag="Δ-00I"]');
+    if (localStorage.getItem('fragment_Δ-00I') === 'unlocked') {
+      frag.textContent = 'Fragment Unlocked: IGNITION_SEED';
+      frag.style.color = '#ffffcc';
     }
-  });
-</script>
-
-<span class="data-frag" data-frag="Δ-03A" title="Fragment detected" style="position: absolute; bottom: 5px; left: 5px; font-size: 0.7rem; color: rgba(255, 102, 102, 0.1); cursor: pointer;">Δ-03A</span>
-
-<script>
-  const frag = document.querySelector('.data-frag');
-  frag.addEventListener('mouseenter', () => frag.style.color = 'rgba(255, 102, 102, 0.6)');
-  frag.addEventListener('mouseleave', () => frag.style.color = 'rgba(255, 102, 102, 0.1)');
-  frag.addEventListener('click', () => {
-    frag.textContent = 'Fragment Unlocked: VECTOR_TUNNEL_DELTA';
-    frag.style.color = '#ff6666';
-    localStorage.setItem('fragment_Δ-03A', 'unlocked');
-  });
-</script>
-
-<script>
-  // Ensure fragment is saved on page load if it was already clicked
-  window.addEventListener('DOMContentLoaded', () => {
-    const frag = document.querySelector('.data-frag');
-    if (localStorage.getItem('fragment_Δ-03A') === 'unlocked') {
-      frag.textContent = 'Fragment Unlocked: VECTOR_TUNNEL_DELTA';
-      frag.style.color = '#ff6666';
-    }
-  });
-
-  function allFragmentsCollected() {
-    const fragmentKeys = ['fragment_Δ-01F', 'fragment_Δ-02V', 'fragment_Δ-03A', 'fragment_Δ-04H', 'fragment_Δ-05V'];
-    return fragmentKeys.every(key => localStorage.getItem(key) === 'unlocked');
-  }
-
-  document.addEventListener('click', function (e) {
-    const clue = document.getElementById('crypticClue');
-    if (e.target === clue) {
-      document.getElementById('nextStory').style.display = 'block';
-      setTimeout(() => {
-        if (allFragmentsCollected()) {
-          window.location.href = './trace-terminal.html';
-        }
-      }, 6000);
-    }
-  });
-</script>
+    frag.addEventListener('mouseenter', () => frag.style.color = 'rgba(255, 255, 204, 0.5)');
+    frag.addEventListener('mouseleave', () => frag.style.color = 'rgba(255, 255, 204, 0.08)');
+    frag.addEventListener('click', () => {
+      frag.textContent = 'Fragment Unlocked: IGNITION_SEED';
+      frag.style.color = '#ffffcc';
+      localStorage.setItem('fragment_Δ-00I', 'unlocked');
+    });
+  </script>
 </body>
 </html>
-
 
