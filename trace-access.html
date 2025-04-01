@@ -5,18 +5,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Access Trace Lock</title>
   <style>
+    .scanlines::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 255, 204, 0.03) 0px,
+        rgba(0, 255, 204, 0.03) 1px,
+        transparent 2px,
+        transparent 3px
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+  @keyframes glitchText {
+      0% { opacity: 1; text-shadow: 0 0 3px #00ffcc; }
+      20% { opacity: 0.9; transform: translateX(-0.5px); }
+      40% { opacity: 0.6; transform: translateX(0.5px); }
+      60% { opacity: 0.9; transform: translateY(-0.5px); }
+      80% { opacity: 1; transform: translateY(0.5px); }
+      100% { opacity: 0.95; transform: none; }
+    }
+  .glitch-text {
+      animation: glitchText 1.2s infinite alternate ease-in-out;
+      display: inline-block;
+    }
+  @keyframes flashText {
+      0%, 100% { color: #00ffcc; text-shadow: 0 0 3px #00ffcc; }
+      25% { color: #fff; text-shadow: 0 0 10px #fff; }
+      50% { color: #00ffcc; text-shadow: 0 0 5px #00ffcc; }
+      75% { color: #fff; text-shadow: 0 0 12px #fff; }
+    }
+</style>
+  <style>
     body {
       margin: 0;
       background-color: #000;
-      color: #ffccff;
+      color: #00ffcc;
       font-family: 'Courier New', monospace;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
       height: 100vh;
-      background-image: radial-gradient(circle at center, #0b0011 0%, #000000 100%);
       text-align: center;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        #000 0px,
+        #000 1px,
+        #0a0a0a 2px,
+        #000 3px
+      );
+      animation: screenGlitch 0.15s infinite alternate;
+    }
+
+    @keyframes screenGlitch {
+      from { filter: brightness(1); }
+      to { filter: brightness(0.95); }
+    }
     }
 
     .cipher-block {
@@ -27,11 +77,7 @@
       max-width: 600px;
     }
 
-    .cipher {
-      font-size: 1.1rem;
-      color: #ff99cc;
-      margin-bottom: 1.5rem;
-    }
+    
 
     input[type="text"] {
       padding: 0.5rem;
@@ -58,13 +104,61 @@
       margin-top: 1rem;
       color: #ff3333;
     }
+  
+    h2 {
+      color: #00ffcc;
+      text-shadow: 0 0 3px #00ffcc;
+      margin-bottom: 1.5rem;
+    }
+
+    .cipher-block {
+      background: rgba(0, 0, 0, 0.9);
+      border: 2px solid #00ffcc;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 600px;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+    }
+
+    input[type="text"] {
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 60%;
+      background: #000;
+      border: 1px solid #00ffcc;
+      color: #00ffcc;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #00ffcc;
+      color: #000;
+      border: none;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    #feedback {
+      margin-top: 1rem;
+      color: #ff3333;
+      font-family: inherit;
+    }
+
+    #revealHint {
+      font-family: inherit;
+    }
   </style>
 </head>
-<body>
+<body class="scanlines">
   <div class="cipher-block">
     <h2>/// TRACE LOCK SECURED ///</h2>
-    <p class="cipher">Encrypted String: <strong>Nmkl dpex fch'v lxi</strong></p>
-    <p id="hint" style="font-size: 0.9rem; color: #999; display: none;">(Hint: Vigenère Cipher — keyword: sentinel)</p>
+    <p class="cipher">Encrypted String: <strong class="glitch-text">Nmkl dpex fch'v lxi</strong></p>
+    <p id="hint" style="font-size: 0.9rem; color: #333; display: none; font-style: italic;">Signal keys echo where the Sentinel once watched.</p>
     <input type="text" id="cipherInput" placeholder="Enter decrypted keyword" />
     <br />
     <button onclick="checkAccess()">Unlock</button>
@@ -84,9 +178,15 @@
       const feedback = document.getElementById('feedback');
 
       if (input === 'terminate vel\'rae') {
-        feedback.style.color = '#0f0';
-        feedback.textContent = 'Access Granted. Redirecting...';
+        const cipher = document.querySelector('.glitch-text');
+        cipher.style.animation = 'none';
+        cipher.offsetHeight; // force reflow
+        cipher.style.animation = 'flashText 0.3s 4 ease-in-out forwards';
         setTimeout(() => {
+          cipher.style.animation = 'none';
+          cipher.textContent = 'There is only one... Sentinel.';
+        }, 1200);
+$1setTimeout(() => {
           window.location.href = '/trace-vel-final.html';
         }, 2000);
       } else {
