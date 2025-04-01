@@ -7,8 +7,8 @@
   <style>
     body {
       margin: 0;
-      background: linear-gradient(to bottom, #000000, #140022);
-      color: #ff99cc;
+      background-color: #000;
+      color: #00ffcc;
       font-family: 'Courier New', monospace;
       display: flex;
       justify-content: center;
@@ -17,11 +17,20 @@
       height: 100vh;
       overflow: hidden;
       text-align: center;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        #000 0px,
+        #000 1px,
+        #0a0a0a 2px,
+        #000 3px
+      );
+      animation: screenGlitch 0.15s infinite alternate;
+    }
     }
 
     .signal {
       background: rgba(0, 0, 0, 0.8);
-      border: 2px solid #ff99cc;
+      border: 2px solid #00ffcc;
       padding: 2rem;
       max-width: 700px;
       border-radius: 10px;
@@ -35,20 +44,27 @@
 
     .coords {
       font-size: 0.9rem;
-      color: #ff66aa;
+      color: #00ccaa;
       margin-top: 1.5rem;
       font-style: italic;
     }
       .flicker {
       margin-top: 2rem;
       font-size: 0.9rem;
-      color: #ffccff;
+      color: #00ffee;
       opacity: 0.6;
       animation: flicker 2.5s infinite;
     }
 
+    @keyframes screenGlitch {
+      from { filter: brightness(1); }
+      to { filter: brightness(0.95); }
+    }
+
     @keyframes flicker {
       0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
       50% { opacity: 1; }
     }
   </style>
@@ -78,7 +94,12 @@
     }, 5000);
 
     setTimeout(() => {
-      window.location.href = './final-confrontation.html';
+      document.body.style.transition = 'background 1s, filter 1s';
+      document.body.style.filter = 'brightness(0)';
+      document.body.style.backgroundColor = '#000';
+      setTimeout(() => {
+        window.location.href = './final-confrontation.html';
+      }, 1000);
     }, 11000);
   </script>
 </body>
