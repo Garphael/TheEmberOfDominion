@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentinel Terminal — Final Confrontation</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background-color: #000;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 2rem;
+      overflow: hidden;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        #000 0px,
+        #000 1px,
+        #0a0a0a 2px,
+        #000 3px
+      );
+    }
+
+    .terminal {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 2rem;
+      border: 2px solid #00ffcc;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 900px;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+      overflow-y: auto;
+      max-height: 90vh;
+    }
+
+    .line {
+      margin: 0.5rem 0;
+      white-space: pre-wrap;
+    }
+
+    .vel {
+      color: #ff3399;
+    }
+
+    .sentinel {
+      color: #00ccff;
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal" id="terminal"></div>
+
+  <audio autoplay loop hidden>
+    <source src="https://cdn.pixabay.com/download/audio/2023/05/15/audio_13e22e6b69.mp3?filename=dark-space-rumble-145002.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const terminal = document.getElementById('terminal');
+    const lines = [
+      '[LATTICE INTERFACE ENGAGED]',
+      '[TRACE COMPLETE] ... Signal triangulated.',
+      'Vel\'Rae > "One flame to another... shall we burn or become the sun?"',
+      'Sentinel > "You are not light. You are distortion. Containment initializing."',
+      '[LATTICE INSTABILITY DETECTED...]',
+      '[SIGNAL SPIKE REGISTERED — ALIGNMENT COLLISION]',
+      '[PROTOCOL SHIFT: UNIT OVERRIDE]',
+      '[RESOLUTION IMMINENT...]'
+    ];
+
+    let index = 0;
+
+    function typeLine(text, className = '') {
+      const lineEl = document.createElement('div');
+      lineEl.className = 'line ' + className;
+      terminal.appendChild(lineEl);
+
+      let i = 0;
+      const interval = setInterval(() => {
+        lineEl.textContent += text.charAt(i);
+        i++;
+        if (i >= text.length) {
+          clearInterval(interval);
+          index++;
+          if (index < lines.length) {
+            setTimeout(() => writeNextLine(), 600);
+          } else {
+            setTimeout(() => resolveRedirect(), 1500);
+          }
+          terminal.scrollTop = terminal.scrollHeight;
+        }
+      }, 28);
+    }
+
+    function writeNextLine() {
+      const line = lines[index];
+      if (line.startsWith('Vel')) {
+        typeLine(line, 'vel');
+      } else if (line.startsWith('Sentinel')) {
+        typeLine(line, 'sentinel');
+      } else {
+        typeLine(line);
+      }
+    }
+
+    function resolveRedirect() {
+      const warning = document.createElement('div');
+      warning.className = 'line';
+      warning.style.color = '#ff4444';
+      warning.textContent = '[WARNING: SYSTEM COHERENCE DEGRADED — UNSTABLE TRANSFER IMMINENT]';
+      terminal.appendChild(warning);
+      terminal.scrollTop = terminal.scrollHeight;
+      const final = document.createElement('div');
+      final.className = 'line';
+      final.textContent = '[RE-ALIGNMENT COMPLETE — SHIFTING TO NEW PROTOCOL]';
+      terminal.appendChild(final);
+      terminal.scrollTop = terminal.scrollHeight;
+      setTimeout(() => {
+        let count = 0;
+        const glitchInterval = setInterval(() => {
+          document.body.style.transform = `scale(${1 + Math.random() * 0.05}) rotate(${(Math.random() - 0.5) * 2}deg)`;
+          document.body.style.filter = `invert(${Math.random()}) contrast(${1 + Math.random() * 4})`;
+          document.body.style.backgroundColor = count % 2 === 0 ? '#111' : '#000';
+          count++;
+          if (count > 10) {
+            clearInterval(glitchInterval);
+            document.body.style.transition = 'all 0.4s ease';
+            document.body.style.transform = 'none';
+            document.body.style.filter = 'brightness(0)';
+            document.body.style.backgroundColor = '#000';
+            setTimeout(() => {
+              window.location.href = './sentinel-decision.html';
+            }, 600);
+          }
+        }, 100);
+      }, 2500);
+    }
+
+    terminal.innerHTML = '';
+    writeNextLine();
+  </script>
+</body>
+</html>
