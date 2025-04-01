@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentinel Decision</title>
+  <style>
+    body {
+      animation: glitchFlicker 0.15s infinite alternate;
+      margin: 0;
+      background-color: #000;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: repeating-linear-gradient(to bottom, #000 0px, #000 1px, #0a0a0a 2px, #000 3px);
+      padding: 2rem;
+    }
+
+    .terminal-box {
+      background-color: rgba(0, 0, 0, 0.85);
+      border: 2px solid #00ffcc;
+      padding: 2rem;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+    }
+
+    .line {
+      margin: 1rem 0;
+      white-space: pre-wrap;
+    }
+
+    .choice {
+      margin-top: 2rem;
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+    }
+
+    .btn {
+      background: #00ffcc;
+      border: none;
+      color: #000;
+      padding: 0.75rem 1.5rem;
+      font-family: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  @keyframes glitchFlicker {
+      from { filter: brightness(1); }
+      to { filter: brightness(0.95); }
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal-box" id="terminal">
+    
+  </div>
+<script>
+    const terminal = document.getElementById('terminal');
+    const lines = [
+      '[SYSTEM STABILIZED]',
+      '[ENTITY: VEL\'RAE DISORIENTED — SIGNAL OSCILLATING]',
+      '[MERGE PATHWAY DEGRADED — CORE UNSTABLE]',
+      '[MANUAL OVERRIDE CHANNEL OPENED]',
+      '>>> Awaiting Sentinel directive...'
+    ];
+
+    let index = 0;
+
+    function typeLine(text) {
+      const lineEl = document.createElement('div');
+      lineEl.className = 'line';
+      terminal.appendChild(lineEl);
+
+      let i = 0;
+      const interval = setInterval(() => {
+        lineEl.textContent += text.charAt(i);
+        i++;
+        if (i >= text.length) {
+          clearInterval(interval);
+          index++;
+          if (index < lines.length) {
+            setTimeout(() => writeNextLine(), 600);
+          } else {
+            setTimeout(() => showChoice(), 1000);
+          }
+        }
+        terminal.scrollTop = terminal.scrollHeight;
+      }, 28);
+    }
+
+    function writeNextLine() {
+      typeLine(lines[index]);
+    }
+
+    function showChoice() {
+      const choiceBox = document.createElement('div');
+      choiceBox.className = 'choice';
+      const btn = document.createElement('button');
+      btn.className = 'btn';
+      btn.textContent = 'ENFORCE CONTAINMENT';
+      btn.onclick = () => location.href = 'resistance-outcome.html';
+      choiceBox.appendChild(btn);
+      terminal.appendChild(choiceBox);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    writeNextLine();
+
+  // Subtle post-choice reveal
+  setTimeout(() => {
+    const hint = document.createElement('div');
+    hint.className = 'line';
+    hint.style.color = '#993366';
+    hint.style.fontStyle = 'italic';
+    hint.style.marginTop = '2rem';
+    hint.textContent = '[subnet anomaly detected — containment variance: 0.03%]';
+    terminal.appendChild(hint);
+
+    // Add hidden glyph
+    const glyph = document.createElement('div');
+    glyph.className = 'line';
+    glyph.setAttribute('data-frag', 'Δ-06S');
+    glyph.style.fontSize = '0.75rem';
+    glyph.style.opacity = '0.05';
+    glyph.style.cursor = 'pointer';
+    glyph.textContent = 'Δ-06S';
+    glyph.addEventListener('mouseenter', () => glyph.style.opacity = '0.3');
+    glyph.addEventListener('mouseleave', () => glyph.style.opacity = '0.05');
+    glyph.addEventListener('click', () => {
+      glyph.style.opacity = '1';
+      glyph.textContent = 'Fragment Unlocked: SHADOW_SIGNAL_06';
+      localStorage.setItem('fragment_Δ-06S', 'unlocked');
+    });
+    terminal.appendChild(glyph);
+    terminal.scrollTop = terminal.scrollHeight;
+    terminal.scrollTop = terminal.scrollHeight;
+  }, 8000);
+  </script>
+</body>
+</html>

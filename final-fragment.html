@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Final Containment</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 2rem;
+      background-image: repeating-linear-gradient(to bottom, #000 0px, #000 1px, #0a0a0a 2px, #000 3px);
+    }
+
+    .terminal-box {
+      border: 2px solid #00ffcc;
+      background-color: rgba(0, 0, 0, 0.85);
+      padding: 2rem;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+      overflow-y: auto;
+      max-height: 90vh;
+    }
+
+    .line {
+      margin: 1rem 0;
+      white-space: pre-wrap;
+    }
+
+    .whisper {
+      color: #993366;
+      font-style: italic;
+      opacity: 0.07;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal-box" id="terminal"></div>
+
+  <script>
+    const terminal = document.getElementById('terminal');
+    const lines = [
+      '[FINAL CONTAINMENT COMPLETE]',
+      '[SIGNAL NULLIFIED — CORE STABILIZED]',
+      '[SENTINEL STATUS: SUCCESS]',
+      '[SYSTEM RETURNING TO SILENCE]'
+    ];
+
+    let index = 0;
+
+    function typeLine(text) {
+      const lineEl = document.createElement('div');
+      lineEl.className = 'line';
+      terminal.appendChild(lineEl);
+
+      let i = 0;
+      const interval = setInterval(() => {
+        lineEl.textContent += text.charAt(i);
+        i++;
+        if (i >= text.length) {
+          clearInterval(interval);
+          index++;
+          if (index < lines.length) {
+            setTimeout(() => writeNextLine(), 600);
+          } else {
+            setTimeout(() => showWhisper(), 2000);
+          }
+        }
+        terminal.scrollTop = terminal.scrollHeight;
+      }, 28);
+    }
+
+    function writeNextLine() {
+      typeLine(lines[index]);
+    }
+
+    function showWhisper() {
+      const whisper = document.createElement('div');
+      whisper.className = 'line whisper';
+      whisper.textContent = 'echo( ...whispers beyond the veil... )';
+      terminal.appendChild(whisper);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    writeNextLine();
+
+  // Check for fragment and show secret ending if found
+  if (localStorage.getItem('fragment_Δ-06S') === 'unlocked') {
+    setTimeout(() => {
+      const secret = document.createElement('div');
+      secret.className = 'line';
+      secret.style.color = '#ff66cc';
+      secret.style.marginTop = '2rem';
+      secret.textContent = '[ghost echo... packet deviation :: x93:arc~∆link unstable]';
+      secret.style.opacity = '0.05';
+      secret.style.fontStyle = 'italic';
+      secret.addEventListener('mouseenter', () => secret.style.opacity = '0.3');
+      secret.addEventListener('mouseleave', () => secret.style.opacity = '0.05');
+      terminal.appendChild(secret);
+
+      // On click, show final message from Vel'Rae
+      secret.addEventListener('click', () => {
+        const velMsg = document.createElement('div');
+        velMsg.className = 'line';
+        velMsg.style.color = '#cc66aa';
+        velMsg.style.fontStyle = 'italic';
+        velMsg.style.marginTop = '1.5rem';
+        velMsg.textContent = 'Vel\'Rae > \"They silenced me... but a whisper travels farther in the dark.\"';
+        terminal.appendChild(velMsg);
+        terminal.scrollTop = terminal.scrollHeight;
+      });
+      terminal.scrollTop = terminal.scrollHeight;
+    }, 6000);
+  }
+  </script>
+</body>
+</html>
