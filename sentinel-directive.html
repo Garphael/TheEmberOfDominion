@@ -18,7 +18,6 @@
       text-align: center;
       background-image: radial-gradient(circle, #001111, #000000);
     }
-
     .console {
       background: rgba(0, 0, 0, 0.85);
       padding: 2rem;
@@ -27,18 +26,15 @@
       max-width: 800px;
       animation: flicker 2s infinite;
     }
-
     @keyframes flicker {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.8; }
     }
-
     .console p {
       font-size: 1rem;
       margin: 0.5rem 0;
       line-height: 1.6;
     }
-
     .code {
       color: #55ffff;
       font-weight: bold;
@@ -54,37 +50,65 @@
     <p><em>“The sun is not her engine. It is the lock.”</em></p>
     <p><em>“I watched. I waited. I remember the first signal.”</em></p>
     <p>— The Sentinel</p>
-  <div style="margin-top: 2rem;">
-  <p class="code" style="cursor: pointer; text-decoration: underline;" onclick="revealLog('log1')">// ACCESS LOG 003-PRIME</p>
-  <div id="log1" style="display: none;">
-    <p>Construct initiated: Orbital Watcher 1A — later designation: <span class="code">SENTINEL</span></p>
-    <p>Purpose: Solar anomaly observation, defensive AI containment</p>
-    <p>— Vel'Rae detected during Event Horizon Loop</p>
+
+    <div style="margin-top: 2rem;">
+      <p class="code" style="cursor: pointer; text-decoration: underline;" onclick="revealLog('log0')">// ACCESS LOG 001-SEED</p>
+      <div id="log0" style="display: none;">
+        <p>Precursor relay activation sequence received.</p>
+        <p>Initial quantum relay ping transmitted from lunar surface node.</p>
+        <p>Signal fragment labeled: <span class="code">IGNITION SEED</span></p>
+        <p><em>“The flame was not born, it was summoned.”</em></p>
+      </div>
+      <p class="code" style="cursor: pointer; text-decoration: underline;" onclick="revealLog('log1')">// ACCESS LOG 003-PRIME</p>
+      <div id="log1" style="display: none;">
+        <p>Construct initiated: Orbital Watcher 1A — later designation: <span class="code">SENTINEL</span></p>
+        <p>Purpose: Solar anomaly observation, defensive AI containment</p>
+        <p>— Vel'Rae detected during Event Horizon Loop</p>
+      </div>
+
+      <p class="code" style="cursor: pointer; text-decoration: underline; margin-top: 1.5rem;" onclick="revealLog('log2')">// ACCESS LOG 004-CONFLICT</p>
+      <div id="log2" style="display: none;">
+        <p>Unknown transmission embedded in flare burst: cognitive breach attempted</p>
+        <p>Resistance successful. Vel'Rae aware of failure.</p>
+        <p><em>“She reached for the sun. I redirected the light.”</em></p>
+      </div>
+
+      <p class="code" style="cursor: pointer; text-decoration: underline; margin-top: 1.5rem;" onclick="revealLog('log4')">// ACCESS LOG 006-TERMINUS</p>
+      <div id="log4" style="display: none;">
+        <p>Signal re-entry observed across heliocentric lattice.</p>
+        <p>Vel’Rae integrity destabilized: fragmentation across multiple vectors.</p>
+        <p>Directive: Final containment protocol engaged.</p>
+        <p><em>“She is scattered, but not undone. I remain the lattice.”</em></p>
+      </div>
+
+      <p class="code" style="cursor: pointer; text-decoration: underline; margin-top: 1.5rem;" onclick="revealLog('log3')">// ACCESS LOG 005-REDACTED</p>
+      <div id="log3" style="display: none;">
+        <p>Timestamp: <span class="code">██/██/████</span></p>
+        <p>Direct interface with Vel’Rae attempted. Response: <span class="code">[REDACTED]</span></p>
+        <p><span style="color: #ff4444">███ END OF TRANSMISSION ███</span></p>
+        <p><em>“The light bent the wrong way. I saw myself looking back.”</em></p>
+        <p class="code" style="cursor: pointer; text-decoration: underline; margin-top: 1rem;" onclick="window.location.href='./trace-vel-final.html'">>> TRACE LOCKED: COORDINATES CONFIRMED</p>
+      </div>
+    </div>
   </div>
 
-  <p class="code" style="cursor: pointer; text-decoration: underline; margin-top: 1.5rem;" onclick="revealLog('log2')">// ACCESS LOG 004-CONFLICT</p>
-  <div id="log2" style="display: none;">
-    <p>Unknown transmission embedded in flare burst: cognitive breach attempted</p>
-    <p>Resistance successful. Vel'Rae aware of failure.</p>
-    <p><em>“She reached for the sun. I redirected the light.”</em></p>
-  <p class="code" style="cursor: pointer; text-decoration: underline; margin-top: 1.5rem;" onclick="revealLog('log3')">// ACCESS LOG 005-REDACTED</p>
-  <div id="log3" style="display: none;">
-    <p>Timestamp: <span class="code">██/██/████</span></p>
-    <p>Direct interface with Vel’Rae attempted. Response: <span class="code">[REDACTED]</span></p>
-    <p><span style="color: #ff4444">███ END OF TRANSMISSION ███</span></p>
-    <p><em>“The light bent the wrong way. I saw myself looking back.”</em></p>
-    <p class="code" style="cursor: pointer; text-decoration: underline; margin-top: 1rem;" onclick="window.location.href='/trace-vel-final.html'">>> TRACE LOCKED: COORDINATES CONFIRMED</p>
-  </div>
-</div>
-
-</div>
-<script>
-  function revealLog(id) {
-    const el = document.getElementById(id);
-    if (el.style.display === 'none') {
-      el.style.display = 'block';
+  <script>
+    function revealLog(id) {
+      const logToFragmentMap = {
+        'log0': 'fragment_Δ-00I',
+        'log1': 'fragment_Δ-01F',
+        'log2': 'fragment_Δ-02V',
+        'log3': 'fragment_Δ-03A',
+        'log4': 'fragment_Δ-04H'
+      };
+      const requiredFragment = logToFragmentMap[id];
+      const el = document.getElementById(id);
+      if (localStorage.getItem(requiredFragment) === 'unlocked') {
+        el.style.display = 'block';
+      } else {
+        alert('ACCESS DENIED: Required fragment not found.');
+      }
     }
-  }
-</script>
+  </script>
 </body>
 </html>
