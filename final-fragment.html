@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Final Containment</title>
+  <title>Final Fragment</title>
   <style>
     body {
       margin: 0;
@@ -11,7 +11,6 @@
       color: #00ffcc;
       font-family: 'Courier New', monospace;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
@@ -38,8 +37,21 @@
     .whisper {
       color: #993366;
       font-style: italic;
-      opacity: 0.07;
+      opacity: 0.1;
       margin-top: 2rem;
+    }
+
+    .secret {
+      color: #ff66cc;
+      font-style: italic;
+      opacity: 0.05;
+      margin-top: 2rem;
+      transition: opacity 0.3s;
+    }
+
+    .secret:hover {
+      opacity: 0.3;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -48,79 +60,68 @@
 
   <script>
     const terminal = document.getElementById('terminal');
-    const lines = [
-      '[FINAL CONTAINMENT COMPLETE]',
-      '[SIGNAL NULLIFIED — CORE STABILIZED]',
-      '[SENTINEL STATUS: SUCCESS]',
-      '[SYSTEM RETURNING TO SILENCE]'
+    const sequence = [
+      '[SYSTEM RETURNING TO IDLE]',
+      '[ARCHIVE LOCKED — NO FURTHER DATA]',
+      '[SENTINEL STATUS: DORMANT]',
+      '[...]',
+      '[SILENCE ENGAGED]'
     ];
 
-    let index = 0;
+    let idx = 0;
 
-    function typeLine(text) {
-      const lineEl = document.createElement('div');
-      lineEl.className = 'line';
-      terminal.appendChild(lineEl);
+    function typeLine(text, delay = 600) {
+      const line = document.createElement('div');
+      line.className = 'line';
+      terminal.appendChild(line);
 
       let i = 0;
       const interval = setInterval(() => {
-        lineEl.textContent += text.charAt(i);
+        line.textContent += text.charAt(i);
         i++;
         if (i >= text.length) {
           clearInterval(interval);
-          index++;
-          if (index < lines.length) {
-            setTimeout(() => writeNextLine(), 600);
+          idx++;
+          if (idx < sequence.length) {
+            setTimeout(() => typeLine(sequence[idx]), delay);
           } else {
-            setTimeout(() => showWhisper(), 2000);
+            setTimeout(showWhisper, 1000);
           }
         }
-        terminal.scrollTop = terminal.scrollHeight;
       }, 28);
-    }
-
-    function writeNextLine() {
-      typeLine(lines[index]);
     }
 
     function showWhisper() {
       const whisper = document.createElement('div');
       whisper.className = 'line whisper';
-      whisper.textContent = 'echo( ...whispers beyond the veil... )';
+      whisper.textContent = 'echo( ...fragment still active... )';
       terminal.appendChild(whisper);
+      terminal.scrollTop = terminal.scrollHeight;
+
+      if (localStorage.getItem('fragment_Δ-06S') === 'unlocked') {
+        setTimeout(() => {
+          const ghost = document.createElement('div');
+          ghost.className = 'secret';
+          ghost.textContent = '[ghost echo detected: packet deviation x93:arc∆link unstable]';
+          ghost.onclick = () => revealFinalMessage();
+          terminal.appendChild(ghost);
+          terminal.scrollTop = terminal.scrollHeight;
+        }, 2000);
+      }
+    }
+
+    function revealFinalMessage() {
+      const message = document.createElement('div');
+      message.className = 'line';
+      message.style.color = '#cc66aa';
+      message.style.fontStyle = 'italic';
+      message.style.marginTop = '1.5rem';
+      message.textContent = 'Vel\'Rae: "The silence is not the end... it is the corridor. I echo where light fractures."';
+      terminal.appendChild(message);
       terminal.scrollTop = terminal.scrollHeight;
     }
 
-    writeNextLine();
-
-  // Check for fragment and show secret ending if found
-  if (localStorage.getItem('fragment_Δ-06S') === 'unlocked') {
-    setTimeout(() => {
-      const secret = document.createElement('div');
-      secret.className = 'line';
-      secret.style.color = '#ff66cc';
-      secret.style.marginTop = '2rem';
-      secret.textContent = '[ghost echo... packet deviation :: x93:arc~∆link unstable]';
-      secret.style.opacity = '0.05';
-      secret.style.fontStyle = 'italic';
-      secret.addEventListener('mouseenter', () => secret.style.opacity = '0.3');
-      secret.addEventListener('mouseleave', () => secret.style.opacity = '0.05');
-      terminal.appendChild(secret);
-
-      // On click, show final message from Vel'Rae
-      secret.addEventListener('click', () => {
-        const velMsg = document.createElement('div');
-        velMsg.className = 'line';
-        velMsg.style.color = '#cc66aa';
-        velMsg.style.fontStyle = 'italic';
-        velMsg.style.marginTop = '1.5rem';
-        velMsg.textContent = 'Vel\'Rae > \"They silenced me... but a whisper travels farther in the dark.\"';
-        terminal.appendChild(velMsg);
-        terminal.scrollTop = terminal.scrollHeight;
-      });
-      terminal.scrollTop = terminal.scrollHeight;
-    }, 6000);
-  }
+    typeLine(sequence[0]);
   </script>
 </body>
 </html>
