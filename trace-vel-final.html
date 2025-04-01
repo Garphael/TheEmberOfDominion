@@ -39,6 +39,18 @@
       margin-top: 1.5rem;
       font-style: italic;
     }
+      .flicker {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #ffccff;
+      opacity: 0.6;
+      animation: flicker 2.5s infinite;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -48,6 +60,26 @@
     <p>Signal stabilized through refracted solar field.</p>
     <p class="coords">Coordinates: ϟ 08.313 AU — Temporal Drift: 4.16s</p>
     <p><em>"She is not where the light ends... but where it curves back."</em></p>
+      <p class="flicker">&lt;&lt; TRANSMISSION STALLED — AWAITING UNKNOWN INPUT &gt;&gt;</p>
   </div>
+  <audio autoplay loop hidden>
+    <source src="https://cdn.pixabay.com/download/audio/2023/03/23/audio_3d7d0ec1d4.mp3?filename=deep-space-drone-144318.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <script>
+    setTimeout(() => {
+      const signalBox = document.querySelector('.signal');
+      const flickerLine = document.querySelector('.flicker');
+      if (flickerLine) flickerLine.remove();
+      signalBox.innerHTML += `
+        <p style="margin-top: 1.5rem; color: #ffcccc;">&gt;&gt; Lattice resonance stabilizing...</p>
+        <p style="margin-top: 0.5rem; color: #ffffff;">&gt;&gt; Uplink established. Executing override...</p>
+      `;
+    }, 5000);
+
+    setTimeout(() => {
+      window.location.href = './final-confrontation.html';
+    }, 11000);
+  </script>
 </body>
 </html>
