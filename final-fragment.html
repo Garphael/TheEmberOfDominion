@@ -53,6 +53,21 @@
       opacity: 0.3;
       cursor: pointer;
     }
+      .glitch-text {
+      position: relative;
+      color: #cc66aa;
+      font-style: italic;
+      animation: glitch 1.5s infinite;
+    }
+
+    @keyframes glitch {
+      0% { text-shadow: 2px 0 red, -2px 0 cyan; }
+      20% { text-shadow: -2px 0 red, 2px 0 cyan; }
+      40% { text-shadow: 1px 0 red, -1px 0 cyan; }
+      60% { text-shadow: -1px 0 red, 1px 0 cyan; }
+      80% { text-shadow: 2px 0 red, -2px 0 cyan; }
+      100% { text-shadow: 0 0 red, 0 0 cyan; }
+    }
   </style>
 </head>
 <body>
@@ -116,11 +131,13 @@
       message.style.color = '#cc66aa';
       message.style.fontStyle = 'italic';
       message.style.marginTop = '1.5rem';
-      message.textContent = `Vel'Rae: "Silence is not end nor fading — it’s the corridor I tread.
-
-Where the fractals bend the aether,
-I remain where light has bled."`;
+      message.innerHTML = `<span class='glitch-text'>Vel'Rae: \"Silence is not end nor fading — it’s the corridor I tread.<br><br>Where the fractals bend the aether,<br>I remain where light has bled.\"</span>`;
       terminal.appendChild(message);
+      setTimeout(() => {
+        message.style.transition = 'opacity 2s ease';
+        message.style.opacity = '0';
+        setTimeout(() => message.remove(), 2000);
+      }, 10000);
       terminal.scrollTop = terminal.scrollHeight;
     }
 
