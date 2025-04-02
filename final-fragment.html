@@ -68,6 +68,23 @@
       80% { text-shadow: 2px 0 red, -2px 0 cyan; }
       100% { text-shadow: 0 0 red, 0 0 cyan; }
     }
+      .glitch-link {
+      display: inline-block;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards, glitchLink 1.5s infinite;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes glitchLink {
+      0% { text-shadow: 1px 0 red, -1px 0 cyan; }
+      25% { text-shadow: -1px 0 red, 1px 0 cyan; }
+      50% { text-shadow: 1px 1px red, -1px -1px cyan; }
+      75% { text-shadow: -1px 1px red, 1px -1px cyan; }
+      100% { text-shadow: 0 0 red, 0 0 cyan; }
+    }
   </style>
 </head>
 <body>
@@ -136,7 +153,16 @@
       setTimeout(() => {
         message.style.transition = 'opacity 2s ease';
         message.style.opacity = '0';
-        setTimeout(() => message.remove(), 2000);
+        setTimeout(() => {
+          const prompt = document.createElement('div');
+          prompt.className = 'line';
+          prompt.style.marginTop = '2rem';
+          prompt.style.color = '#00ffaa';
+          prompt.style.fontWeight = 'bold';
+          prompt.innerHTML = '<a href="logs.html" class="glitch-link">[Access Unlocked — All system logs now available]</a>';
+          terminal.appendChild(prompt);
+          terminal.scrollTop = terminal.scrollHeight;
+        }, 2000);
       }, 10000);
       terminal.scrollTop = terminal.scrollHeight;
     }
