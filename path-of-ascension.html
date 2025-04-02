@@ -101,6 +101,7 @@
   </style>
 </head>
 <body>
+  <div id="log-Δ-07X" style="position: fixed; top: 10px; left: 10px; color: #070707; font-size: 0.7rem; cursor: pointer; opacity: 0.1; transition: color 0.3s, opacity 0.3s;">Δ-07X</div>
   <div class="stars"></div>
 
 <body>
@@ -193,6 +194,26 @@
         result.textContent = 'Incorrect. The path eludes you.';
       }
     }
-  </script>
+  
+
+  const fragment = document.getElementById('log-Δ-07X');
+  fragment.addEventListener('click', () => {
+    localStorage.setItem('fragment-Δ-07X', 'unlocked');
+    fragment.textContent = 'Fragment Unlocked: SOLARIS';
+    fragment.style.pointerEvents = 'none';
+    fragment.style.opacity = '1';
+  });
+
+  fragment.addEventListener('mouseover', () => {
+    fragment.style.color = '#ffcc66';
+    fragment.style.opacity = '1';
+  });
+
+  fragment.addEventListener('mouseout', () => {
+    if (localStorage.getItem('fragment-Δ-07X') !== 'unlocked') {
+      fragment.style.color = '#070707';
+      fragment.style.opacity = '0.1';
+    }
+  });</script>
 </body>
 </html>
