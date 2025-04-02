@@ -92,7 +92,7 @@
       position: absolute;
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.0.2/tsparticles.bundle.min.js"></script>
+  <script src="assets/js/tsparticles.bundle.min.js"></script>
 </head>
 <body>
   <div id="tsparticles"></div>
@@ -112,22 +112,43 @@
     <a class="hidden-link" id="hiddenChamberLink" href="hidden-chamber.html" style="display: none;">Enter the Hidden Chamber</a>
   </section>
   <footer>© 2025 The Ember of Dominion • Solar Lattice Node 3C</footer>
-
-  <span class="data-frag" data-frag="Δ-01F" title="Fragment detected" style="bottom: 5px; right: 5px; font-size: 0.7rem; color: rgba(255, 255, 102, 0.08); cursor: pointer;">Δ-01F</span>
-  <span class="data-frag" data-frag="Δ-02V" title="Fragment detected" style="bottom: 5px; left: 5px; font-size: 0.7rem; color: rgba(102, 255, 255, 0.08); cursor: pointer;">Δ-02V</span>
-
+  <span class="data-frag" data-frag="frag01" title="Fragment detected" style="bottom: 5px; right: 5px; font-size: 0.7rem; color: rgba(255, 255, 102, 0.08); cursor: pointer;">Δ-01F</span>
+  <span class="data-frag" data-frag="frag02" title="Fragment detected" style="bottom: 5px; left: 5px; font-size: 0.7rem; color: rgba(102, 255, 255, 0.08); cursor: pointer;">Δ-02V</span>
   <script>
-    tsParticles.load("tsparticles", {
-      fullScreen: { enable: false },
-      background: { color: "#000" },
-      particles: {
-        number: { value: 75 },
-        color: { value: "#f95" },
-        shape: { type: "circle" },
-        opacity: { value: 0.2 },
-        size: { value: 2 },
-        move: { enable: true, speed: 0.3 }
+    document.addEventListener("DOMContentLoaded", () => {
+      tsParticles.load("tsparticles", {
+        fullScreen: { enable: false },
+        background: { color: "#000" },
+        particles: {
+          number: { value: 75 },
+          color: { value: "#f95" },
+          shape: { type: "circle" },
+          opacity: { value: 0.2 },
+          size: { value: 2 },
+          move: { enable: true, speed: 0.3 }
+        }
+      });
+
+      function handleFragment(id, label, color) {
+        const frag = document.querySelector(`[data-frag="${id}"]`);
+        if (!frag) return;
+
+        if (localStorage.getItem(`fragment_${id}`) === 'unlocked') {
+          frag.textContent = `Fragment Unlocked: ${label}`;
+          frag.style.color = color;
+        }
+
+        frag.addEventListener('mouseenter', () => frag.style.color = color.replace('1)', '0.5)'));
+        frag.addEventListener('mouseleave', () => frag.style.color = color.replace('1)', '0.08)'));
+        frag.addEventListener('click', () => {
+          frag.textContent = `Fragment Unlocked: ${label}`;
+          frag.style.color = color;
+          localStorage.setItem(`fragment_${id}`, 'unlocked');
+        });
       }
+
+      handleFragment('frag01', 'EMBER_CROWN_VECTOR', 'rgba(255, 255, 102, 1)');
+      handleFragment('frag02', 'SOLAR_REFRACTION_STRING', 'rgba(102, 255, 255, 1)');
     });
 
     function unlockSecrets() {
@@ -140,38 +161,6 @@
         alert("The flame does not know your name.");
       }
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const frag01 = document.querySelector('[data-frag="Δ-01F"]');
-      if (frag01) {
-        if (localStorage.getItem('fragment_Δ-01F') === 'unlocked') {
-          frag01.textContent = 'Fragment Unlocked: EMBER_CROWN_VECTOR';
-          frag01.style.color = '#ffff66';
-        }
-        frag01.addEventListener('mouseenter', () => frag01.style.color = 'rgba(255, 255, 102, 0.5)');
-        frag01.addEventListener('mouseleave', () => frag01.style.color = 'rgba(255, 255, 102, 0.08)');
-        frag01.addEventListener('click', () => {
-          frag01.textContent = 'Fragment Unlocked: EMBER_CROWN_VECTOR';
-          frag01.style.color = '#ffff66';
-          localStorage.setItem('fragment_Δ-01F', 'unlocked');
-        });
-      }
-
-      const frag02 = document.querySelector('[data-frag="Δ-02V"]');
-      if (frag02) {
-        if (localStorage.getItem('fragment_Δ-02V') === 'unlocked') {
-          frag02.textContent = 'Fragment Unlocked: SOLAR_REFRACTION_STRING';
-          frag02.style.color = '#66ffff';
-        }
-        frag02.addEventListener('mouseenter', () => frag02.style.color = 'rgba(102, 255, 255, 0.5)');
-        frag02.addEventListener('mouseleave', () => frag02.style.color = 'rgba(102, 255, 255, 0.08)');
-        frag02.addEventListener('click', () => {
-          frag02.textContent = 'Fragment Unlocked: SOLAR_REFRACTION_STRING';
-          frag02.style.color = '#66ffff';
-          localStorage.setItem('fragment_Δ-02V', 'unlocked');
-        });
-      }
-    });
   </script>
 </body>
 </html>
