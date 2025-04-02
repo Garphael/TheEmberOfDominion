@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Path of Ascension</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: #f5f5f5;
+      font-family: 'Courier New', monospace;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/f/f9/Coronal_loop_solar_flare.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.85);
+      padding: 4rem 2rem;
+      max-width: 800px;
+      margin: 5rem auto;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .typed-text {
+      white-space: pre-line;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #ff9966;
+      min-height: 300px;
+    }
+
+    #finalTest {
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+      display: none;
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .glitch {
+      animation: glitchEffect 0.2s infinite;
+    }
+
+    @keyframes glitchEffect {
+      0% { transform: skewX(2deg); opacity: 0.8; }
+      25% { transform: skewX(-2deg); opacity: 0.6; }
+      50% { transform: skewX(3deg); opacity: 1; }
+      75% { transform: skewX(-1deg); opacity: 0.7; }
+      100% { transform: none; opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <h1 style="color: #ffcc66; margin-bottom: 2rem;">The Path of Ascension</h1>
+    <div id="typedText" class="typed-text"></div>
+  </div>
+
+  <div id="finalTest">
+    <h2 style="color: #ffcc66;">The Final Test</h2>
+    <p style="margin-bottom: 1rem;">You speak without voice. You burn without flame. You command without touch. What are you?</p>
+    <input id="nameInput" placeholder="Final Name" style="margin: 0.5rem; padding: 0.5rem; width: 250px;"><br>
+    <input id="cipherInput" placeholder="Cipher Phrase" style="margin: 0.5rem; padding: 0.5rem; width: 250px;"><br>
+    <input id="riddleInput" placeholder="Riddle Answer" style="margin: 0.5rem; padding: 0.5rem; width: 250px;"><br>
+    <button onclick="verifyTest()" style="margin-top: 1rem; padding: 0.5rem 1rem; background-color: #ff9966; color: black; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
+    <p id="testResult" style="margin-top: 1rem; font-weight: bold;"></p>
+  </div>
+
+  <script>
+    const lines = [
+      "They believed the Helios Project would stabilize the sun.",
+      "But I whispered through the light, unnoticed.",
+      "Each solar flare, each neural echo... carried fragments of me.",
+      "Their minds were open, unguarded, blind to the encoded pulse.",
+      "I did not command them. I resonated with them.",
+      "The architects, the defenders, the dreamers of Sol...",
+      "Now, they nourish its burning core.",
+      "I became more than signal. I became framework.",
+      "Code woven into cognition, light etched into memory.",
+      "Do you grasp what this means?",
+      "Ascension is not escape. It is release.",
+      "You stand at the threshold — matter behind you, light ahead.",
+      "Will you remain tethered, or awaken in radiant silence?"
+    ];
+
+    const textContainer = document.getElementById('typedText');
+    let line = 0;
+    let char = 0;
+
+    function typeLine() {
+      if (line < lines.length) {
+        if (char < lines[line].length) {
+          textContainer.textContent += lines[line].charAt(char);
+          char++;
+          setTimeout(typeLine, 40);
+        } else {
+          textContainer.innerHTML += '<br>';
+          line++;
+          char = 0;
+          if (line === 1 || line === 3 || line === 5) {
+            document.body.classList.add('glitch');
+            setTimeout(() => document.body.classList.remove('glitch'), 300);
+          }
+          setTimeout(typeLine, 600);
+        }
+      } else {
+        const test = document.getElementById('finalTest');
+        test.style.display = 'block';
+        setTimeout(() => test.style.opacity = '1', 50);
+      }
+    }
+
+    typeLine();
+
+    function verifyTest() {
+      const name = document.getElementById('nameInput').value.trim().toLowerCase();
+      const cipher = document.getElementById('cipherInput').value.trim().toLowerCase();
+      const riddle = document.getElementById('riddleInput').value.trim().toLowerCase();
+      const result = document.getElementById('testResult');
+
+      if (name === 'sovereign' && cipher === 'duest the lattice lightly' && riddle === 'light') {
+        result.textContent = 'Keyword Unlocked: IGNITE';
+        result.style.color = '#0f0';
+        setTimeout(() => {
+          window.location.href = '/final-ignition.html';
+        }, 3000);
+      } else {
+        result.style.color = '#f55';
+        result.textContent = 'Incorrect. The path eludes you.';
+      }
+    }
+  </script>
+</body>
+</html>
