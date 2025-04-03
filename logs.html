@@ -112,19 +112,39 @@
   <script>
     const entries = document.querySelectorAll('.log-entry');
     const output = document.querySelector('.terminal-output');
-    entries.forEach(entry => entry.style.display = 'none');
+    entries.forEach(entry => {
+  const p = entry.querySelector('p');
+  const text = p.textContent;
+  p.textContent = '';
+  entry.style.display = 'none';
+  entry.dataset.fullText = text;
+});
 
     let index = 0;
 
     function showNextLog() {
-      if (index < entries.length) {
-        const entry = entries[index];
-        entry.style.display = 'block';
+  if (index < entries.length && !window.isTyping) {
+    const entry = entries[index];
+    entry.style.display = 'block';
+    const p = entry.querySelector('p');
+    const fullText = entry.dataset.fullText;
+    let i = 0;
+    window.isTyping = true;
+
+    function typeLog() {
+      if (i < fullText.length) {
+        p.textContent += fullText.charAt(i);
+        i++;
         output.scrollTop = output.scrollHeight;
+        setTimeout(typeLog, 20);
+      } else {
         index++;
+        window.isTyping = false;
       }
     }
-
+    typeLog();
+  }
+}
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         showNextLog();
@@ -138,7 +158,10 @@
     document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         const boot = document.getElementById('bootScreen');
-        if (boot) boot.classList.add('hidden');
+        if (boot) {
+          boot.textContent = '[Now accessing SENTINEL LOG INTERFACE...]';
+          setTimeout(() => boot.classList.add('hidden'), 2000);
+        }
         if (output && intro) output.prepend(intro);
       }, 2000);
     });
