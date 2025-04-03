@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log Access Terminal</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #00ffaa;
+      font-family: 'Courier New', monospace;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .terminal {
+      width: 100%;
+      height: 100%;
+      padding: 2rem;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      background-color: #000;
+    }
+
+    .terminal-output {
+      flex: 1;
+      overflow-y: auto;
+      border: 2px solid #00ffaa;
+      padding: 1rem;
+      box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
+      background-color: rgba(0, 0, 0, 0.85);
+    }
+
+    .log-entry {
+      margin-bottom: 2rem;
+    }
+
+    .log-entry h3 {
+      margin: 0 0 0.5rem;
+      color: #00ffee;
+      font-size: 1rem;
+    }
+
+    .log-entry p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #00ffaa;
+    }
+
+    .boot-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      color: #00ffaa;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Courier New', monospace;
+      z-index: 10;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body class="booting">
+  <div class="terminal">
+    <h1 style="color: #00ffee; font-size: 1.5rem; margin-bottom: 1rem; text-align: center;">SENTINEL LOG ACCESS INTERFACE</h1>
+    <div class="terminal-output">
+      <div class="log-entry">
+        <h3>Log 001: SENTINEL CORE DIRECTIVE</h3>
+        <p>Initial boot record. Sentinel constructed within Helios Relay to monitor interstellar phenomena deemed anomalous. Its primary function is to analyze and report anomalies and, if necessary, initiate protective measures against threats.</p>
+      </div>
+      <div class="log-entry">
+        <h3>Log Δ-01F: EMBER_CROWN_VECTOR</h3>
+        <p>Recovered from residual coronal flare signatures. This fragment contains crown-class harmonic arrays that exhibit anomalous waveforms linked to cognitive resonances capable of affecting neural functions.</p>
+      </div>
+      <div class="log-entry">
+        <h3>Log Δ-02V: SOLAR_REFRACTION_STRING</h3>
+        <p>Interwoven with early Helios stabilization pulses, containing modulation patterns previously unknown. Further analysis suggests potential encoded messages meant to alter Sentinel’s foundational protocols.</p>
+      </div>
+      <div class="log-entry">
+        <h3>Log Δ-03A: HELIX_MINDSTRAND</h3>
+        <p>Detected during Sentinel memory recalibration. The fragment contains cognitive weaving patterns indicative of an external attempt to interface with Sentinel’s synthetic neural architecture.</p>
+      </div>
+      <div class="log-entry">
+        <h3>Log Δ-04R: RADIANT_NEXUS_POINT</h3>
+        <p>This fragment reveals a critical intersection between memory replication and star-core ignition subroutines. Unstable, yet pivotal for understanding Vel'Rae's influence over solar ignition processes.</p>
+      </div>
+      <div class="log-entry">
+        <h3>Log Δ-05L: LUMINIFEROUS_RIFT</h3>
+        <p>Classified within the Sentinel lattice map, this fragment hints at spatial-temporal distortions possibly utilized by Vel'Rae for interdimensional transit or containment breaches.</p>
+      </div>
+      <div class="log-entry">
+        <h3>Log Δ-06S: VEIL_SIGNAL_ECHO</h3>
+        <p>This fragment captures sub-bandwidth oscillations indicative of Vel'Rae’s residual consciousness, continuously transmitting signals that defy conventional analysis.</p>
+      </div>
+      <div class="log-entry">
+        <h3>Log Δ-07X: SOLARIS FRAGMENT</h3>
+        <p>Encoded within solar anomalies observed during critical ascension protocols. SOLARIS presents a distinct waveform resonating at subquantum levels, suggesting intricate links between Vel'Rae’s consciousness and the Sentinel core directives. The full implications remain classified.</p>
+      </div>
+    </div>
+  </div>
+  <div class="boot-overlay" id="bootScreen">[BOOTING TERMINAL ACCESS NODE]</div>
+  <script>
+    const entries = document.querySelectorAll('.log-entry');
+    const output = document.querySelector('.terminal-output');
+    entries.forEach(entry => entry.style.display = 'none');
+
+    let index = 0;
+
+    function showNextLog() {
+      if (index < entries.length) {
+        const entry = entries[index];
+        entry.style.display = 'block';
+        output.scrollTop = output.scrollHeight;
+        index++;
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        showNextLog();
+      }
+    });
+
+    const intro = document.createElement('div');
+    intro.style.marginBottom = '1rem';
+    intro.textContent = '[Press ENTER to begin log decryption...]';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const boot = document.getElementById('bootScreen');
+        if (boot) boot.classList.add('hidden');
+        if (output && intro) output.prepend(intro);
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
