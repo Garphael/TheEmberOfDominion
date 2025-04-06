@@ -90,6 +90,8 @@
     .data-frag {
       z-index: 10;
       position: absolute;
+      font-size: 0.7rem;
+      cursor: pointer;
     }
   </style>
   <script src="assets/js/tsparticles.bundle.min.js"></script>
@@ -108,12 +110,12 @@
       <br><span style='color:#666;font-size:0.8rem'>(An ancient mirror reveals all)</span>
       <br>VELRAE REMNANT / SIGNAL VISIBLE IN FLAME
       <br>01110110 01100101 01101100 00101101 01110010 01100001 01100101
-     </div>
+    </div>
     <a class="hidden-link" id="hiddenChamberLink" href="hidden-chamber.html" style="display: none;">Enter the Hidden Chamber</a>
   </section>
   <footer>© 2025 The Ember of Dominion • Solar Lattice Node 3C</footer>
-  <span class="data-frag" data-frag="Δ-01F" title="Fragment detected" style="bottom: 5px; right: 5px; font-size: 0.7rem; color: rgba(255, 255, 102, 0.08); cursor: pointer;">Δ-01F</span>
-  <span class="data-frag" data-frag="Δ-02V" title="Fragment detected" style="bottom: 5px; left: 5px; font-size: 0.7rem; color: rgba(102, 255, 255, 0.08); cursor: pointer;">Δ-02V</span>
+  <span class="data-frag" id="frag-01F" data-id="Δ-01F" style="bottom: 5px; right: 5px; color: rgba(255, 255, 102, 0.08);">Δ-01F</span>
+  <span class="data-frag" id="frag-02V" data-id="Δ-02V" style="bottom: 5px; left: 5px; color: rgba(102, 255, 255, 0.08);">Δ-02V</span>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       tsParticles.load("tsparticles", {
@@ -129,26 +131,35 @@
         }
       });
 
-      function handleFragment(id, label, color) {
-        const frag = document.querySelector(`[data-frag="${id}"]`);
+      function initFragment(id, label, color) {
+        const frag = document.querySelector(`[data-id="${id}"]`);
         if (!frag) return;
 
-        if (localStorage.getItem(`fragment_${id}`) === 'unlocked') {
+        const key = `fragment_${id}`;
+        const unlocked = localStorage.getItem(key) === 'unlocked';
+
+        if (unlocked) {
           frag.textContent = `Fragment Unlocked: ${label}`;
           frag.style.color = color;
         }
 
-        frag.addEventListener('mouseenter', () => frag.style.color = color.replace('1)', '0.5)'));
-        frag.addEventListener('mouseleave', () => frag.style.color = color.replace('1)', '0.08)'));
+        frag.addEventListener('mouseenter', () => {
+          if (!localStorage.getItem(key)) frag.style.color = color.replace('1)', '0.5)');
+        });
+
+        frag.addEventListener('mouseleave', () => {
+          if (!localStorage.getItem(key)) frag.style.color = color.replace('1)', '0.08)');
+        });
+
         frag.addEventListener('click', () => {
           frag.textContent = `Fragment Unlocked: ${label}`;
           frag.style.color = color;
-          localStorage.setItem(`fragment_${id}`, 'unlocked');
+          localStorage.setItem(key, 'unlocked');
         });
       }
 
-      handleFragment('Δ-01F', 'EMBER_CROWN_VECTOR', 'rgba(255, 255, 102, 1)');
-      handleFragment('Δ-02V', 'SOLAR_REFRACTION_STRING', 'rgba(102, 255, 255, 1)');
+      initFragment('Δ-01F', 'EMBER_CROWN_VECTOR', 'rgba(255, 255, 102, 1)');
+      initFragment('Δ-02V', 'SOLAR_REFRACTION_STRING', 'rgba(102, 255, 255, 1)');
     });
 
     function unlockSecrets() {
