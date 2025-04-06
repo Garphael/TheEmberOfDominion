@@ -79,6 +79,12 @@
       position: relative;
       z-index: 2;
     }
+    .data-frag {
+      z-index: 10;
+      position: absolute;
+      font-size: 0.7rem;
+      cursor: pointer;
+    }
     #tsparticles {
       position: fixed;
       width: 100%;
@@ -87,14 +93,8 @@
       top: 0;
       left: 0;
     }
-    .data-frag {
-      z-index: 10;
-      position: absolute;
-      font-size: 0.7rem;
-      cursor: pointer;
-    }
   </style>
-  <script src="assets/js/tsparticles.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.0.1/tsparticles.bundle.min.js"></script>
 </head>
 <body>
   <div id="tsparticles"></div>
@@ -117,47 +117,42 @@
   <span class="data-frag" id="frag-01F" data-id="Δ-01F" style="bottom: 5px; right: 5px; color: rgba(255, 255, 102, 0.08);">Δ-01F</span>
   <span class="data-frag" id="frag-02V" data-id="Δ-02V" style="bottom: 5px; left: 5px; color: rgba(102, 255, 255, 0.08);">Δ-02V</span>
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      tsParticles.load("tsparticles", {
-        fullScreen: { enable: false },
-        background: { color: "#000" },
-        particles: {
-          number: { value: 75 },
-          color: { value: "#f95" },
-          shape: { type: "circle" },
-          opacity: { value: 0.2 },
-          size: { value: 2 },
-          move: { enable: true, speed: 0.3 }
-        }
-      });
-
-      function initFragment(id, label, color) {
-        const frag = document.querySelector(`[data-id="${id}"]`);
-        if (!frag) return;
-
-        const key = `fragment_${id}`;
-        const unlocked = localStorage.getItem(key) === 'unlocked';
-
-        if (unlocked) {
-          frag.textContent = `Fragment Unlocked: ${label}`;
-          frag.style.color = color;
-        }
-
-        frag.addEventListener('mouseenter', () => {
-          if (!localStorage.getItem(key)) frag.style.color = color.replace('1)', '0.5)');
-        });
-
-        frag.addEventListener('mouseleave', () => {
-          if (!localStorage.getItem(key)) frag.style.color = color.replace('1)', '0.08)');
-        });
-
-        frag.addEventListener('click', () => {
-          frag.textContent = `Fragment Unlocked: ${label}`;
-          frag.style.color = color;
-          localStorage.setItem(key, 'unlocked');
-        });
+    tsParticles.load("tsparticles", {
+      fullScreen: { enable: false },
+      background: { color: "#000" },
+      particles: {
+        number: { value: 75 },
+        color: { value: "#f95" },
+        shape: { type: "circle" },
+        opacity: { value: 0.2 },
+        size: { value: 2 },
+        move: { enable: true, speed: 0.3 }
       }
+    });
 
+    function initFragment(id, label, color) {
+      const frag = document.querySelector(`[data-id="${id}"]`);
+      if (!frag) return;
+      const key = `fragment_${id}`;
+      const unlocked = localStorage.getItem(key) === 'unlocked';
+      if (unlocked) {
+        frag.textContent = `Fragment Unlocked: ${label}`;
+        frag.style.color = color;
+      }
+      frag.addEventListener('mouseenter', () => {
+        if (!localStorage.getItem(key)) frag.style.color = color.replace('1)', '0.5)');
+      });
+      frag.addEventListener('mouseleave', () => {
+        if (!localStorage.getItem(key)) frag.style.color = color.replace('1)', '0.08)');
+      });
+      frag.addEventListener('click', () => {
+        frag.textContent = `Fragment Unlocked: ${label}`;
+        frag.style.color = color;
+        localStorage.setItem(key, 'unlocked');
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
       initFragment('Δ-01F', 'EMBER_CROWN_VECTOR', 'rgba(255, 255, 102, 1)');
       initFragment('Δ-02V', 'SOLAR_REFRACTION_STRING', 'rgba(102, 255, 255, 1)');
     });
