@@ -1,96 +1,189 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hidden Chamber</title>
   <style>
     body {
       margin: 0;
-      background-color: #000;
-      color: #f5f5f5;
+      background: radial-gradient(ellipse at center, #090909 0%, #000000 100%);
+      color: #fce9c8;
       font-family: 'Courier New', monospace;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      height: 100vh;
+      overflow: hidden;
     }
-    .overlay {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 2rem;
-      border-radius: 10px;
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      margin: 100px auto;
       text-align: center;
+      background: rgba(12, 12, 12, 0.85);
+      padding: 3rem;
+      border-radius: 12px;
+      box-shadow: 0 0 40px rgba(255, 204, 102, 0.1);
     }
-    .cipher {
-      margin-top: 1rem;
-      font-size: 1.2rem;
-      color: #ff6a00;
-      letter-spacing: 0.05em;
+    h1 {
+      font-size: 2rem;
+      color: #ffcc66;
+      margin-bottom: 1.5rem;
+    }
+    .cipher-block {
+      color: #ff9966;
+      font-size: 1rem;
+      margin: 2rem 0 1rem;
+      white-space: pre-wrap;
     }
     .hint {
-      margin-top: 1rem;
       font-size: 0.9rem;
       color: #ccc;
+      margin-bottom: 1.5rem;
     }
-    .data-frag {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      font-size: 0.7rem;
-      color: rgba(153, 102, 255, 0.08);
+    input[type="text"] {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ffcc66;
+      background: #111;
+      color: #ffcc66;
+      width: 70%;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background: #ffcc66;
+      color: #111;
+      border: none;
+      font-weight: bold;
       cursor: pointer;
+    }
+    .response {
+      margin-top: 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+    .fragment {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      z-index: 3;
     }
   </style>
 </head>
 <body>
-  <div class="overlay">
-    <h1>☉ The Eye Opens ☉</h1>
-    <p class="cipher">Uifsf jt pomz pof... Tfoujofm.</p>
-    <p class="hint">The flame reads forward, but the lock shifts one behind.</p>
-
-    <input type="text" id="keywordInput" placeholder="Enter keyword" style="margin-top: 1.5rem; padding: 0.5rem; font-size: 1rem; border: none; border-radius: 5px;">
-    <button onclick="checkKeyword()" style="margin-top: 1rem; padding: 0.5rem 1rem; background-color: #ff6a00; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
-    <p id="responseMessage" style="margin-top: 1rem;"></p>
- <audio autoplay loop>
-  <source src="assets/audio/Fragment-007.wav" type="audio/wav">
-</audio>
+  <canvas id="stars"></canvas>
+  <div class="container">
+    <h1>⟟ The Hidden Chamber Awaits ⟟</h1>
+    <div class="cipher-block">
+      MYV TOL VBLAY YPT P MHSS, ZV ZOHSS OTP.... ZLUALUAL
+    </div>
+    <div class="hint">The stars remember the old shift — seven forward, always.</div>
+    <input type="text" id="cipherInput" placeholder="Whisper it..." />
+    <br />
+    <button onclick="checkCipher()">Submit</button>
+    <div class="response" id="responseMessage"></div>
   </div>
 
-  <span class="data-frag" data-frag="Δ-04H" title="Fragment detected">Δ-04H</span>
+  <div class="fragment" data-frag="Δ-04H" title="Fragment Detected">Δ-04H</div>
 
   <script>
-    function checkKeyword() {
-      const input = document.getElementById("keywordInput").value.trim().toLowerCase();
+    // Cipher check
+    function checkCipher() {
+      const input = document.getElementById("cipherInput").value.trim().toLowerCase();
       const response = document.getElementById("responseMessage");
       if (input === "sentinel") {
-        response.style.color = "#0f0";
-        response.textContent = "Access granted. Preparing next sequence...";
+        response.textContent = "The veil parts...";
+        response.style.color = "#99ff99";
         setTimeout(() => {
-          window.location.href = "./next-stage.html";
+          window.location.href = "next-stage.html";
         }, 3000);
       } else {
-        response.style.color = "#f55";
-        response.textContent = "The solar core does not recognize that name.";
+        response.textContent = "The chamber does not yield.";
+        response.style.color = "#ff6666";
       }
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const frag4 = document.querySelector('[data-frag="Δ-04H"]');
+    // Fragment logic
+    document.addEventListener("DOMContentLoaded", () => {
+      const frag = document.querySelector('[data-frag="Δ-04H"]');
+      const key = "fragment_Δ-04H";
+      const unlocked = localStorage.getItem(key);
 
-      if (localStorage.getItem('fragment_Δ-04H') === 'unlocked') {
-        frag4.textContent = 'Fragment Unlocked: STELLAR_ECHO_RELAY';
-        frag4.style.color = '#9966ff';
+      if (unlocked === "unlocked") {
+        frag.textContent = "Fragment Unlocked: STELLAR_ECHO_RELAY";
+        frag.style.color = "#ffffff";
       }
 
-      frag4.addEventListener('mouseenter', () => frag4.style.color = 'rgba(153, 102, 255, 0.5)');
-      frag4.addEventListener('mouseleave', () => frag4.style.color = 'rgba(153, 102, 255, 0.08)');
-      frag4.addEventListener('click', () => {
-        frag4.textContent = 'Fragment Unlocked: STELLAR_ECHO_RELAY';
-        frag4.style.color = '#9966ff';
-        localStorage.setItem('fragment_Δ-04H', 'unlocked');
+      frag.addEventListener("mouseenter", () => {
+        if (localStorage.getItem(key) !== "unlocked") {
+          frag.style.color = "rgba(255,255,255,0.5)";
+        }
+      });
+
+      frag.addEventListener("mouseleave", () => {
+        if (localStorage.getItem(key) !== "unlocked") {
+          frag.style.color = "rgba(255,255,255,0.05)";
+        }
+      });
+
+      frag.addEventListener("click", () => {
+        frag.textContent = "Fragment Unlocked: STELLAR_ECHO_RELAY";
+        frag.style.color = "#ffffff";
+        localStorage.setItem(key, "unlocked");
       });
     });
-    </script>
+
+    // Starfield canvas background
+    const canvas = document.getElementById("stars");
+    const ctx = canvas.getContext("2d");
+    let width, height;
+    const stars = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener("resize", resize);
+    resize();
+
+    for (let i = 0; i < 250; i++) {
+      stars.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: Math.random() * 1.2 + 0.5,
+        d: Math.random() * 0.3 + 0.1
+      });
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, width, height);
+      for (let s of stars) {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,255,255,0.7)";
+        ctx.fill();
+        s.y += s.d;
+        if (s.y > height) {
+          s.y = 0;
+          s.x = Math.random() * width;
+        }
+      }
+      requestAnimationFrame(drawStars);
+    }
+
+    drawStars();
+  </script>
 </body>
 </html>
+
