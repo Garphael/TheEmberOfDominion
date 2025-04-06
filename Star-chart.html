@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Celestial Veil - Cetus Constellation</title>
+  <style>
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at center, #000010 0%, #000000 100%);
+      overflow: hidden;
+      color: #e0e0e0;
+      font-family: 'Courier New', monospace;
+    }
+    canvas {
+      display: block;
+    }
+    #overlay {
+      position: absolute;
+      top: 30px;
+      width: 100%;
+      text-align: center;
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.4);
+      pointer-events: none;
+      z-index: 10;
+    }
+    .cipher-prompt {
+      display: none;
+      position: absolute;
+      bottom: 50px;
+      width: 100%;
+      text-align: center;
+      color: #f95;
+      font-size: 1rem;
+      animation: fadeIn 3s ease-in-out forwards;
+      z-index: 10;
+    }
+    .fragment {
+      position: absolute;
+      top: 5px;
+      left: 10px;
+      font-size: 0.7rem;
+      color: rgba(255,255,102,0.06);
+      cursor: pointer;
+      z-index: 10;
+    }
+    .fragment:hover {
+      color: rgba(255,255,102,0.6);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div id="overlay" class="fade-in">✴ The sky does not remember, but she does ✴</div>
+  <div class="fragment" id="fragment">Δ-08Z</div>
+  <div class="cipher-prompt" id="cipherPrompt">Cipher Revealed: 'open the gate'</div>
+  <canvas id="starCanvas"></canvas>
+  <audio id="velWhisper" autoplay loop>
+    <source src="velrae_whisper_simulated.wav" type="audio/wav">
+  </audio>
+
+  <script>
+    const canvas = document.getElementById("starCanvas");
+    const ctx = canvas.getContext("2d");
+    let width, height;
+    let constellationFormed = false;
+
+    function resize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    }
+
+    window.addEventListener("resize", resize);
+    resize();
+
+    const stars = Array.from({length: 130}, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      radius: Math.random() * 1.5 + 0.3,
+      twinkle: Math.random() * 100
+    }));
+
+    const constellation = [
+      {x: width * 0.2, y: height * 0.4},
+      {x: width * 0.3, y: height * 0.5},
+      {x: width * 0.4, y: height * 0.45},
+      {x: width * 0.5, y: height * 0.55},
+      {x: width * 0.6, y: height * 0.5},
+      {x: width * 0.7, y: height * 0.4},
+      {x: width * 0.65, y: height * 0.3},
+      {x: width * 0.55, y: height * 0.25}
+    ];
+
+    let clickedPoints = [];
+
+    canvas.addEventListener("click", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      for (let point of constellation) {
+        if (Math.hypot(point.x - x, point.y - y) < 20 && !clickedPoints.includes(point)) {
+          clickedPoints.push(point);
+          break;
+        }
+      }
+
+      if (clickedPoints.length === constellation.length && !constellationFormed) {
+        document.getElementById("cipherPrompt").style.display = "block";
+        constellationFormed = true;
+        setTimeout(() => {
+          window.location.href = "hidden-chamber.html";
+        }, 5000); // Redirect after 5 seconds
+      }
+    });
+
+    function drawStars() {
+      ctx.clearRect(0, 0, width, height);
+      for (let star of stars) {
+        star.twinkle += 0.05;
+        const opacity = 0.5 + 0.5 * Math.sin(star.twinkle);
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+        ctx.fill();
+      }
+
+      ctx.strokeStyle = '#f95';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      clickedPoints.forEach((p, i) => {
+        if (i === 0) ctx.moveTo(p.x, p.y);
+        else ctx.lineTo(p.x, p.y);
+      });
+      ctx.stroke();
+
+      for (let point of constellation) {
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 4, 0, 2 * Math.PI);
+        ctx.fillStyle = clickedPoints.includes(point) ? '#f95' : 'rgba(255,255,255,0.3)';
+        ctx.fill();
+      }
+    }
+
+    function loop() {
+      drawStars();
+      requestAnimationFrame(loop);
+    }
+
+    loop();
+
+    // Fragment logic
+    const frag = document.getElementById("fragment");
+    const fragKey = "fragment_Δ-08Z";
+    if (localStorage.getItem(fragKey) === "unlocked") {
+      frag.textContent = "Fragment Unlocked: STAR_VEIL_SEQUENCE";
+      frag.style.color = "rgba(255,255,102,1)";
+    }
+
+    frag.addEventListener("click", () => {
+      frag.textContent = "Fragment Unlocked: STAR_VEIL_SEQUENCE";
+      frag.style.color = "rgba(255,255,102,1)";
+      localStorage.setItem(fragKey, "unlocked");
+    });
+  </script>
+</body>
+</html>
