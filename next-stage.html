@@ -1,202 +1,261 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Veil Speaks</title>
+  <title>Next Stage</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
+      height: 100%;
+      background: #000;
       font-family: 'Courier New', monospace;
-      background-color: #000;
-      color: #eaeaea;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      height: 100vh;
-      background-image: url('https://upload.wikimedia.org/wikipedia/commons/7/73/Starsinthesky.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      text-align: center;
+      overflow: hidden;
+      color: #f0f0f0;
     }
-
-    .puzzle-box {
-      background-color: rgba(0, 0, 0, 0.75);
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+    .message-box {
+      position: absolute;
+      top: 55%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(10, 10, 30, 0.9);
       padding: 2rem;
       border-radius: 10px;
-      max-width: 700px;
+      border: 1px solid #ffcc66;
+      display: none;
+      text-align: center;
+      z-index: 3;
     }
-
-    #dials {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 1rem 0;
-      max-width: 100%;
-      gap: 0.5rem;
+    .message-box h1 {
+      color: #ffcc66;
+      margin-bottom: 1rem;
     }
-
-    .glyph-dial {
-      display: inline-block;
-      width: 45px;
-      height: 45px;
-      line-height: 45px;
-      margin: 0.4rem;
-      border: 2px solid #f95;
-      border-radius: 50%;
-      font-size: 1.2rem;
-      cursor: pointer;
-      user-select: none;
-      background-color: #111;
-      color: #f95;
-      flex-shrink: 0;
-      transition: transform 0.3s ease, background-color 0.3s ease;
-    }
-
-    input[type="text"] {
+    input {
       padding: 0.5rem;
-      width: 70%;
       font-size: 1rem;
-      margin-top: 1.5rem;
-      border: none;
-      border-radius: 5px;
+      background: #111;
+      border: 1px solid #ffcc66;
+      color: #ffcc66;
+      width: 60%;
     }
-
     button {
       margin-top: 1rem;
       padding: 0.5rem 1rem;
-      font-size: 1rem;
-      background-color: #f95;
+      background: #ffcc66;
       border: none;
-      border-radius: 5px;
-      color: #fff;
+      color: #111;
       cursor: pointer;
     }
-
-    #response {
-      margin-top: 1.5rem;
-      font-size: 1rem;
+    .fragment {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-size: 0.7rem;
+      color: rgba(153, 102, 255, 0.08);
+      z-index: 3;
+      cursor: pointer;
     }
-
-    .glow-effect {
-      animation: glowFlash 1s ease-in-out 2;
-      box-shadow: 0 0 20px 5px #f95;
+    .cipher-clue {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.25rem;
+      color: #ffcc66;
+      text-align: center;
+      z-index: 2;
+      opacity: 0;
+      display: none;
+      transition: opacity 2s ease-in-out;
     }
-
-    @keyframes glowFlash {
-      0% { box-shadow: 0 0 10px 2px #f95; }
-      50% { box-shadow: 0 0 25px 10px #ffbb66; }
-      100% { box-shadow: 0 0 10px 2px #f95; }
+    .cipher-clue.show {
+      display: block;
+      opacity: 1;
     }
   </style>
 </head>
 <body>
-  <div class="puzzle-box">
-    <h1>The Veil Speaks</h1>
-    <p>Align the glyphs to unlock the truth.</p>
-    <div id="dials"></div>
-    <div id="keywordInputSection" style="display:none;">
-      <input type="text" id="finalKey" placeholder="Enter final keyword">
-      <br>
-      <button onclick="validateKey()">Submit</button>
-      <audio id="ambientAudio" autoplay loop>
-    <source src="assets/audio/ambient.wav" type="audio/wav">
-    Your browser does not support the audio element.
-  </audio>
-    </div>
-    <p id="response"></p>
-  </div>
+<canvas id="bgCanvas"></canvas>
+<canvas id="starsCanvas"></canvas>
 
-  <script>
-    const keyword = "AWAKENING";
-    const options = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-    let glyphState = [];
+<audio id="ambientAudio" autoplay loop hidden>
+  <source src="assets/audio/ambient.wav" type="audio/wav">
+</audio>
 
-    function shuffleKeyword(word) {
-      return word.split('').sort(() => 0.5 - Math.random());
-    }
+<div class="cipher-clue" id="cipherClue">
+  <p>Encoded in celestial light:</p>
+  <h2 style="margin: 0;">VJSKGX</h2>
+</div>
 
-    function initDials() {
-      const shuffled = shuffleKeyword(keyword);
-      const dialsContainer = document.getElementById('dials');
-      dialsContainer.innerHTML = '';
-      glyphState = shuffled.map((char, index) => {
-        const initialIndex = options.indexOf(char);
-        const el = document.createElement('div');
-        el.className = 'glyph-dial';
-        el.textContent = char;
-        el.onclick = () => rotateGlyph(el, index);
-        dialsContainer.appendChild(el);
-        return initialIndex;
-      });
-    }
+<div class="message-box" id="messageBox">
+  <h1>The stars speak in riddles...</h1>
+  <input type="text" id="cipherInput" placeholder="Enter the word..."/>
+  <br/>
+  <button onclick="verifyWord()">Submit</button>
+  <p id="errorMsg" style="color:#ff6666; display:none;">Incorrect. The stars wait...</p>
+</div>
 
-    function rotateGlyph(el, index) {
-      el.style.transform = 'scale(1.2)';
-      setTimeout(() => el.style.transform = 'scale(1)', 150);
-      glyphState[index] = (glyphState[index] + 1) % options.length;
-      el.textContent = options[glyphState[index]];
-      checkAlignment();
-    }
+<div class="fragment" data-frag="Δ-05V">Δ-05V</div>
 
-    function checkAlignment() {
-      const current = glyphState.map(i => options[i]).join("");
-      const dials = document.querySelectorAll('.glyph-dial');
-      keyword.split('').forEach((char, i) => {
-        const currentChar = options[glyphState[i]];
-        if (currentChar === char) {
-          dials[i].classList.add('glow-effect');
-        } else {
-          dials[i].classList.remove('glow-effect');
-        }
-      });
+<script>
+const bgCanvas = document.getElementById("bgCanvas");
+const bgCtx = bgCanvas.getContext("2d");
 
-      if (current === keyword) {
-        document.getElementById('keywordInputSection').style.display = 'block';
-        document.querySelector('.puzzle-box').classList.add('glow-effect');
-      }
-    }
+const starsCanvas = document.getElementById("starsCanvas");
+const ctx = starsCanvas.getContext("2d");
 
-    function validateKey() {
-      const input = document.getElementById('finalKey').value.trim().toLowerCase();
-      const response = document.getElementById('response');
-      if (input === 'awakening') {
-        response.style.color = '#0f0';
-        response.textContent = 'The Veil parts. The truth awaits.';
-        setTimeout(() => {
-          window.location.href = './the-veil-speaks.html';
-        }, 3000);
-      } else {
-        response.style.color = '#f55';
-        response.textContent = 'The silence persists...';
-      }
-    }
+let width, height;
+let stars = [], parallaxStars = [];
+let clicked = [];
+const totalStars = 7;
 
-    initDials();
-  </script>
+function resize() {
+  width = bgCanvas.width = starsCanvas.width = window.innerWidth;
+  height = bgCanvas.height = starsCanvas.height = window.innerHeight;
+  stars = [];
+  parallaxStars = [];
 
-  <span class="data-frag" data-frag="Δ-05V" title="Fragment detected" style="position: absolute; bottom: 5px; right: 5px; font-size: 0.7rem; color: rgba(153, 102, 255, 0.08); cursor: pointer;">Δ-05V</span>
-
-  <script>
-    const frag = document.querySelector('[data-frag="Δ-05V"]');
-    frag.addEventListener('mouseenter', () => frag.style.color = 'rgba(153, 102, 255, 0.5)');
-    frag.addEventListener('mouseleave', () => frag.style.color = 'rgba(153, 102, 255, 0.08)');
-    frag.addEventListener('click', () => {
-      frag.textContent = 'Fragment Unlocked: MEMORY_SPIKE_V5';
-      frag.style.color = '#9966ff';
-      localStorage.setItem('fragment_Δ-05V', 'unlocked');
-      checkFragmentProgress();
+  for (let i = 0; i < 150; i++) {
+    parallaxStars.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      size: Math.random() * 1.5 + 0.5,
+      speed: Math.random() * 0.3 + 0.05
     });
+  }
 
-    function checkFragmentProgress() {
-      // Fragment check disabled — no redirect
+  const pattern = [
+    [0.2, 0.6], [0.3, 0.45], [0.4, 0.52],
+    [0.5, 0.35], [0.6, 0.5], [0.7, 0.6],
+    [0.8, 0.4]
+  ];
+
+  pattern.forEach((pos, i) => {
+    stars.push({
+      x: width * pos[0] + Math.random() * 10,
+      y: height * pos[1] + Math.random() * 10,
+      r: 5 + Math.random() * 1.5,
+      id: i,
+      clicked: false,
+      twinkle: Math.random() * Math.PI * 2
+    });
+  });
+}
+
+function drawParallax() {
+  bgCtx.clearRect(0, 0, width, height);
+  bgCtx.fillStyle = "#000";
+  bgCtx.fillRect(0, 0, width, height);
+  parallaxStars.forEach(s => {
+    s.y += s.speed;
+    if (s.y > height) s.y = 0;
+    bgCtx.beginPath();
+    bgCtx.arc(s.x, s.y, s.size, 0, 2 * Math.PI);
+    bgCtx.fillStyle = "rgba(255,255,255,0.2)";
+    bgCtx.fill();
+  });
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, width, height);
+
+  stars.forEach((s, i) => {
+    s.twinkle += 0.02;
+    let brightness = Math.abs(Math.sin(s.twinkle)) * 0.5 + 0.5;
+
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, 2 * Math.PI);
+    ctx.fillStyle = s.clicked ? "#ffeeaa" : `rgba(255,255,255,${brightness})`;
+    ctx.fill();
+  });
+
+  if (clicked.length > 1) {
+    ctx.beginPath();
+    clicked.forEach((id, i) => {
+      const s = stars[id];
+      if (i === 0) ctx.moveTo(s.x, s.y);
+      else ctx.lineTo(s.x, s.y);
+    });
+    ctx.strokeStyle = "#ffaa88";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+}
+
+function animate() {
+  drawParallax();
+  drawStars();
+  requestAnimationFrame(animate);
+}
+
+starsCanvas.addEventListener("click", e => {
+  const rect = starsCanvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  const my = e.clientY - rect.top;
+
+  stars.forEach((s, i) => {
+    const dx = mx - s.x;
+    const dy = my - s.y;
+    if (!s.clicked && Math.sqrt(dx * dx + dy * dy) < s.r + 6) {
+      s.clicked = true;
+      clicked.push(i);
     }
+  });
 
-    checkFragmentProgress();
-  </script>
+  if (clicked.length === totalStars) {
+    const clue = document.getElementById("cipherClue");
+    clue.classList.add("show");
+
+    setTimeout(() => {
+      document.getElementById("messageBox").style.display = "block";
+    }, 3000);
+  }
+});
+
+function verifyWord() {
+  const input = document.getElementById("cipherInput").value.trim().toLowerCase();
+  const errorMsg = document.getElementById("errorMsg");
+  if (input === "awaken") {
+    window.location.href = "the-veil-speaks.html";
+  } else {
+    errorMsg.style.display = "block";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const frag = document.querySelector('[data-frag="Δ-05V"]');
+  const key = "fragment_Δ-05V";
+  if (localStorage.getItem(key) === "unlocked") {
+    frag.textContent = "Fragment Unlocked: MEMORY_SPIKE_V5";
+    frag.style.color = "#9966ff";
+  }
+  frag.addEventListener("mouseenter", () => {
+    if (localStorage.getItem(key) !== "unlocked") {
+      frag.style.color = "rgba(153, 102, 255, 0.5)";
+    }
+  });
+  frag.addEventListener("mouseleave", () => {
+    if (localStorage.getItem(key) !== "unlocked") {
+      frag.style.color = "rgba(153, 102, 255, 0.08)";
+    }
+  });
+  frag.addEventListener("click", () => {
+    frag.textContent = "Fragment Unlocked: MEMORY_SPIKE_V5";
+    frag.style.color = "#9966ff";
+    localStorage.setItem(key, "unlocked");
+  });
+});
+
+resize();
+animate();
+</script>
 </body>
 </html>
