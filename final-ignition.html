@@ -15,7 +15,6 @@
       justify-content: center;
       height: 100vh;
       text-align: center;
-      background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/5f/Solar_flare_SDO_2012.jpg');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -48,6 +47,55 @@
 </style>
 </head>
 <body>
+
+<audio id="bg-audio" autoplay loop>
+  <source src="assets/audio/Fragment-009.wav" type="audio/wav">
+  Your browser does not support the audio element.
+</audio>
+
+
+<canvas id="starfield" style="position: fixed; top: 0; left: 0; z-index: -1;"></canvas>
+<script>
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  for (let i = 0; i < 200; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 1.2,
+      speed: Math.random() * 0.5 + 0.05
+    });
+  }
+
+  function animateStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'white';
+    stars.forEach(star => {
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
+      ctx.fill();
+      star.y += star.speed;
+      if (star.y > canvas.height) {
+        star.y = 0;
+        star.x = Math.random() * canvas.width;
+      }
+    });
+    requestAnimationFrame(animateStars);
+  }
+
+  animateStars();
+</script>
+
   <div class="reveal glitch" id="revealBlock">
     <h1>☼ IGNITION ☼</h1>
     <p>The Helios Matrix responds.</p>
