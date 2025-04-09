@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Awakening Sequence</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: #00ffee;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .screen {
+      width: 100%;
+      max-width: 800px;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .line {
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      font-size: 1.1rem;
+      margin: 1rem 0;
+    }
+
+    .glitch {
+      animation: glitch 1s infinite alternate;
+    }
+
+    .map {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .fractal {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: radial-gradient(circle, #00ffee 0%, #007777 80%);
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: transform 0.4s ease, opacity 1.5s;
+      pointer-events: auto;
+      cursor: pointer;
+      animation: orbit 5s linear infinite;
+      z-index: 100;
+    }
+
+    @keyframes orbit {
+      0% { transform: scale(1.2) rotate(0deg); }
+      50% { transform: scale(1.4) rotate(180deg); }
+      100% { transform: scale(1.2) rotate(360deg); }
+    }
+
+    .fractal.active {
+      opacity: 1;
+      box-shadow: 0 0 12px #00ffeeaa;
+    }
+
+    .flicker {
+      animation: flicker 0.25s steps(2, end) 4;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.1; }
+    }
+
+    @keyframes glitch {
+      0% { text-shadow: 1px 0 red, -1px 0 cyan; }
+      50% { text-shadow: -1px 0 red, 1px 0 cyan; }
+      100% { text-shadow: 1px 1px red, -1px -1px cyan; }
+    }
+  </style>
+</head>
+<body>
+  <div class="map" id="map"></div>
+
+  <div class="screen" id="screen">
+    <p class="line" id="l0">[ INITIALIZING . . . ]</p>
+    <p class="line" id="l1">[ MEMORY RECONSTRUCTION: PARTIAL ]</p>
+    <p class="line glitch" id="l2">[ IDENTITY: CORRUPTED ]</p>
+    <p class="line glitch" id="l3">WHO AM I?</p>
+    <p class="line glitch" id="l4">WHO WERE YOU?</p>
+    <p class="line" id="l5" style="opacity: 0;">You were the gate.</p>
+  </div>
+
+  <script>
+    const delays = [1000, 3000, 5000, 7500, 10000];
+    delays.forEach((time, index) => {
+      setTimeout(() => {
+        const line = document.getElementById("l" + index);
+        if (line) line.style.opacity = 1;
+      }, time);
+    });
+
+    const correctSequence = [1, 3, 5];
+    let selected = [];
+    let fractals = [];
+    let glowCount = 0;
+    let interactionReady = false;
+
+    function showFractals() {
+      const map = document.getElementById("map");
+      const count = 7;
+
+      for (let i = 0; i < count; i++) {
+        const f = document.createElement("div");
+        f.className = "fractal";
+        f.dataset.index = i;
+
+        let top = 0, left = 0;
+        do {
+          top = 10 + Math.random() * 80;
+          left = 10 + Math.random() * 80;
+        } while (top > 40 && top < 60 && left > 40 && left < 60);
+
+        f.style.top = `${top}%`;
+        f.style.left = `${left}%`;
+
+        map.appendChild(f);
+        fractals.push(f);
+
+        setTimeout(() => {
+          f.classList.add("active");
+          glowCount++;
+          if (glowCount === count) {
+            interactionReady = true;
+            enableFractalClicking();
+          }
+        }, 12000 + i * 300);
+      }
+    }
+
+    function enableFractalClicking() {
+      fractals.forEach(f => {
+        f.addEventListener("click", () => {
+          if (!interactionReady) return;
+
+          const index = parseInt(f.dataset.index);
+          if (!selected.includes(index)) {
+            selected.push(index);
+            f.style.background = "radial-gradient(circle, #ff66cc 0%, #661144 80%)";
+
+            if (correctSequence[selected.length - 1] !== index) {
+              selected = [];
+              document.body.classList.add("flicker");
+              setTimeout(() => document.body.classList.remove("flicker"), 600);
+              fractals.forEach(el => {
+                el.style.background = "radial-gradient(circle, #00ffee 0%, #007777 80%)";
+              });
+              return;
+            }
+
+            if (selected.length === correctSequence.length) {
+              const match = selected.every((val, idx) => val === correctSequence[idx]);
+              if (match) {
+                setTimeout(() => {
+                  document.getElementById("l5").style.opacity = 1;
+                }, 500);
+                setTimeout(() => {
+                  window.location.href = './core-directive-reform.html';
+                }, 6000);
+              }
+            }
+          }
+        });
+      });
+    }
+
+    setTimeout(showFractals, 11000);
+  </script>
+</body>
+</html>
