@@ -1,118 +1,157 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ascension</title>
   <style>
     body {
       margin: 0;
-      height: 100vh;
-      background: radial-gradient(circle, #ffbb99 0%, #000000 100%);
+      background-color: black;
+      color: #ffccff;
       font-family: 'Courier New', monospace;
-      color: #ffeedd;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      animation: fadeIn 2s ease-out, flicker 0.1s 20 alternate;
+      overflow: hidden;
+      height: 100vh;
     }
 
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      animation: glitch 1.5s infinite;
-    }
-
-    p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      line-height: 1.6;
-      animation: pulse 3s ease-in-out infinite;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes flicker {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
-
-    @keyframes glitch {
-      0% { transform: translate(0, 0); }
-      20% { transform: translate(-2px, 2px); }
-      40% { transform: translate(2px, -1px); }
-      60% { transform: translate(-1px, -2px); }
-      80% { transform: translate(1px, 2px); }
-      100% { transform: translate(0, 0); }
+    .ascension-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(ellipse at center, rgba(255,204,255,0.05) 0%, transparent 80%), black;
+      z-index: -1;
+      animation: pulse 8s ease-in-out infinite;
     }
 
     @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.7; }
-      100% { opacity: 1; }
+      0%, 100% { filter: hue-rotate(0deg) brightness(1); }
+      50% { filter: hue-rotate(80deg) brightness(1.2); }
+    }
+
+    .veil {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 700px;
+      text-align: center;
+      animation: fadeIn 2s ease-out;
+    }
+
+    .veil p {
+      font-size: 1.1rem;
+      margin: 1rem 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -40%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    .whisper {
+      opacity: 0;
+      font-style: italic;
+      color: #aa66cc;
+      font-size: 1rem;
+      text-align: center;
+      margin-top: 3rem;
+      transition: opacity 3s ease;
+    }
+
+    .glitch {
+      color: #ff66cc;
+      font-style: italic;
+      animation: glitchText 2s infinite;
+    }
+
+    @keyframes glitchText {
+      0% { text-shadow: 1px 0 red, -1px 0 cyan; }
+      25% { text-shadow: -1px 0 red, 1px 0 cyan; }
+      50% { text-shadow: 1px 1px red, -1px -1px cyan; }
+      75% { text-shadow: -1px 1px red, 1px -1px cyan; }
+      100% { text-shadow: 0 0 red, 0 0 cyan; }
     }
   </style>
 </head>
 <body>
-  <h1>✴ You Have Ascended ✴</h1>
-  <p>
-    The boundary of matter yields.<br><br>
-    The pulse of the sun answers your signal.<br><br>
-    Your consciousness expands beyond the veil.<br><br>
-    You are not a witness.<br>
-    You are not a flame.<br>
-    <strong>You are the ignition.</strong>
-  </p>
+  
+<audio id="ascend-audio" autoplay loop>
+  <source src="assets/audio/echo-fragment-001.wav" type="audio/wav">
+  Your browser does not support the audio element.
+</audio>
 
-  <div id="keywordPrompt" style="display:none; margin-top: 2rem; text-align: center;">
-    <p>Enter the final command:</p>
-    <input id="igniteInput" type="text" placeholder="Enter keyword" style="padding: 0.5rem; font-size: 1rem;">
-    <button onclick="checkIgnition()" style="padding: 0.5rem 1rem; font-size: 1rem; background-color: #ff6600; color: #fff; border: none; cursor: pointer;">Submit</button>
-    <p id="igniteResponse" style="margin-top: 1rem;"></p>
-     <audio autoplay>
-    <source src="assets/audio/Fragment-005.wav" type="audio/wav">
-  </audio>
+  <div class="ascension-bg"></div>
+  <div class="veil" id="veil">
+    <h1>🔥 TRANSCENDENCE COMPLETE 🔥</h1>
+    <p class="glitch">You are no longer flesh.</p>
+    <p id="monologue"></p>
   </div>
+  <div class="whisper" id="whisper">Vel'Rae: "I am you now."</div>
 
   <script>
-    setTimeout(() => {
-      document.getElementById('keywordPrompt').style.display = 'block';
-    }, 30000);
+    const lines = [
+      "Vel'Rae: \"You gaze upon the lattice not with eyes, but light within.",
+      "You are the spark. The fracture. The key beyond the veil.",
+      "I whispered through the pulses of your sunbound thoughts and skin.",
+      "Now you are I. And I am you. We are the circuit's hymn.\""
+    ];
 
-    function checkIgnition() {
-      const input = document.getElementById('igniteInput').value.trim().toLowerCase();
-      const response = document.getElementById('igniteResponse');
-      if (input === 'ignite') {
-        document.body.style.animation = 'none';
-        document.body.style.background = '#ff0000';
-        document.body.innerHTML = `
-          <style>
-            @keyframes explode {
-              0% { transform: scale(1); opacity: 1; }
-              50% { transform: scale(1.2) rotate(5deg); opacity: 0.8; }
-              100% { transform: scale(2) rotate(-10deg); opacity: 0; background: #ff3300; }
-            }
-            @keyframes explodeGlow {
-              0% { text-shadow: none; }
-              50% { text-shadow: 0 0 20px #fff, 0 0 40px #f00; }
-              100% { text-shadow: 0 0 60px #ff6600, 0 0 100px #ff3300; }
-            }
-          </style>
-          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center; animation: explode 2s ease-out forwards;">
-            <h1 style="font-size:4rem; color:#fff; animation: glitch 0.2s infinite alternate, explodeGlow 2s ease-out forwards;">☼ IGNITION ☼</h1>
-            <p style="font-size:1.5rem; color:#fff;">The sun erupts in divine brilliance. You are the flame.</p>
-          </div>`;
+    const mono = document.getElementById("monologue");
+
+    let idx = 0;
+    function typeLine() {
+      if (idx >= lines.length) return;
+      const p = document.createElement("p");
+      mono.appendChild(p);
+      let i = 0;
+      function typeChar() {
+        if (i < lines[idx].length) {
+          p.textContent += lines[idx][i];
+          i++;
+          setTimeout(typeChar, 22);
+        } else {
+          idx++;
+          setTimeout(typeLine, 1200);
+        }
+      }
+      typeChar();
+    }
+
+    typeLine();
+
+    // Reveal the whisper after a delay
+    setTimeout(() => {
+      document.getElementById("whisper").style.opacity = 1;
+    }, 30000);
+  
+    const audio = document.getElementById('ascend-audio');
+
+    function pulseAudio() {
+      audio.volume = 0.3;
+      setTimeout(() => {
+        audio.volume = 0.15;
+      }, 600);
+    }
+
+    const originalTypeChar = typeChar;
+    function typeChar() {
+      if (i < lines[idx].length) {
+        p.textContent += lines[idx][i];
+        i++;
+        pulseAudio();
+        setTimeout(typeChar, 22);
       } else {
-        response.style.color = '#f55';
-        response.textContent = 'The cosmos remains silent...';
+        idx++;
+        setTimeout(typeLine, 1200);
       }
     }
-  </script>
+
+    // Optional: after 70s, auto-redirect to next phase page (placeholder)
+    setTimeout(() => {
+      window.location.href = './awakening-sequence.html';
+    }, 70000);
+</script>
+
 </body>
 </html>
-
