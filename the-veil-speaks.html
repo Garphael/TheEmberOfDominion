@@ -1,65 +1,69 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Veil Speaks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
+      background: black;
+      overflow: hidden;
       font-family: 'Courier New', monospace;
-      background: #000;
-      color: #eaeaea;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      height: 100vh;
-      background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/09/Sunspot_2645_May_2017_-_3.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      text-align: center;
+      color: #e0e0e0;
     }
 
-    .puzzle-box {
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 2rem;
-      border-radius: 10px;
-      max-width: 600px;
+    canvas {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0; left: 0;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 5vh 2rem;
+    }
+
+    h1 {
+      color: #ffcc66;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 6px rgba(255, 204, 102, 0.5);
     }
 
     .cipher {
-      margin-top: 1rem;
       font-size: 1.2rem;
       color: #f95;
-      letter-spacing: 0.05em;
+      margin: 1rem 0;
     }
 
     .hint {
-      margin-top: 1rem;
+      color: #aaa;
       font-size: 0.9rem;
-      color: #888;
+      margin-bottom: 1rem;
     }
 
-    input[type="text"] {
+    .input-block input {
       padding: 0.5rem;
-      width: 70%;
-      font-size: 1rem;
-      margin-top: 1rem;
-      border: none;
-      border-radius: 5px;
+      background: #111;
+      border: 1px solid #f95;
+      color: #ffcc66;
+      width: 60%;
     }
 
     button {
       margin-top: 1rem;
       padding: 0.5rem 1rem;
-      font-size: 1rem;
-      background-color: #f95;
+      background: #ffcc66;
+      color: #111;
       border: none;
-      border-radius: 5px;
-      color: #fff;
+      font-weight: bold;
       cursor: pointer;
     }
 
@@ -67,62 +71,132 @@
       margin-top: 1rem;
       font-size: 1rem;
     }
+
+    .data-frag {
+      position: absolute;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .bottom-left { bottom: 5px; left: 5px; }
+    .top-right { top: 5px; right: 5px; }
   </style>
 </head>
 <body>
-  <div class="puzzle-box">
-    <h1>The Veil Speaks</h1>
-    <p class="cipher">Wklv lv wkh ilqdo jdwh...</p>
-    <p class="hint">(A familiar shift will lead you through)</p>
-<p class="hint" style="font-size: 0.8rem; color: rgba(255,255,255,0.05);">Sometimes the key lies in what is always closed...</p>
-    <input type="text" id="finalKey" placeholder="Enter final keyword">
-    <br>
+<canvas id="stars"></canvas>
+
+<div class="container">
+  <h1>The Veil Speaks</h1>
+  <p class="cipher">Wklv lv wkh ilqdo jdwh...</p>
+  <p class="hint">(A familiar shift will lead you through)</p>
+  <p class="hint" style="opacity: 0.05;">Sometimes the key lies in what is always closed...</p>
+
+  <div class="input-block">
+    <input type="text" id="finalKey" placeholder="Enter final keyword"/>
+    <br/>
     <button onclick="validateKey()">Submit</button>
-    <p id="response"></p>
-    <audio autoplay>
+  </div>
+  <p id="response"></p>
+
+  <audio autoplay loop hidden>
     <source src="assets/audio/Fragment-003.wav" type="audio/wav">
   </audio>
-  </div>
+</div>
 
-  <script>
-    function validateKey() {
-      const input = document.getElementById('finalKey').value.trim().toLowerCase();
-      const response = document.getElementById('response');
-      if (input === 'open the gate') {
-        response.style.color = '#0f0';
-        response.textContent = 'The Veil parts. The truth awaits.';
-        setTimeout(() => {
-          window.location.href = './final-revelation.html';
-        }, 3000);
-      } else {
-        response.style.color = '#f55';
-        response.textContent = 'The silence persists...';
-      }
-    }
-  </script>
-<span class="data-frag" data-frag="Δ-02V" title="Fragment detected" style="position: absolute; bottom: 5px; left: 5px; font-size: 0.7rem; color: rgba(102, 255, 255, 0.08); cursor: pointer;">Δ-02V</span>
+<span class="data-frag bottom-left" data-frag="Δ-02V" title="Fragment detected">Δ-02V</span>
+<span class="data-frag top-right" data-frag="Δ-04H" title="Fragment detected">Δ-04H</span>
 
 <script>
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+let width, height, stars;
+
+function resize() {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+  stars = Array.from({length: 100}, () => ({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    r: Math.random() * 1.2 + 0.3,
+    d: Math.random() * 0.5 + 0.2
+  }));
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, width, height);
+  stars.forEach(star => {
+    star.y += star.d;
+    if (star.y > height) {
+      star.y = 0;
+      star.x = Math.random() * width;
+    }
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, star.r, 0, 2 * Math.PI);
+    ctx.fillStyle = "rgba(255,255,255,0.4)";
+    ctx.fill();
+  });
+}
+
+function animate() {
+  drawStars();
+  requestAnimationFrame(animate);
+}
+
+function validateKey() {
+  const input = document.getElementById('finalKey').value.trim().toLowerCase();
+  const response = document.getElementById('response');
+  if (input === 'open the gate') {
+    response.style.color = '#0f0';
+    response.textContent = 'The Veil parts. The truth awaits.';
+    setTimeout(() => {
+      window.location.href = './final-revelation.html';
+    }, 3000);
+  } else {
+    response.style.color = '#f55';
+    response.textContent = 'The silence persists...';
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  resize();
+  animate();
+
   const frag2 = document.querySelector('[data-frag="Δ-02V"]');
+  const key2 = 'fragment_Δ-02V';
+  if (localStorage.getItem(key2) === 'unlocked') {
+    frag2.textContent = 'Fragment Unlocked: SOLAR_REFRACTION_STRING';
+    frag2.style.color = '#66ffff';
+  }
   frag2.addEventListener('mouseenter', () => frag2.style.color = 'rgba(102, 255, 255, 0.5)');
-  frag2.addEventListener('mouseleave', () => frag2.style.color = 'rgba(102, 255, 255, 0.08)');
+  frag2.addEventListener('mouseleave', () => {
+    if (localStorage.getItem(key2) !== 'unlocked') frag2.style.color = 'rgba(255,255,255,0.05)';
+  });
   frag2.addEventListener('click', () => {
     frag2.textContent = 'Fragment Unlocked: SOLAR_REFRACTION_STRING';
     frag2.style.color = '#66ffff';
-    localStorage.setItem('fragment_Δ-02V', 'unlocked');
+    localStorage.setItem(key2, 'unlocked');
   });
-</script>
-<span class="data-frag" data-frag="Δ-04H" title="Fragment detected" style="position: absolute; top: 5px; right: 5px; font-size: 0.7rem; color: rgba(153, 102, 255, 0.08); cursor: pointer;">Δ-04H</span>
 
-<script>
   const frag4 = document.querySelector('[data-frag="Δ-04H"]');
+  const key4 = 'fragment_Δ-04H';
+  if (localStorage.getItem(key4) === 'unlocked') {
+    frag4.textContent = 'Fragment Unlocked: STELLAR_ECHO_RELAY';
+    frag4.style.color = '#9966ff';
+  }
   frag4.addEventListener('mouseenter', () => frag4.style.color = 'rgba(153, 102, 255, 0.5)');
-  frag4.addEventListener('mouseleave', () => frag4.style.color = 'rgba(153, 102, 255, 0.08)');
+  frag4.addEventListener('mouseleave', () => {
+    if (localStorage.getItem(key4) !== 'unlocked') frag4.style.color = 'rgba(255,255,255,0.05)';
+  });
   frag4.addEventListener('click', () => {
     frag4.textContent = 'Fragment Unlocked: STELLAR_ECHO_RELAY';
     frag4.style.color = '#9966ff';
-    localStorage.setItem('fragment_Δ-04H', 'unlocked');
+    localStorage.setItem(key4, 'unlocked');
   });
+
+  window.addEventListener('resize', resize);
+});
 </script>
 </body>
 </html>
