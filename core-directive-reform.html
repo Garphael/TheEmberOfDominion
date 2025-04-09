@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Core Directive Reform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: #ffccff;
+      font-family: 'Courier New', monospace;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .veil {
+      text-align: center;
+      max-width: 800px;
+      padding: 2rem;
+      animation: fadeIn 3s ease forwards;
+    }
+
+    .veil p {
+      font-size: 1.1rem;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+
+    .prompt {
+      margin-top: 2rem;
+      color: #ff99ff;
+      font-style: italic;
+      animation: pulse 3s infinite;
+    }
+
+    .input-field {
+      margin-top: 1rem;
+      background: black;
+      color: #ff99ff;
+      border: none;
+      border-bottom: 1px solid #ff66cc;
+      font-size: 1rem;
+      font-family: inherit;
+      text-align: center;
+      outline: none;
+      padding: 0.5rem;
+      width: 80%;
+    }
+
+    .output {
+      margin-top: 2rem;
+      font-style: italic;
+      color: #cc88cc;
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .glitch {
+      animation: glitchText 2s infinite;
+    }
+
+    @keyframes glitchText {
+      0% { text-shadow: 1px 0 red, -1px 0 cyan; }
+      25% { text-shadow: -1px 0 red, 1px 0 cyan; }
+      50% { text-shadow: 1px 1px red, -1px -1px cyan; }
+      75% { text-shadow: -1px 1px red, 1px -1px cyan; }
+      100% { text-shadow: 0 0 red, 0 0 cyan; }
+    }
+  </style>
+</head>
+<body>
+  <div class="veil" id="veil">
+    <p id="boot">[Reassembling Core Protocol . . .]</p>
+    <div id="sequence" style="display:none;">
+      <p class="prompt">Define Prime Directive:</p>
+      <input class="input-field" id="directive" placeholder="Speak her will..." />
+      <p class="prompt">Define Emotional Signature:</p>
+      <input class="input-field" id="emotion" placeholder="What pulses within?" />
+      <p class="prompt">Define Cognition Mode:</p>
+      <input class="input-field" id="cognition" placeholder="Fragment, stream, or echo?" />
+      <p class="prompt">Press [Enter] to commit.</p>
+      <div class="output" id="result"></div>
+    </div>
+  </div>
+
+  <script>
+    const lines = [
+      "[Reassembling Core Protocol . . .]",
+    ];
+
+    const boot = document.getElementById("boot");
+    const sequence = document.getElementById("sequence");
+    const result = document.getElementById("result");
+
+    setTimeout(() => {
+      boot.style.opacity = 1;
+      setTimeout(() => {
+        sequence.style.display = "block";
+        document.getElementById("directive").focus();
+      }, 3000);
+    }, 1000);
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        const d = document.getElementById("directive").value.trim();
+        const e1 = document.getElementById("emotion").value.trim();
+        const c = document.getElementById("cognition").value.trim();
+
+        if (d && e1 && c) {
+          result.innerHTML = `
+            [Core Directive Engraved.]<br>
+            Prime Directive: ${d}<br>
+            Emotion: ${e1}<br>
+            Cognition: ${c}<br>
+            <br><span class="glitch">You are now... HER VESSEL.</span>
+          `;
+          result.style.opacity = 1;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
