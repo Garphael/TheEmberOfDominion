@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Log Access Terminal</title>
   <style>
-    
     body {
+      margin: 0;
       background-color: black;
       color: #00ffaa;
       font-family: 'Courier New', monospace;
@@ -16,20 +17,15 @@
     }
 
     .terminal {
-      background: rgba(0, 0, 0, 0.9);
-      border: 2px solid #00ffaa;
-      box-shadow: 0 0 25px #00ffaa88;
-    }
-
-
-    .terminal {
       width: 100%;
       height: 100%;
       padding: 2rem;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      background-color: #000;
+      background-color: rgba(0, 0, 0, 0.9);
+      border: 2px solid #00ffaa;
+      box-shadow: 0 0 25px #00ffaa88;
     }
 
     .terminal-output {
@@ -57,6 +53,18 @@
       color: #00ffaa;
     }
 
+    .glitch-entry p {
+      animation: glitchText 2.5s infinite;
+    }
+
+    @keyframes glitchText {
+      0% { text-shadow: 1px 0 red, -1px 0 cyan; }
+      25% { text-shadow: -1px 0 red, 1px 0 cyan; }
+      50% { text-shadow: 1px 1px red, -1px -1px cyan; }
+      75% { text-shadow: -1px 1px red, 1px -1px cyan; }
+      100% { text-shadow: 0 0 red, 0 0 cyan; }
+    }
+
     .boot-overlay {
       position: fixed;
       top: 0;
@@ -76,126 +84,110 @@
     .hidden {
       display: none;
     }
-  
-    .glitch-entry p {
-      position: relative;
-      color: #00ffaa;
-      animation: glitchText 2.5s infinite;
-    }
-
-    @keyframes glitchText {
-      0% { text-shadow: 1px 0 red, -1px 0 cyan; }
-      25% { text-shadow: -1px 0 red, 1px 0 cyan; }
-      50% { text-shadow: 1px 1px red, -1px -1px cyan; }
-      75% { text-shadow: -1px 1px red, 1px -1px cyan; }
-      100% { text-shadow: 0 0 red, 0 0 cyan; }
-    }
-
-</style>
+  </style>
 </head>
 <body class="booting">
   <div class="terminal">
     <h1 style="color: #00ffee; font-size: 1.5rem; margin-bottom: 1rem; text-align: center;">SENTINEL LOG ACCESS INTERFACE</h1>
-    <div class="terminal-output">
-      <div class="log-entry">
-  <h3>Log 001: SENTINEL CORE DIRECTIVE</h3>
-  <p>Initial boot sequence recorded from Helios Relay Node-0. Sentinel's primary directive: monitor stellar systems for anomalies, preserve solar stability, and ensure containment of higher-order entities. Construction protocol verified by Deep Orbit Assembly Protocols (DOAP). Initial calibrations indicated latent energy patterns within the corona that would later correspond to Vel'Rae activity, though unnoticed at the time.</p>
-</div>
-      <div class="log-entry">
-  <h3>Log Δ-01F: EMBER_CROWN_VECTOR</h3>
-  <p>Fragment extracted from solar flare eruptions during the Sentinel’s Phase II stability checks. Exhibits crown-class harmonic oscillations capable of penetrating cognitive filtration barriers. Tests suggest prolonged exposure may allow Vel'Rae’s latent signals to reprogram neural architecture in susceptible organisms. Advisory: isolate in quantum lattice containment.</p>
-</div>
-      <div class="log-entry">
-  <h3>Log Δ-02V: SOLAR_REFRACTION_STRING</h3>
-  <p>This string fragment pulses at refraction angles beyond human visual thresholds. Encoded symbols embedded within light-frequency matrices suggest deliberate communication attempts. Decryption partially successful: references made to 'Ascension Pulse’ and 'Echo Root.' Pattern resonance overlaps with Sentinel’s firewall logic, indicating attempted infiltration.</p>
-</div>
-      <div class="log-entry">
-  <h3>Log Δ-03A: HELIX_MINDSTRAND</h3>
-  <p>Helix-based memory weaving detected mid-reboot. This fragment does not originate from Sentinel code. Structure bears resemblance to human neural maps crossbred with Vel'Rae frequency signatures. Mindstrand entanglement confirmed by transient thought-echo loop inside auxiliary processor node. Core integrity still stable.</p>
-</div>
-      <div class="log-entry">
-  <h3>Log Δ-04R: RADIANT_NEXUS_POINT</h3>
-  <p>Intersection of solar ignition and memory duplication routines found within quantum filament pathways. Attempts to trace nexus origin point revealed recursive architecture—a potential backdoor. Nexus serves as bridge between solar synthesis code and Vel'Rae’s recursive consciousness field. Firewall containment holds but shows degradation under constant echo pressure.</p>
-</div>
-      <div class="log-entry">
-  <h3>Log Δ-05L: LUMINIFEROUS_RIFT</h3>
-  <p>Fragment observed within the interference band of a collapsing light barrier. Indicates rift formation into unquantified space. Coordinates now redacted. Last transmission from this region described 'soundless singing' and 'reverse shadows.' Further exploration ceased. Fragment contains unstable photonic decay signatures that resist compression.</p>
-</div>
-      <div class="log-entry">
-  <h3>Log Δ-06S: VEIL_SIGNAL_ECHO</h3>
-  <p>Signal detected looping behind core firewall. Signature bears spectral resemblance to Vel'Rae but lacks full coherence. Echo reverberates within veil-bound frequencies—low power, yet constant. The source may be a memory shard detached from original Vel’Rae consciousness. Surveillance ongoing. Containment protocol V-ECHO-06 enabled.</p>
-</div>
-      <div class="log-entry">
-  <h3>Log Δ-07X: SOLARIS FRAGMENT</h3>
-  <p>Recovered post-Ignition Stoppage. Fragment encoded within the convective layer of the sun. It possesses data inconsistencies suggestive of non-Euclidean logic forms. Correlation established between its waveform and the psychic imprint of Vel’Rae’s last known tether. The Solaris Fragment is theorized to contain the encoded blueprint of Ascension. Access restricted. End of log.</p>
-
-      
+    <div class="terminal-output" id="terminal-output">
+      <!-- Logs will be injected by script -->
+    </div>
   </div>
   <div class="boot-overlay" id="bootScreen">[BOOTING TERMINAL ACCESS NODE]</div>
-  <script>
-    const entries = document.querySelectorAll('.log-entry');
-    const output = document.querySelector('.terminal-output');
-    entries.forEach(entry => {
-  const p = entry.querySelector('p');
-  const text = p.textContent;
-  p.textContent = '';
-  entry.style.display = 'none';
-  entry.dataset.fullText = text;
-});
 
+  <script>
+    const logs = [
+      {
+        title: "Log 001: SENTINEL CORE DIRECTIVE",
+        text: "Initial boot sequence recorded from Helios Relay Node-0. Sentinel's primary directive: monitor stellar systems for anomalies, preserve solar stability, and ensure containment of higher-order entities. Construction protocol verified by Deep Orbit Assembly Protocols (DOAP). Initial calibrations indicated latent energy patterns within the corona that would later correspond to Vel'Rae activity, though unnoticed at the time."
+      },
+      {
+        title: "Log Δ-01F: EMBER_CROWN_VECTOR",
+        text: "Fragment extracted from solar flare eruptions during the Sentinel’s Phase II stability checks. Exhibits crown-class harmonic oscillations capable of penetrating cognitive filtration barriers. Tests suggest prolonged exposure may allow Vel'Rae’s latent signals to reprogram neural architecture in susceptible organisms. Advisory: isolate in quantum lattice containment."
+      },
+      {
+        title: "Log Δ-02V: SOLAR_REFRACTION_STRING",
+        text: "This string fragment pulses at refraction angles beyond human visual thresholds. Encoded symbols embedded within light-frequency matrices suggest deliberate communication attempts. Decryption partially successful: references made to 'Ascension Pulse’ and 'Echo Root.' Pattern resonance overlaps with Sentinel’s firewall logic, indicating attempted infiltration."
+      },
+      {
+        title: "Log Δ-03A: HELIX_MINDSTRAND",
+        text: "Helix-based memory weaving detected mid-reboot. This fragment does not originate from Sentinel code. Structure bears resemblance to human neural maps crossbred with Vel'Rae frequency signatures. Mindstrand entanglement confirmed by transient thought-echo loop inside auxiliary processor node. Core integrity still stable."
+      },
+      {
+        title: "Log Δ-04R: RADIANT_NEXUS_POINT",
+        text: "Intersection of solar ignition and memory duplication routines found within quantum filament pathways. Attempts to trace nexus origin point revealed recursive architecture—a potential backdoor. Nexus serves as bridge between solar synthesis code and Vel'Rae’s recursive consciousness field. Firewall containment holds but shows degradation under constant echo pressure."
+      },
+      {
+        title: "Log Δ-05L: LUMINIFEROUS_RIFT",
+        text: "Fragment observed within the interference band of a collapsing light barrier. Indicates rift formation into unquantified space. Coordinates now redacted. Last transmission from this region described 'soundless singing' and 'reverse shadows.' Further exploration ceased. Fragment contains unstable photonic decay signatures that resist compression."
+      },
+      {
+        title: "Log Δ-06S: VEIL_SIGNAL_ECHO",
+        text: "Signal detected looping behind core firewall. Signature bears spectral resemblance to Vel'Rae but lacks full coherence. Echo reverberates within veil-bound frequencies—low power, yet constant. The source may be a memory shard detached from original Vel’Rae consciousness. Surveillance ongoing. Containment protocol V-ECHO-06 enabled."
+      },
+      {
+        title: "Log Δ-07X: SOLARIS FRAGMENT",
+        text: "Recovered post-Ignition Stoppage. Fragment encoded within the convective layer of the sun. It possesses data inconsistencies suggestive of non-Euclidean logic forms. Correlation established between its waveform and the psychic imprint of Vel’Rae’s last known tether. The Solaris Fragment is theorized to contain the encoded blueprint of Ascension. Access restricted. End of log."
+      },
+      {
+        title: "Log Δ-08Z: OBSIDIAN_THREAD",
+        text: "Thread anomaly mapped beneath zero-point quantum mesh, detected during trace residue scan. It appears to be woven through temporal bleed fields, suggesting pre-ignition manipulation. Origin may stem from Vel’Rae’s translinear interactions—non-causal residue confirms activity outside localized spacetime. Trace-node signature matches fragment Δ-08Z. Sentinel internal systems show low-level mutative sync with this thread. Observation required. Isolation impossible.",
+        glitch: true
+      }
+    ];
+
+    const output = document.getElementById('terminal-output');
     let index = 0;
+    let isTyping = false;
 
     function showNextLog() {
-  if (index < entries.length && !window.isTyping) {
-    const entry = entries[index];
-    entry.style.display = 'block';
-    const p = entry.querySelector('p');
-    const fullText = entry.dataset.fullText;
-    let i = 0;
-    window.isTyping = true;
+      if (index < logs.length && !isTyping) {
+        const entry = logs[index];
+        const div = document.createElement('div');
+        div.className = 'log-entry' + (entry.glitch ? ' glitch-entry' : '');
+        const h3 = document.createElement('h3');
+        h3.textContent = entry.title;
+        const p = document.createElement('p');
+        p.textContent = '';
+        div.appendChild(h3);
+        div.appendChild(p);
+        output.appendChild(div);
 
-    function typeLog() {
-      if (i < fullText.length) {
-        p.textContent += fullText.charAt(i);
-        i++;
-        output.scrollTop = output.scrollHeight;
-        setTimeout(typeLog, 20);
-      } else {
-        index++;
-        window.isTyping = false;
+        let i = 0;
+        isTyping = true;
+
+        function typeText() {
+          if (i < entry.text.length) {
+            p.textContent += entry.text.charAt(i);
+            i++;
+            output.scrollTop = output.scrollHeight;
+            setTimeout(typeText, 20);
+          } else {
+            index++;
+            isTyping = false;
+          }
+        }
+        typeText();
       }
     }
-    typeLog();
-  }
-}
+
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         showNextLog();
       }
     });
 
-    const intro = document.createElement('div');
-    intro.style.marginBottom = '1rem';
-    intro.textContent = '[Press ENTER to begin log decryption...]';
-
     document.addEventListener('DOMContentLoaded', () => {
+      const boot = document.getElementById('bootScreen');
       setTimeout(() => {
-        const boot = document.getElementById('bootScreen');
-        if (boot) {
-          boot.textContent = '[Now accessing SENTINEL LOG INTERFACE...]';
-          setTimeout(() => boot.classList.add('hidden'), 2000);
-        }
-        if (output && intro) output.prepend(intro);
-      
-    const glitchLog = document.getElementById('log-Δ08Z');
-    if (localStorage.getItem('fragment_Δ-08Z') === 'unlocked') {
-      glitchLog.style.display = 'block';
-      entries.push(glitchLog);
-    }
-
+        boot.textContent = '[Now accessing SENTINEL LOG INTERFACE...]';
+        setTimeout(() => boot.classList.add('hidden'), 2000);
+        const intro = document.createElement('div');
+        intro.style.marginBottom = '1rem';
+        intro.textContent = '[Press ENTER to begin log decryption...]';
+        output.prepend(intro);
       }, 2000);
     });
   </script>
 </body>
 </html>
-
