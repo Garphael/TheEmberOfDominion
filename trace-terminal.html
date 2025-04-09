@@ -70,7 +70,47 @@
       pointer-events: none;
       z-index: 2;
     }
-  </style>
+  
+    .terminal::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(to bottom, transparent 0%, rgba(0, 255, 204, 0.05) 50%, transparent 100%);
+      animation: flicker 1.5s infinite;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 0.1; }
+      50% { opacity: 0.2; }
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at center, rgba(0,255,204,0.03), transparent 70%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    #terminal-output {
+      animation: glow-pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { text-shadow: 0 0 5px #00ffcc; }
+      50% { text-shadow: 0 0 10px #00ffee, 0 0 20px #00ffee; }
+    }
+
+    .terminal {
+      z-index: 1;
+    }
+
+</style>
 </head>
 <body>
   <div class="terminal scanlines">
@@ -119,5 +159,38 @@
       }
     }
   </script>
+
+<script>
+  const terminal = document.getElementById('terminal-output');
+  const input = document.getElementById('terminal-input');
+
+  // Retro typing sound
+  const keySound = new Audio('https://pixabay.com/sound-effects/oldfashioned-typewriter-20367/');
+  keySound.volume = 0.05;
+
+  // Play sound on each keypress
+  input.addEventListener('keydown', (e) => {
+    if (e.key.length === 1 || e.key === 'Backspace') {
+      keySound.currentTime = 0;
+      keySound.play();
+    }
+  });
+
+  // Typewriter output effect
+  function printLineWithEffect(line, callback) {
+    let i = 0;
+    function typeChar() {
+      if (i < line.length) {
+        terminal.textContent += line.charAt(i);
+        i++;
+        setTimeout(typeChar, 20);
+      } else if (callback) {
+        callback();
+      }
+    }
+    typeChar();
+  }
+</script>
+
 </body>
 </html>
