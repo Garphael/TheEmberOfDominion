@@ -153,7 +153,22 @@
         div.appendChild(p);
         output.appendChild(div);
 
-        let i = 0;
+        
+        if (index === logs.length - 1) {
+          if (localStorage.getItem("fragment_ASCEND") && localStorage.getItem("fragment_RESIST")) {
+            const message = document.createElement('div');
+            message.innerHTML = '[FRAGMENT LINK ESTABLISHED: INITIATING ASCENSION NODE...]';
+            message.style.color = '#ff66cc';
+            message.style.marginTop = '2rem';
+            message.style.fontStyle = 'italic';
+            output.appendChild(message);
+            output.scrollTop = output.scrollHeight;
+            setTimeout(() => {
+              window.location.href = "true-ending.html";
+            }, 4000);
+          }
+        }
+let i = 0;
         isTyping = true;
 
         function typeText() {
@@ -181,6 +196,9 @@
       const boot = document.getElementById('bootScreen');
       setTimeout(() => {
         boot.textContent = '[Now accessing SENTINEL LOG INTERFACE...]';
+      
+      localStorage.setItem("fragment_RESIST", "true");
+
         setTimeout(() => boot.classList.add('hidden'), 2000);
         const intro = document.createElement('div');
         intro.style.marginBottom = '1rem';

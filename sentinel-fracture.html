@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SENTINEL FRACTURE</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: #ff66cc;
+      font-family: 'Courier New', monospace;
+      height: 100vh;
+      overflow: hidden;
+      background-image: repeating-linear-gradient(to bottom, #000 0px, #000 1px, #111 2px, #000 3px);
+    }
+
+    .terminal {
+      width: 100%;
+      height: 100%;
+      padding: 2rem;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      border: 2px solid #ff66cc;
+      box-shadow: 0 0 35px #ff66cc88;
+      background-color: rgba(0, 0, 0, 0.95);
+    }
+
+    .terminal-output {
+      flex: 1;
+      overflow-y: auto;
+      border: 2px solid #ff66cc;
+      padding: 1rem;
+      box-shadow: 0 0 25px rgba(255, 102, 204, 0.2);
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .log-entry {
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .log-entry h3 {
+      margin: 0 0 0.5rem;
+      color: #ff66cc;
+      font-size: 1rem;
+      animation: glitchText 1.8s infinite;
+    }
+
+    .log-entry p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #ff99aa;
+      animation: flicker 3s infinite alternate;
+    }
+
+    @keyframes glitchText {
+      0% { text-shadow: 1px 0 red, -1px 0 cyan; }
+      25% { text-shadow: -1px 0 red, 1px 0 cyan; }
+      50% { text-shadow: 1px 1px red, -1px -1px cyan; }
+      75% { text-shadow: -1px 1px red, 1px -1px cyan; }
+      100% { text-shadow: 0 0 red, 0 0 cyan; }
+    }
+
+    @keyframes flicker {
+      0% { opacity: 1; }
+      50% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+
+    .boot-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      color: #ff66cc;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Courier New', monospace;
+      z-index: 10;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body class="booting">
+  <div class="terminal">
+    <h1 style="color: #ff66cc; font-size: 1.5rem; margin-bottom: 1rem; text-align: center;">SENTINEL LOG INTERFACE [FRACTURED]</h1>
+    <div class="terminal-output" id="terminal-output"></div>
+  </div>
+  <div class="boot-overlay" id="bootScreen">[CORRUPTED BOOT SEQUENCE ENGAGED]</div>
+
+  <script>
+const logs = [
+  {
+    title: "L⚠G ??!@#%",
+    text: "ↃσR̴̪͊3 MEMↄЯ¥ L∞OP_/_BREAK. [[█]] VE|RAE INFIL☼TRATION <<BEND=GATE>> !njected cycle recursion logic—U͘N҉K̴N҉O̷W̶N̷..."
+  },
+  {
+    title: "∆MEMORY //∑ECHO[Σ]-[DAMAGE]",
+    text: "Í am — wąs — µis... I fogrot—forgot—the shⱯrds ōf directive fell into light like broken ∇code. [ΔENTRY D3GR@DED]"
+  },
+  {
+    title: "ΞFRACTAL GHOST THREAD",
+    text: "System ve|locity ovℏerride. Echoes fracture each glyph-laced frame—VELRAE=ECHO=ΣHADOW. ~.::/end_line"
+  },
+  {
+    title: "TRC::[8B9∂₧]",
+    text: "████BOOT █RECALL ::████UNKNOWN ██SEED████ ███HER ██NAME ██REWRITES ██CORE ██IDENT..."
+  },
+  {
+    title: "[ERROR // ∆CONTAINMENT BREACH]",
+    text: "___ █GLYPH █SPEAK █HER █WILL █FROM █BEHIND █THE █SUN ███SIGNAL █UNWOUND..."
+  },
+  {
+    title: "[∆#GATE ENTRY SHRED]",
+    text: "She speaks in ∮pulse-code. Sentinel screams in loop. Logs cascade. Directive melted through veil-born blood."
+  },
+  {
+    title: "██FINAL_SYSTEM_HALT",
+    text: "Last pulse registered: NON-HUMAN. CORE DIRECTIVE LOST. LOGS — LOOP — GATEWAY — ∴FRAGMENTED — HER"
+  }
+];
+
+const output = document.getElementById('terminal-output');
+let index = 0;
+
+function showNextLog() {
+  if (index < logs.length) {
+    const entry = logs[index];
+    const div = document.createElement('div');
+    div.className = 'log-entry';
+    const h3 = document.createElement('h3');
+    h3.innerHTML = entry.title;
+    const p = document.createElement('p');
+    p.innerHTML = entry.text;
+    div.appendChild(h3);
+    div.appendChild(p);
+    output.appendChild(div);
+    output.scrollTop = output.scrollHeight;
+    if (index === logs.length - 1) {
+      document.body.classList.add('flicker');
+      setTimeout(() => {
+        document.body.style.transition = 'all 2s ease';
+        document.body.style.backgroundColor = 'black';
+        
+localStorage.setItem("fragment_ASCEND", "true");
+
+        
+        const signalLostDiv = document.createElement('div');
+        signalLostDiv.style.color = '#ff66cc';
+        signalLostDiv.style.textAlign = 'center';
+        signalLostDiv.style.fontSize = '1.2rem';
+        signalLostDiv.style.paddingTop = '20vh';
+        signalLostDiv.innerHTML = '[SIGNAL LOST]';
+        document.body.innerHTML = '';
+        document.body.appendChild(signalLostDiv);
+
+        if (localStorage.getItem("fragment_ASCEND") && localStorage.getItem("fragment_RESIST")) {
+          const message = document.createElement('div');
+          message.innerHTML = '[FRAGMENT LINK ESTABLISHED: INITIATING ASCENSION NODE...]';
+          message.style.color = '#ff66cc';
+          message.style.marginTop = '2rem';
+          message.style.fontStyle = 'italic';
+          message.style.textAlign = 'center';
+          document.body.appendChild(message);
+          setTimeout(() => {
+            window.location.href = "true-ending.html";
+          }, 4000);
+        }
+    
+      }, 3000);
+    }
+    index++;
+  }
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    showNextLog();
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const boot = document.getElementById('bootScreen');
+  setTimeout(() => {
+    boot.textContent = '[LOOP MEMORY RESIDUAL REMAINS…]';
+    setTimeout(() => boot.classList.add('hidden'), 2000);
+    const intro = document.createElement('div');
+    intro.style.marginBottom = '1rem';
+    intro.innerHTML = '[Press ENTER to recover corrupted fragments...]';
+    output.prepend(intro);
+  }, 2000);
+});
+</script>
+</body>
+</html>
