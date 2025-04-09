@@ -5,14 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Log Access Terminal</title>
   <style>
+    
     body {
-      margin: 0;
-      background-color: #000;
+      background-color: black;
       color: #00ffaa;
       font-family: 'Courier New', monospace;
       height: 100vh;
       overflow: hidden;
+      background-image: repeating-linear-gradient(to bottom, #000 0px, #000 1px, #0a0a0a 2px, #000 3px);
     }
+
+    .terminal {
+      background: rgba(0, 0, 0, 0.9);
+      border: 2px solid #00ffaa;
+      box-shadow: 0 0 25px #00ffaa88;
+    }
+
 
     .terminal {
       width: 100%;
@@ -68,7 +76,22 @@
     .hidden {
       display: none;
     }
-  </style>
+  
+    .glitch-entry p {
+      position: relative;
+      color: #00ffaa;
+      animation: glitchText 2.5s infinite;
+    }
+
+    @keyframes glitchText {
+      0% { text-shadow: 1px 0 red, -1px 0 cyan; }
+      25% { text-shadow: -1px 0 red, 1px 0 cyan; }
+      50% { text-shadow: 1px 1px red, -1px -1px cyan; }
+      75% { text-shadow: -1px 1px red, 1px -1px cyan; }
+      100% { text-shadow: 0 0 red, 0 0 cyan; }
+    }
+
+</style>
 </head>
 <body class="booting">
   <div class="terminal">
@@ -105,8 +128,8 @@
       <div class="log-entry">
   <h3>Log Δ-07X: SOLARIS FRAGMENT</h3>
   <p>Recovered post-Ignition Stoppage. Fragment encoded within the convective layer of the sun. It possesses data inconsistencies suggestive of non-Euclidean logic forms. Correlation established between its waveform and the psychic imprint of Vel’Rae’s last known tether. The Solaris Fragment is theorized to contain the encoded blueprint of Ascension. Access restricted. End of log.</p>
-</div>
-    </div>
+
+      
   </div>
   <div class="boot-overlay" id="bootScreen">[BOOTING TERMINAL ACCESS NODE]</div>
   <script>
@@ -163,6 +186,13 @@
           setTimeout(() => boot.classList.add('hidden'), 2000);
         }
         if (output && intro) output.prepend(intro);
+      
+    const glitchLog = document.getElementById('log-Δ08Z');
+    if (localStorage.getItem('fragment_Δ-08Z') === 'unlocked') {
+      glitchLog.style.display = 'block';
+      entries.push(glitchLog);
+    }
+
       }, 2000);
     });
   </script>
