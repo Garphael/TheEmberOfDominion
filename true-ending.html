@@ -101,7 +101,7 @@
 </head>
 
 <body>
-  <audio autoplay>
+  <audio id="background-audio" autoplay muted>
     <source src="assets/audio/final-whisper.wav" type="audio/wav">
     Your browser does not support the audio element.
   </audio>
@@ -169,6 +169,15 @@
     document.body.appendChild(p);
   }
 </script>
+
+<script>
+  const audio = document.getElementById("background-audio");
+  window.addEventListener("click", () => {
+    audio.muted = false;
+    audio.play();
+  }, { once: true });
+</script>
 </body>
+
 
 </html>
