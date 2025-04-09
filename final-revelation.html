@@ -15,7 +15,7 @@
       align-items: center;
       flex-direction: column;
       height: 100vh;
-      background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e1/Solar_flare_on_the_sun.jpg');
+      
       background-size: cover;
       background-position: center;
       text-align: center;
@@ -33,9 +33,56 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
-  </style>
+  
+    /* Star layers for parallax */
+    .stars, .stars2, .stars3 {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background-repeat: repeat;
+      background-size: contain;
+      animation: moveStars 100s linear infinite;
+      pointer-events: none;
+    }
+
+    .stars {
+      background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+      opacity: 0.3;
+      z-index: -3;
+      animation-duration: 100s;
+    }
+
+    .stars2 {
+      background-image: url('https://www.transparenttextures.com/patterns/tiny-cross.png');
+      opacity: 0.2;
+      z-index: -2;
+      animation-duration: 150s;
+    }
+
+    .stars3 {
+      background-image: url('https://www.transparenttextures.com/patterns/dark-mosaic.png');
+      opacity: 0.15;
+      z-index: -1;
+      animation-duration: 200s;
+    }
+
+    @keyframes moveStars {
+      from {
+        transform: translate(0, 0);
+      }
+      to {
+        transform: translate(-50%, -50%);
+      }
+    }
+
+</style>
 </head>
 <body>
+  <!-- Star parallax background layers -->
+  <div class="stars"></div>
+  <div class="stars2"></div>
+  <div class="stars3"></div>
+
   <div class="message">
     <h1>☼ Final Revelation ☼</h1>
     <p>You have seen beyond the veil.</p>
@@ -96,4 +143,5 @@
   </script>
 </body>
 </html>
+
 
