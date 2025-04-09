@@ -121,7 +121,10 @@
         const e1 = document.getElementById("emotion").value.trim();
         const c = document.getElementById("cognition").value.trim();
 
-        if (d && e1 && c) {
+        
+        const valid = d.toLowerCase() === 'ignite' && e1.toLowerCase() === 'fervor' && c.toLowerCase() === 'echo';
+        if (valid) {
+
           result.innerHTML = `
             [Core Directive Engraved.]<br>
             Prime Directive: ${d}<br>
@@ -130,6 +133,9 @@
             <br><span class="glitch">You are now... HER VESSEL.</span>
           `;
           result.style.opacity = 1;
+          setTimeout(() => {
+            window.location.href = './final-pulse.html';
+          }, 8000);
         }
       }
     });
