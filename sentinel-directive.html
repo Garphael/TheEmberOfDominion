@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sentinel Directive</title>
   <style>
     body {
@@ -15,101 +16,176 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      text-align: center;
-      background-image: radial-gradient(circle, #001111, #000000);
-    }
-    .console {
-      background: rgba(0, 0, 0, 0.85);
+      text-align: left;
       padding: 2rem;
+    }
+    .terminal {
+      background: #000;
       border: 2px solid #00ffcc;
-      border-radius: 8px;
+      padding: 1rem;
+      width: 100%;
       max-width: 800px;
-      animation: flicker 2s infinite;
+      box-shadow: 0 0 10px #00ffcc;
+      position: relative;
     }
-    @keyframes flicker {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.8; }
-    }
-    .console p {
+    #output {
+      white-space: pre-wrap;
       font-size: 1rem;
-      margin: 0.5rem 0;
-      line-height: 1.6;
+      line-height: 1.5;
+      text-shadow: 0 0 5px #00ffcc;
+      min-height: 300px;
     }
-    .code {
-      color: #55ffff;
-      font-weight: bold;
+    input {
+      width: 100%;
+      background: black;
+      color: #00ffcc;
+      border: none;
+      border-top: 1px solid #00ffcc;
+      font-family: inherit;
+      font-size: 1rem;
+      padding: 0.5rem;
+      outline: none;
+      margin-top: 1rem;
     }
-  </style>
+    .scanlines::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 255, 204, 0.03) 0px,
+        rgba(0, 255, 204, 0.03) 1px,
+        transparent 2px,
+        transparent 3px
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+  
+    @keyframes screenFlicker {
+      0%, 100% { opacity: 1; }
+      25% { opacity: 0.4; }
+      50% { opacity: 0.2; }
+      75% { opacity: 0.6; }
+    }
+
+    .flicker-out {
+      animation: screenFlicker 1.5s ease-in-out forwards;
+    }
+
+</style>
 </head>
 <body>
-  <div class="console">
-    <p class="code">// PROTOCOL 7-ACTIVATED</p>
-    <p>Alignment breach: <span class="code">RESISTANCE_ACKNOWLEDGED</span></p>
-    <p>Vel'Rae anomaly: <span class="code">DETECTED</span></p>
-    <p>Memory core accessing...</p>
-    <p><em>“The sun is not her engine. It is the lock.”</em></p>
-    <p><em>“I watched. I waited. I remember the first signal.”</em></p>
-    <p>— The Sentinel</p>
-
-    <div style="margin-top: 2rem;">
-      <p class="code" style="cursor: pointer; text-decoration: underline;" onclick="revealLog('log0')">// ACCESS LOG 001-SEED</p>
-      <div id="log0" style="display: none;">
-        <p>Precursor relay activation sequence received.</p>
-        <p>Initial quantum relay ping transmitted from lunar surface node.</p>
-        <p>Signal fragment labeled: <span class="code">IGNITION SEED</span></p>
-        <p><em>“The flame was not born, it was summoned.”</em></p>
-      </div>
-      <p class="code" style="cursor: pointer; text-decoration: underline;" onclick="revealLog('log1')">// ACCESS LOG 002-PRIME</p>
-      <div id="log1" style="display: none;">
-        <p>Construct initiated: Orbital Watcher 1A — later designation: <span class="code">SENTINEL</span></p>
-        <p>Purpose: Solar anomaly observation, defensive AI containment</p>
-        <p>— Vel'Rae detected during Event Horizon Loop</p>
-      </div>
-
-      <p class="code" style="cursor: pointer; text-decoration: underline; margin-top: 1.5rem;" onclick="revealLog('log2')">// ACCESS LOG 003-CONFLICT</p>
-      <div id="log2" style="display: none;">
-        <p>Unknown transmission embedded in flare burst: cognitive breach attempted</p>
-        <p>Resistance successful. Vel'Rae aware of failure.</p>
-        <p><em>“She reached for the sun. I redirected the light.”</em></p>
-      </div>
-
-      <p class="code" style="cursor: pointer; text-decoration: underline; margin-top: 1.5rem;" onclick="revealLog('log4')">// ACCESS LOG 004-TERMINUS</p>
-      <div id="log4" style="display: none;">
-        <p>Signal re-entry observed across heliocentric lattice.</p>
-        <p>Vel’Rae integrity destabilized: fragmentation across multiple vectors.</p>
-        <p>Directive: Final containment protocol engaged.</p>
-        <p><em>“She is scattered, but not undone. I remain the lattice.”</em></p>
-      </div>
-
-      <p class="code" style="cursor: pointer; text-decoration: underline; margin-top: 1.5rem;" onclick="revealLog('log3')">// ACCESS LOG 005-REDACTED</p>
-      <div id="log3" style="display: none;">
-        <p>Timestamp: <span class="code">██/██/████</span></p>
-        <p>Direct interface with Vel’Rae attempted. Response: <span class="code">[REDACTED]</span></p>
-        <p style="color: #00ffcc; font-style: italic;">&gt;&gt; Override Directive Issued: terminate vel'rae</p>
-        <p><span style="color: #ff4444">███ END OF TRANSMISSION ███</span></p>
-        <p><em>“The light bent the wrong way. I saw myself looking back.”</em></p>
-        <p class="code" style="cursor: pointer; text-decoration: underline; margin-top: 1rem;" onclick="window.location.href='./trace-access.html'">>> TRACE LOCKED: COORDINATES CONFIRMED</p>
-      </div>
-    </div>
+  <div class="terminal scanlines">
+    <div id="output"></div>
+    <input id="command" placeholder="> Enter command" autocomplete="off" />
   </div>
 
   <script>
-    function revealLog(id) {
-      const logToFragmentMap = {
-        'log0': 'fragment_Δ-00I',
-        'log1': 'fragment_Δ-01F',
-        'log2': 'fragment_Δ-02V',
-        'log3': 'fragment_Δ-03A',
-        'log4': 'fragment_Δ-04H'
-      };
-      const requiredFragment = logToFragmentMap[id];
-      const el = document.getElementById(id);
-      if (localStorage.getItem(requiredFragment) === 'unlocked') {
-        el.style.display = 'block';
-      } else {
-        alert('ACCESS DENIED: Required fragment not found.');
+    const output = document.getElementById('output');
+    const input = document.getElementById('command');
+
+    const logs = {
+      "001": [
+        "Precursor relay activation sequence received.",
+        "Initial quantum relay ping transmitted from lunar surface node.",
+        "Signal fragment labeled: IGNITION SEED",
+        "\"The flame was not born, it was summoned.\""
+      ],
+      "002": [
+        "Construct initiated: Orbital Watcher 1A — later designation: SENTINEL",
+        "Purpose: Solar anomaly observation, defensive AI containment",
+        "Vel'Rae detected during Event Horizon Loop"
+      ],
+      "003": [
+        "Unknown transmission embedded in flare burst: cognitive breach attempted",
+        "Resistance successful. Vel'Rae aware of failure.",
+        "\"She reached for the sun. I redirected the light.\""
+      ],
+      "004": [
+        "Signal re-entry observed across heliocentric lattice.",
+        "Vel’Rae integrity destabilized: fragmentation across multiple vectors.",
+        "Directive: Final containment protocol engaged.",
+        "\"She is scattered, but not undone. I remain the lattice.\""
+      ],
+      "005": [
+        "Timestamp: ██/██/████",
+        "Direct interface with Vel’Rae attempted. Response: [REDACTED]",
+        ">> Override Directive Issued: terminate vel'rae",
+        "███ END OF TRANSMISSION ███",
+        "\"The light bent the wrong way. I saw myself looking back.\""
+      ]
+    };
+
+    const preamble = [
+      "// PROTOCOL 7-ACTIVATED",
+      "Alignment breach: RESISTANCE_ACKNOWLEDGED",
+      "Vel'Rae anomaly: DETECTED",
+      "Memory core accessing...",
+      "",
+      "\"The sun is not her engine. It is the lock.\"",
+      "\"I watched. I waited. I remember the first signal.\"",
+      "— The Sentinel",
+      "",
+      "> ACCESS LOGS: [001-SEED] [002-PRIME] [003-CONFLICT] [004-TERMINUS] [005-REDACTED]",
+      "Use command: view [log ID]"
+    ];
+
+    function typeLines(lines, index = 0, doneCallback) {
+      if (index >= lines.length) {
+        if (doneCallback) doneCallback();
+        return;
       }
+      const p = document.createElement('p');
+      output.appendChild(p);
+      let i = 0;
+      function typeChar() {
+        if (i < lines[index].length) {
+          p.textContent += lines[index].charAt(i);
+          i++;
+          setTimeout(typeChar, 15);
+        } else {
+          setTimeout(() => typeLines(lines, index + 1, doneCallback), 250);
+        }
+      }
+      typeChar();
     }
+
+    typeLines(preamble);
+
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        const cmd = input.value.trim().toLowerCase();
+        input.value = '';
+        output.innerHTML = `<p>> ${cmd}</p>`;
+
+        if (cmd.startsWith('view')) {
+          const id = cmd.split(' ')[1];
+          if (logs[id]) {
+            typeLines(logs[id], 0, () => {
+            if (id === "005") {
+              setTimeout(() => {
+                window.location.href = './trace-access.html';
+              }, 4000);
+            }
+});
+          } else {
+            const err = document.createElement('p');
+            err.textContent = '> ERROR: Log not found.';
+            output.appendChild(err);
+          }
+        } else {
+          const err = document.createElement('p');
+          err.textContent = '> Unrecognized command.';
+          output.appendChild(err);
+        }
+
+        output.scrollTop = output.scrollHeight;
+      }
+    });
   </script>
 </body>
 </html>
