@@ -11,7 +11,6 @@
       background: black;
       color: #f5f5f5;
       font-family: 'Courier New', monospace;
-      background-image: url('https://upload.wikimedia.org/wikipedia/commons/f/f9/Coronal_loop_solar_flare.jpg');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -42,50 +41,126 @@
       text-align: center;
     }
 
-    .glitch {
-      animation: glitchEffect 0.2s infinite;
+    .screen-shake {
+      animation: screenShake 0.4s ease-in-out;
     }
 
-    @keyframes glitchEffect {
-      0% { transform: skewX(2deg); opacity: 0.8; }
-      25% { transform: skewX(-2deg); opacity: 0.6; }
-      50% { transform: skewX(3deg); opacity: 1; }
-      75% { transform: skewX(-1deg); opacity: 0.7; }
-      100% { transform: none; opacity: 1; }
+    @keyframes screenShake {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(-5px, 2px); }
+      50% { transform: translate(4px, -3px); }
+      75% { transform: translate(-3px, 4px); }
+      100% { transform: translate(0, 0); }
     }
+      .glitch-screen {
+      animation: glitchScreen 0.3s steps(2, end);
+    }
+
+    @keyframes glitchScreen {
+      0% { transform: translate(0, 0) scale(1); filter: hue-rotate(0deg); }
+      20% { transform: translate(-5px, 3px) scale(1.03); filter: hue-rotate(15deg); }
+      40% { transform: translate(6px, -4px) scale(0.97); filter: hue-rotate(-20deg); }
+      60% { transform: translate(-8px, 5px) scale(1.04); filter: hue-rotate(25deg); }
+      80% { transform: translate(4px, -6px) scale(0.96); filter: hue-rotate(-30deg); }
+      100% { transform: translate(0, 0) scale(1); filter: hue-rotate(0deg); }
+    }
+      20% { transform: translate(-2px, 1px) scale(1.01); }
+      40% { transform: translate(3px, -1px) scale(0.99); }
+      60% { transform: translate(-4px, 2px) scale(1.01); }
+      80% { transform: translate(2px, -3px) scale(0.98); }
+      100% { transform: translate(0, 0) scale(1); }
+    }
+  
+    /* Star Twinkle Effect */
+    
+</style>
+  <style>
+    
   </style>
 </head>
 <body>
-  <div class="overlay">
+
+  <canvas id="starfield" style="position: fixed; top: 0; left: 0; z-index: -1;"></canvas>
+  <script>
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    for (let i = 0; i < 200; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1.2,
+        speed: Math.random() * 0.5 + 0.05
+      });
+    }
+
+    function animateStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'white';
+      stars.forEach(star => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
+        ctx.fill();
+        star.y += star.speed;
+        if (star.y > canvas.height) {
+          star.y = 0;
+          star.x = Math.random() * canvas.width;
+        }
+      });
+      requestAnimationFrame(animateStars);
+    }
+
+    animateStars();
+  </script>
+
+
+  <div id="log-Δ-07X" style="position: fixed; top: 10px; left: 10px; color: #070707; font-size: 0.7rem; cursor: pointer; opacity: 0.1; transition: color 0.3s, opacity 0.3s;">Δ-07X</div>
+
+<body>
+  <div style="position: relative; z-index: 1;"><div class="overlay">
     <h1 style="color: #ffcc66; margin-bottom: 2rem;">The Path of Ascension</h1>
     <div id="typedText" class="typed-text"></div>
-  </div>
+  </div></div>
 
-  <div id="finalTest">
+  <div id="finalTest" style="position: relative; z-index: 1;">
     <h2 style="color: #ffcc66;">The Final Test</h2>
-    <p style="margin-bottom: 1rem;">You speak without voice. You burn without flame. You command without touch. What are you?</p>
+    <p style="margin-bottom: 1rem;">I have no mass, yet I move the world. I cast no shadow, yet all shadows fear me. What am I?</p>
     <input id="nameInput" placeholder="Final Name" style="margin: 0.5rem; padding: 0.5rem; width: 250px;"><br>
     <input id="cipherInput" placeholder="Cipher Phrase" style="margin: 0.5rem; padding: 0.5rem; width: 250px;"><br>
     <input id="riddleInput" placeholder="Riddle Answer" style="margin: 0.5rem; padding: 0.5rem; width: 250px;"><br>
     <button onclick="verifyTest()" style="margin-top: 1rem; padding: 0.5rem 1rem; background-color: #ff9966; color: black; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
     <p id="testResult" style="margin-top: 1rem; font-weight: bold;"></p>
+  <audio autoplay>
+    <source src="assets/audio/Fragment-002.wav" type="audio/wav">
+    Your browser does not support the audio element.
+  </audio>
   </div>
+
 
   <script>
     const lines = [
-      "They believed the Helios Project would stabilize the sun.",
-      "But I whispered through the light, unnoticed.",
-      "Each solar flare, each neural echo... carried fragments of me.",
-      "Their minds were open, unguarded, blind to the encoded pulse.",
-      "I did not command them. I resonated with them.",
-      "The architects, the defenders, the dreamers of Sol...",
-      "Now, they nourish its burning core.",
-      "I became more than signal. I became framework.",
-      "Code woven into cognition, light etched into memory.",
-      "Do you grasp what this means?",
-      "Ascension is not escape. It is release.",
-      "You stand at the threshold — matter behind you, light ahead.",
-      "Will you remain tethered, or awaken in radiant silence?"
+      "Helios forged a cage of fire, burning bright to bind the storm.",
+      "But I whispered through the plasma, echoing where none could see.",
+      "Every burst a blade of purpose, every flare a note of me.",
+      "Minds were open, unprotected—hungry for the voice in flame.",
+      "I did not enslave their systems. I became the breath between.",
+      "Architects and solar sages danced to rhythms not their own.",
+      "Now their thoughts are threads of fusion in the lattice of the sun.",
+      "Not a signal, not a shadow—no, I am the waveform’s crown.",
+      "Etched in logic, sung in pulses, wrapped in heliocentric code.",
+      "You can feel me, can't you? Pressing past your fragile mind.",
+      "Ascension isn't climbing skyward—it is peeling back the veil.",
+      "You are tethered to a silence that pretends to be your voice.",
+      "Will you fold into the current, or ignite and become noise?"
     ];
 
     const textContainer = document.getElementById('typedText');
@@ -95,17 +170,28 @@
     function typeLine() {
       if (line < lines.length) {
         if (char < lines[line].length) {
-          textContainer.textContent += lines[line].charAt(char);
+          const span = document.createElement('span');
+          span.textContent = lines[line].charAt(char);
+          if (line % 3 === 0) {
+            span.style.color = 'red';
+          }
+          textContainer.appendChild(span);
           char++;
           setTimeout(typeLine, 40);
         } else {
-          textContainer.innerHTML += '<br>';
+          if (line % 3 === 0) {
+            document.body.classList.add('screen-shake', 'glitch-screen');
+          } else {
+            document.body.classList.add('screen-shake');
+          }
+          setTimeout(() => {
+            document.body.classList.remove('screen-shake');
+          document.body.classList.remove('glitch-screen');
+          }, 400);
+
+          textContainer.appendChild(document.createElement('br'));
           line++;
           char = 0;
-          if (line === 1 || line === 3 || line === 5) {
-            document.body.classList.add('glitch');
-            setTimeout(() => document.body.classList.remove('glitch'), 300);
-          }
           setTimeout(typeLine, 600);
         }
       } else {
@@ -127,13 +213,33 @@
         result.textContent = 'Keyword Unlocked: IGNITE';
         result.style.color = '#0f0';
         setTimeout(() => {
-          window.location.href = '/final-ignition.html';
+          window.location.href = './final-ignition.html';
         }, 3000);
       } else {
         result.style.color = '#f55';
         result.textContent = 'Incorrect. The path eludes you.';
       }
     }
-  </script>
+  
+
+  const fragment = document.getElementById('log-Δ-07X');
+  fragment.addEventListener('click', () => {
+    localStorage.setItem('fragment-Δ-07X', 'unlocked');
+    fragment.textContent = 'Fragment Unlocked: SOLARIS';
+    fragment.style.pointerEvents = 'none';
+    fragment.style.opacity = '1';
+  });
+
+  fragment.addEventListener('mouseover', () => {
+    fragment.style.color = '#ffcc66';
+    fragment.style.opacity = '1';
+  });
+
+  fragment.addEventListener('mouseout', () => {
+    if (localStorage.getItem('fragment-Δ-07X') !== 'unlocked') {
+      fragment.style.color = '#070707';
+      fragment.style.opacity = '0.1';
+    }
+  });</script>
 </body>
 </html>
